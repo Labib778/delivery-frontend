@@ -18,13 +18,20 @@
 
   /* Navbar */
   .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f4b400;
-    padding: 0.8rem 1rem;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f4b400;
+  padding: 0.8rem 1.5rem; /* increase horizontal padding */
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  position: relative; /* keep the menu positioned properly */
+}
+  .logo img {
+  height: 40px;  /* Adjust this height as needed */
+  width: auto;
+  display: block;
+}
+
   .navbar .logo {
     font-weight: 700;
     font-size: 1.5rem;
@@ -193,7 +200,10 @@
 <body>
 
 <div class="navbar">
-  <div class="logo">Taqwa Delivery</div>
+  <div class="logo">
+  <img src="https://drive.google.com/uc?export=view&id=1mHRhu9vmyEv2as2AQS4Nscf4OkfxViY0" alt="Taqwa Delivery Logo" />
+</div>
+
   <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
   <div id="menu-content" class="menu-content" role="menu">
     <button onclick="showDashboardSection()">Place Order</button>
@@ -239,7 +249,7 @@
 
     <h3>Place Order</h3>
     <input type="text" id="order-product" placeholder="Product" autocomplete="off" />
-    <input type="text" id="order-qty" placeholder="Quantity (e.g., 3 Kg)" autocomplete="off" />
+    <input type="text" id="order-qty" placeholder="Quantity (Kg, Pcs, ml)" autocomplete="off" />
     <textarea id="order-address" placeholder="Delivery Address" autocomplete="off"></textarea>
     <input type="tel" id="order-phone" placeholder="Phone Number" autocomplete="tel" />
     <button class="primary" onclick="placeOrder()">Place Order</button>
@@ -495,4 +505,5 @@
 
 </body>
 </html>
+
 
