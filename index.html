@@ -381,8 +381,9 @@
       const data = await res.json();
       if(data.error) return showMessage(data.error, "error");
 
-      sessionStorage.setItem("token", data.token);
-      sessionStorage.setItem("name", data.name);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("name", data.name);
+
       document.getElementById("user-name").textContent = data.name;
       showDashboardSection();
     } catch(e) {
@@ -392,7 +393,7 @@
 
   // Logout
   function logout() {
-    sessionStorage.clear();
+    localStorage.clear();
     hideAllSections();
     showLoginSection();
   }
@@ -406,7 +407,7 @@
     const message = document.getElementById('order-message').value.trim();
     if (!product || !qty || !address || !phone) return showMessage("Please fill all required fields", "error");
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (!token) return logout();
 
     try {
@@ -437,7 +438,7 @@
 
   // Load orders
   async function loadOrders() {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (!token) return logout();
 
     try {
@@ -473,7 +474,7 @@
   // Cancel order
   async function cancelOrder(orderId) {
     if(!confirm("Cancel this order?")) return;
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     try {
       const res = await fetch(BACKEND_URL + "/order/cancel", {
         method: "POST",
@@ -494,8 +495,9 @@
 
   // On load: show login or dashboard
   (function(){
-    const token = sessionStorage.getItem("token");
-    const name = sessionStorage.getItem("name");
+    const token = localStorage.getItem("token");
+    const name = localStorage.getItem("name");
+
     if(token && name) {
       document.getElementById("user-name").textContent = name;
       showDashboardSection();
@@ -507,6 +509,7 @@
 
 </body>
 </html>
+
 
 
 
