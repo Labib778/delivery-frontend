@@ -26,17 +26,24 @@
   box-shadow: 0 3px 6px rgba(0,0,0,0.15);
   position: relative; /* keep the menu positioned properly */
 }
-  .logo img {
-  height: 40px;  /* Adjust this height as needed */
-  width: auto;
-  display: block;
+  .logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  user-select: none;
 }
 
-  .navbar .logo {
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: white;
-    user-select: none;
+.logo-img {
+  height: 36px; /* Adjust size as needed */
+  width: auto;
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: white;
+}
+
   }
   .menu-btn {
     background: none;
@@ -200,9 +207,14 @@
 <body>
 
 <div class="navbar">
-  <div class="logo">
-  <img src="https://drive.google.com/uc?export=view&id=1mHRhu9vmyEv2as2AQS4Nscf4OkfxViY0" alt="Taqwa Delivery Logo" />
+  <div class="logo-container">
+    <img src="https://drive.google.com/uc?id=1mHRhu9vmyEv2as2AQS4Nscf4OkfxViY0" alt="Taqwa Delivery Logo" class="logo-img" />
+    <span class="logo-text">Taqwa Home Delivery</span>
+  </div>
+  <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
+  ...
 </div>
+
 
   <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
   <div id="menu-content" class="menu-content" role="menu">
@@ -505,5 +517,6 @@
 
 </body>
 </html>
+
 
 
