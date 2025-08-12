@@ -4,14 +4,96 @@
 <meta charset="UTF-8" />
 <title>Simple Delivery App</title>
 <style>
-  body { max-width: 600px; margin: 1em auto; font-family: Arial; }
-  input, button, textarea { width: 100%; margin: 0.5em 0; padding: 0.5em; }
-  button { background: #f4b400; border: none; cursor: pointer; }
-  button:hover { background: #db9c00; }
-  .hidden { display: none; }
-  .error { color: red; }
-  .success { color: green; }
+  body {
+    max-width: 600px;
+    margin: 1em auto;
+    font-family: Arial, sans-serif;
+    padding: 0 1em;
+  }
+  input, button, textarea {
+    width: 100%;
+    margin: 0.5em 0;
+    padding: 0.5em;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  button {
+    background: #f4b400;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #db9c00;
+  }
+  .hidden {
+    display: none;
+  }
+  .error {
+    color: red;
+    margin-bottom: 1em;
+  }
+  .success {
+    color: green;
+    margin-bottom: 1em;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1em;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 0.7em 0.5em;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+  th {
+    background-color: #f4b400;
+    color: #333;
+  }
+  tr:nth-child(even) {
+    background: #f9f9f9;
+  }
+  button.cancel-btn {
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 0.3em 0.6em;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 4px;
+  }
+  button.cancel-btn:hover {
+    background: #c9302c;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 480px) {
+    body {
+      margin: 0.5em;
+      padding: 0 0.5em;
+    }
+    h1, h2, h3 {
+      font-size: 1.3rem;
+    }
+    input, button, textarea {
+      font-size: 1rem;
+      padding: 0.6em;
+    }
+    th, td {
+      font-size: 0.85rem;
+      padding: 0.5em 0.3em;
+    }
+    table {
+      font-size: 0.9rem;
+    }
+  }
 </style>
+
 </head>
 <body>
 
@@ -230,5 +312,6 @@
 
 </body>
 </html>
+
 
 
