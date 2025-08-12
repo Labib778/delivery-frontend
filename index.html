@@ -2,98 +2,107 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Simple Delivery App</title>
 <style>
+  /* Reset some default margins/padding */
+  * {
+    box-sizing: border-box;
+  }
   body {
     max-width: 600px;
     margin: 1em auto;
     font-family: Arial, sans-serif;
     padding: 0 1em;
+    background: #fffbea;
+    color: #333;
+  }
+  h1, h2, h3 {
+    color: #f4b400;
+    margin-bottom: 0.5em;
   }
   input, button, textarea {
     width: 100%;
-    margin: 0.5em 0;
-    padding: 0.5em;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    margin: 0.5em 0 1em;
+    padding: 0.75em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: inherit;
+  }
+  textarea {
+    resize: vertical;
   }
   button {
-    background: #f4b400;
+    background-color: #f4b400;
     border: none;
-    cursor: pointer;
     font-weight: bold;
-    font-size: 1.1rem;
-    transition: background 0.3s ease;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   button:hover {
-    background: #db9c00;
+    background-color: #db9c00;
   }
-  .hidden {
-    display: none;
+  #message {
+    min-height: 1.5em;
+    font-weight: bold;
+    margin-bottom: 1em;
   }
   .error {
-    color: red;
-    margin-bottom: 1em;
+    color: #d9534f;
   }
   .success {
-    color: green;
-    margin-bottom: 1em;
+    color: #5cb85c;
   }
   table {
-    border-collapse: collapse;
     width: 100%;
-    margin-top: 1em;
+    border-collapse: collapse;
+    margin-bottom: 2em;
   }
   th, td {
     border: 1px solid #ddd;
-    padding: 0.7em 0.5em;
+    padding: 0.75em;
     text-align: left;
-    font-size: 0.9rem;
+    font-size: 0.95em;
   }
   th {
-    background-color: #f4b400;
-    color: #333;
+    background-color: #f9f9f9;
   }
   tr:nth-child(even) {
-    background: #f9f9f9;
+    background-color: #fffce6;
   }
-  button.cancel-btn {
-    background: #d9534f;
+  .cancel-btn {
+    background-color: #d9534f;
     color: white;
+    padding: 0.3em 0.7em;
     border: none;
-    padding: 0.3em 0.6em;
+    border-radius: 3px;
+    font-size: 0.9em;
     cursor: pointer;
-    font-size: 0.9rem;
-    border-radius: 4px;
+    transition: background-color 0.3s ease;
   }
-  button.cancel-btn:hover {
-    background: #c9302c;
+  .cancel-btn:hover {
+    background-color: #c9302c;
   }
-
+  /* Links */
+  a {
+    color: #f4b400;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
   /* Responsive tweaks */
-  @media (max-width: 480px) {
+  @media (max-width: 400px) {
     body {
-      margin: 0.5em;
+      margin: 1em 0.5em;
       padding: 0 0.5em;
     }
-    h1, h2, h3 {
-      font-size: 1.3rem;
-    }
-    input, button, textarea {
-      font-size: 1rem;
-      padding: 0.6em;
-    }
-    th, td {
-      font-size: 0.85rem;
-      padding: 0.5em 0.3em;
-    }
-    table {
-      font-size: 0.9rem;
+    input, button, textarea, th, td {
+      font-size: 1em;
     }
   }
 </style>
-
 </head>
 <body>
 
@@ -119,18 +128,18 @@
 </div>
 
 <div id="dashboard-section" class="hidden">
-  <h2>Welcome, <span id="user-name"></span></h2>
+  <h2>Hi, <span id="user-name"></span>!</h2>
   <button onclick="logout()">Logout</button>
 
   <h3>Place Order</h3>
   <input type="text" id="order-product" placeholder="Product" />
   <input type="text" id="order-qty" placeholder="Quantity" />
-  <textarea id="order-address" placeholder="Address"></textarea>
-  <input type="tel" id="order-phone" placeholder="Phone" />
+  <textarea id="order-address" placeholder="Delivery Address"></textarea>
+  <input type="tel" id="order-phone" placeholder="Phone Number" />
   <button onclick="placeOrder()">Place Order</button>
 
   <h3>Your Orders</h3>
-  <table border="1" width="100%">
+  <table>
     <thead><tr><th>Product</th><th>Qty</th><th>Status</th><th>Cancel</th></tr></thead>
     <tbody id="orders-list"></tbody>
   </table>
@@ -312,6 +321,7 @@
 
 </body>
 </html>
+
 
 
 
