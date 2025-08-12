@@ -55,7 +55,7 @@
 </div>
 
 <script>
-  const BACKEND_URL = "YOUR_RENDER_BACKEND_URL";
+  const BACKEND_URL = "https://delivery-backend-jd78.onrender.com";
 
   function showMessage(msg, type) {
     const div = document.getElementById('message');
@@ -129,7 +129,7 @@
 
   function logout() {
     sessionStorage.clear();
-    showLogin();
+    showRegister();
   }
 
   async function placeOrder() {
