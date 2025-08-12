@@ -26,34 +26,28 @@
   box-shadow: 0 3px 6px rgba(0,0,0,0.15);
   position: relative; /* keep the menu positioned properly */
 }
-  .logo-container {
+  .menu-btn {
+  font-size: 1.8rem;
+  padding: 0.2rem;
+}
+
+.logo-container {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  user-select: none;
+  gap: 8px;
 }
 
 .logo-img {
-  height: 36px; /* Adjust size as needed */
+  max-height: 40px;
   width: auto;
 }
 
 .logo-text {
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: white;
+  user-select: none;
 }
-
-  }
-  .menu-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 2.2rem;
-    color: white;
-    padding: 0;
-    line-height: 1;
-  }
   .menu-content {
     position: absolute;
     right: 1rem;
@@ -208,12 +202,16 @@
 
 <div class="navbar">
   <div class="logo-container">
-    <img src="https://drive.google.com/uc?id=1mHRhu9vmyEv2as2AQS4Nscf4OkfxViY0" alt="Taqwa Delivery Logo" class="logo-img" />
-    <span class="logo-text">Taqwa Home Delivery</span>
+    <img class="logo-img" src="https://ibb.co.com/qYPyvS00" alt="Logo" />
+    <div class="logo-text">Taqwa Home Delivery</div>
   </div>
   <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
-  ...
+  <div id="menu-content" class="menu-content" role="menu">
+    <button onclick="showDashboardSection()">View Orders</button>
+    <button onclick="logout()">Logout</button>
+  </div>
 </div>
+
 
 
   <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
@@ -517,6 +515,7 @@
 
 </body>
 </html>
+
 
 
 
