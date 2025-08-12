@@ -2,56 +2,138 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title>Simple Delivery App</title>
 <style>
+  /* Base */
   body {
-    max-width: 600px;
-    margin: 1em auto;
-    font-family: Arial, sans-serif;
-    padding: 0 1em;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background: #fafafa;
+    color: #222;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  input, button, textarea {
-    width: 100%;
-    margin: 0.5em 0;
-    padding: 0.8em;
-    font-size: 1.1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  button {
+
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: #f4b400;
+    padding: 0.8rem 1rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  }
+  .navbar .logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: white;
+    user-select: none;
+  }
+  .menu-btn {
+    background: none;
     border: none;
     cursor: pointer;
-    font-weight: bold;
-    font-size: 1.3rem;
-    transition: background 0.3s ease;
-    padding: 0.9em;
+    font-size: 2.2rem;
+    color: white;
+    padding: 0;
+    line-height: 1;
   }
-  button:hover {
-    background: #db9c00;
+  .menu-content {
+    position: absolute;
+    right: 1rem;
+    top: 4.2rem;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    width: 160px;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
   }
-  .hidden {
+  .menu-content.show {
+    display: flex;
+  }
+  .menu-content button {
+    background: none;
+    border: none;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    text-align: left;
+    color: #333;
+    transition: background 0.25s ease;
+  }
+  .menu-content button:hover {
+    background: #f4b400;
+    color: white;
+  }
+
+  /* Container */
+  .container {
+    max-width: 480px;
+    margin: 1.5rem auto;
+    padding: 0 1.2rem;
+  }
+
+  /* Hide sections by default */
+  #dashboard-section, #orders-section, #login-section {
     display: none;
   }
-  .error {
-    color: red;
-    margin-bottom: 1em;
+  #register-section {
+    display: block;
   }
-  .success {
-    color: green;
-    margin-bottom: 1em;
+
+  /* Inputs & Buttons */
+  input, button, textarea {
+    width: 100%;
+    margin: 0.75rem 0;
+    padding: 1.1rem;
+    font-size: 1.3rem;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    box-sizing: border-box;
   }
+  button.primary {
+    background: #f4b400;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button.primary:hover {
+    background: #db9c00;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  /* Message */
+  .message {
+    margin-bottom: 1rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  .message.error {
+    color: #d9534f;
+  }
+  .message.success {
+    color: #28a745;
+  }
+
+  /* Table */
   table {
     border-collapse: collapse;
     width: 100%;
-    margin-top: 1em;
+    margin-top: 1.2rem;
   }
   th, td {
     border: 1px solid #ddd;
-    padding: 0.9em 0.7em;
-    text-align: left;
-    font-size: 1rem;
+    padding: 1rem 0.8rem;
+    font-size: 1.2rem;
   }
   th {
     background-color: #f4b400;
@@ -64,103 +146,127 @@
     background: #d9534f;
     color: white;
     border: none;
-    padding: 0.6em 1em;
+    padding: 0.7rem 1.2rem;
+    font-size: 1.1rem;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1rem;
-    border-radius: 4px;
+    transition: background 0.25s ease;
   }
   button.cancel-btn:hover {
     background: #c9302c;
   }
 
-  /* Mobile specific tweaks */
-  @media (max-width: 480px) {
-    body {
-      margin: 0.5em;
-      padding: 0 0.5em;
-    }
-    h1, h2, h3 {
-      font-size: 1.6rem;
-    }
-    input, button, textarea {
-      font-size: 1.4rem;
-      padding: 1em;
-    }
-    th, td {
-      font-size: 1.2rem;
-      padding: 1em 0.7em;
-    }
-    table {
-      font-size: 1.1rem;
-    }
+  /* Links */
+  a {
+    color: #f4b400;
+    font-weight: 600;
   }
+  a:hover {
+    text-decoration: underline;
+  }
+
 </style>
 </head>
 <body>
 
-<h1>Simple Delivery App</h1>
-
-<div id="message"></div>
-
-<div id="register-section">
-  <h2>Register</h2>
-  <input type="text" id="reg-name" placeholder="Name" />
-  <input type="email" id="reg-email" placeholder="Email" />
-  <input type="password" id="reg-password" placeholder="Password" />
-  <button onclick="register()">Register</button>
-  <p>Already registered? <a href="#" onclick="showLogin()">Login here</a></p>
+<div class="navbar">
+  <div class="logo">Taqwa Delivery</div>
+  <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
+  <div id="menu-content" class="menu-content" role="menu">
+    <button onclick="showDashboardSection()">View Orders</button>
+    <button onclick="logout()">Logout</button>
+  </div>
 </div>
 
-<div id="login-section" class="hidden">
-  <h2>Login</h2>
-  <input type="email" id="login-email" placeholder="Email" />
-  <input type="password" id="login-password" placeholder="Password" />
-  <button onclick="login()">Login</button>
-  <p>No account? <a href="#" onclick="showRegister()">Register here</a></p>
-</div>
+<div class="container">
 
-<div id="dashboard-section" class="hidden">
-  <h2>Hi, <span id="user-name"></span>!</h2>
-  <button onclick="logout()">Logout</button>
+  <div id="message" class="message"></div>
 
-  <h3>Place Order</h3>
-  <input type="text" id="order-product" placeholder="Product" />
-  <input type="text" id="order-qty" placeholder="Quantity" />
-  <textarea id="order-address" placeholder="Delivery Address"></textarea>
-  <input type="tel" id="order-phone" placeholder="Phone Number" />
-  <button onclick="placeOrder()">Place Order</button>
+  <!-- Register -->
+  <div id="register-section">
+    <h2>Register</h2>
+    <input type="text" id="reg-name" placeholder="Name" autocomplete="name" />
+    <input type="email" id="reg-email" placeholder="Email" autocomplete="email" />
+    <input type="password" id="reg-password" placeholder="Password" autocomplete="new-password" />
+    <button class="primary" onclick="register()">Register</button>
+    <p>Already registered? <a href="#" onclick="showLoginSection()">Login here</a></p>
+  </div>
 
-  <h3>Your Orders</h3>
-  <table>
-    <thead><tr><th>Product</th><th>Qty</th><th>Status</th><th>Cancel</th></tr></thead>
-    <tbody id="orders-list"></tbody>
-  </table>
+  <!-- Login -->
+  <div id="login-section">
+    <h2>Login</h2>
+    <input type="email" id="login-email" placeholder="Email" autocomplete="email" />
+    <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" />
+    <button class="primary" onclick="login()">Login</button>
+    <p>No account? <a href="#" onclick="showRegisterSection()">Register here</a></p>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard-section">
+    <h2>Hi, <span id="user-name"></span>!</h2>
+
+    <h3>Place Order</h3>
+    <input type="text" id="order-product" placeholder="Product" autocomplete="off" />
+    <input type="text" id="order-qty" placeholder="Quantity (e.g., 3 Kg)" autocomplete="off" />
+    <textarea id="order-address" placeholder="Delivery Address" autocomplete="off"></textarea>
+    <input type="tel" id="order-phone" placeholder="Phone Number" autocomplete="tel" />
+    <button class="primary" onclick="placeOrder()">Place Order</button>
+
+    <h3>Your Orders</h3>
+    <table>
+      <thead><tr><th>Product</th><th>Qty</th><th>Status</th><th>Cancel</th></tr></thead>
+      <tbody id="orders-list"></tbody>
+    </table>
+  </div>
+
 </div>
 
 <script>
-  const BACKEND_URL = "https://delivery-backend-jd78.onrender.com";
+  const BACKEND_URL = "YOUR_RENDER_BACKEND_URL";
 
-  function showMessage(msg, type) {
-    const div = document.getElementById('message');
-    div.textContent = msg;
-    div.className = type || '';
-    if(msg) setTimeout(() => { div.textContent = ''; div.className = ''; }, 5000);
+  const messageDiv = document.getElementById("message");
+  const menuContent = document.getElementById("menu-content");
+
+  function showMessage(msg, type="") {
+    messageDiv.textContent = msg;
+    messageDiv.className = "message " + type;
+    if(msg) setTimeout(() => {
+      messageDiv.textContent = "";
+      messageDiv.className = "message";
+    }, 4000);
   }
 
-  function showRegister() {
-    document.getElementById('register-section').classList.remove('hidden');
-    document.getElementById('login-section').classList.add('hidden');
-    document.getElementById('dashboard-section').classList.add('hidden');
+  // Toggle menu visibility
+  function toggleMenu() {
+    menuContent.classList.toggle("show");
   }
-  function showLogin() {
-    document.getElementById('register-section').classList.add('hidden');
-    document.getElementById('login-section').classList.remove('hidden');
-    document.getElementById('dashboard-section').classList.add('hidden');
+  // Close menu on outside click
+  window.onclick = function(event) {
+    if (!event.target.matches('.menu-btn')) {
+      if(menuContent.classList.contains("show")) {
+        menuContent.classList.remove("show");
+      }
+    }
   }
-  function showDashboard() {
-    document.getElementById('register-section').classList.add('hidden');
-    document.getElementById('login-section').classList.add('hidden');
-    document.getElementById('dashboard-section').classList.remove('hidden');
+
+  // Show sections helpers
+  function showRegisterSection() {
+    hideAllSections();
+    document.getElementById("register-section").style.display = "block";
+  }
+  function showLoginSection() {
+    hideAllSections();
+    document.getElementById("login-section").style.display = "block";
+  }
+  function showDashboardSection() {
+    hideAllSections();
+    document.getElementById("dashboard-section").style.display = "block";
+    loadOrders();
+  }
+  function hideAllSections() {
+    document.getElementById("register-section").style.display = "none";
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("dashboard-section").style.display = "none";
   }
 
   // Register
@@ -168,7 +274,7 @@
     const name = document.getElementById('reg-name').value.trim();
     const email = document.getElementById('reg-email').value.trim();
     const password = document.getElementById('reg-password').value;
-    if(!name || !email || !password) return showMessage("Fill all fields", "error");
+    if (!name || !email || !password) return showMessage("Please fill all fields", "error");
 
     try {
       const res = await fetch(BACKEND_URL + "/register", {
@@ -178,8 +284,8 @@
       });
       const data = await res.json();
       if(data.error) return showMessage(data.error, "error");
-      showMessage(data.message, "success");
-      showLogin();
+      showMessage("Registered successfully!", "success");
+      showLoginSection();
     } catch(e) {
       showMessage("Network error", "error");
     }
@@ -189,7 +295,7 @@
   async function login() {
     const email = document.getElementById('login-email').value.trim();
     const password = document.getElementById('login-password').value;
-    if(!email || !password) return showMessage("Fill all fields", "error");
+    if (!email || !password) return showMessage("Please fill all fields", "error");
 
     try {
       const res = await fetch(BACKEND_URL + "/login", {
@@ -202,26 +308,30 @@
 
       sessionStorage.setItem("token", data.token);
       sessionStorage.setItem("name", data.name);
-      showDashboard();
-      document.getElementById('user-name').textContent = data.name;
-      loadOrders();
+      document.getElementById("user-name").textContent = data.name;
+      showDashboardSection();
     } catch(e) {
       showMessage("Network error", "error");
     }
   }
 
+  // Logout
   function logout() {
     sessionStorage.clear();
-    showRegister();
+    hideAllSections();
+    showLoginSection();
   }
 
+  // Place order
   async function placeOrder() {
     const product = document.getElementById('order-product').value.trim();
     const qty = document.getElementById('order-qty').value.trim();
     const address = document.getElementById('order-address').value.trim();
     const phone = document.getElementById('order-phone').value.trim();
+    if (!product || !qty || !address || !phone) return showMessage("Please fill all fields", "error");
+
     const token = sessionStorage.getItem("token");
-    if(!product || !qty || !address || !phone) return showMessage("Fill all fields", "error");
+    if (!token) return logout();
 
     try {
       const res = await fetch(BACKEND_URL + "/order", {
@@ -234,16 +344,24 @@
       });
       const data = await res.json();
       if(data.error) return showMessage(data.error, "error");
-      showMessage(data.message, "success");
+      showMessage("Order placed successfully!", "success");
+      clearOrderForm();
       loadOrders();
     } catch(e) {
       showMessage("Network error", "error");
     }
   }
+  function clearOrderForm() {
+    document.getElementById('order-product').value = '';
+    document.getElementById('order-qty').value = '';
+    document.getElementById('order-address').value = '';
+    document.getElementById('order-phone').value = '';
+  }
 
+  // Load orders
   async function loadOrders() {
     const token = sessionStorage.getItem("token");
-    if(!token) return;
+    if (!token) return logout();
 
     try {
       const res = await fetch(BACKEND_URL + "/orders", {
@@ -266,7 +384,7 @@
           <td>${order.product}</td>
           <td>${order.qty}</td>
           <td>${order.status}</td>
-          <td>${order.status !== "Cancelled" ? `<button onclick="cancelOrder('${order._id}')">Cancel</button>` : ''}</td>
+          <td>${order.status !== "Cancelled" ? `<button class="cancel-btn" onclick="cancelOrder('${order._id}')">Cancel</button>` : ''}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -275,6 +393,7 @@
     }
   }
 
+  // Cancel order
   async function cancelOrder(orderId) {
     if(!confirm("Cancel this order?")) return;
     const token = sessionStorage.getItem("token");
@@ -296,22 +415,22 @@
     }
   }
 
-  // On page load
-  (function() {
+  // On load: show login or dashboard
+  (function(){
     const token = sessionStorage.getItem("token");
     const name = sessionStorage.getItem("name");
     if(token && name) {
-      showDashboard();
-      document.getElementById('user-name').textContent = name;
-      loadOrders();
+      document.getElementById("user-name").textContent = name;
+      showDashboardSection();
     } else {
-      showRegister();
+      showRegisterSection();
     }
   })();
 </script>
 
 </body>
 </html>
+
 
 
 
