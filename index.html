@@ -167,9 +167,26 @@
 
   /* Login method toggle */
   .login-method {
-    margin: 1rem 0 0.5rem 0;
-    font-weight: 600;
-  }
+  margin: 1rem 0 0.5rem 0;
+  font-weight: 600;
+  display: flex;
+  gap: 1.5rem;       /* space between the two options */
+  align-items: center; /* vertically center radio with label text */
+}
+
+.login-method label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;      /* small gap between radio circle and text */
+  font-size: 1.15rem;
+}
+
+.login-method input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
 
 </style>
 </head>
@@ -478,3 +495,4 @@
 
 </body>
 </html>
+
