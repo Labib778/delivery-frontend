@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Simple Delivery App</title>
+<style>
+  body { max-width: 600px; margin: 1em auto; font-family: Arial; }
+  input, button, textarea { width: 100%; margin: 0.5em 0; padding: 0.5em; }
+  button { background: #f4b400; border: none; cursor: pointer; }
+  button:hover { background: #db9c00; }
+  .hidden { display: none; }
+  .error { color: red; }
+  .success { color: green; }
+</style>
+</head>
+<body>
+
+<h1>Simple Delivery App</h1>
+
+<div id="message"></div>
+
+<div id="register-section">
+  <h2>Register</h2>
+  <input type="text" id="reg-name" placeholder="Name" />
+  <input type="email" id="reg-email" placeholder="Email" />
+  <input type="password" id="reg-password" placeholder="Password" />
+  <button onclick="register()">Register</button>
+  <p>Already registered? <a href="#" onclick="showLogin()">Login here</a></p>
+</div>
+
+<div id="login-section" class="hidden">
+  <h2>Login</h2>
+  <input type="email" id="login-email" placeholder="Email" />
+  <input type="password" id="login-password" placeholder="Password" />
+  <button onclick="login()">Login</button>
+  <p>No account? <a href="#" onclick="showRegister()">Register here</a></p>
+</div>
+
+<div id="dashboard-section" class="hidden">
+  <h2>Welcome, <span id="user-name"></span></h2>
+  <button onclick="logout()">Logout</button>
+
+  <h3>Place Order</h3>
+  <input type="text" id="order-product" placeholder="Product" />
+  <input type="number" id="order-qty" placeholder="Quantity" min="1" />
+  <textarea id="order-address" placeholder="Address"></textarea>
+  <input type="tel" id="order-phone" placeholder="Phone" />
+  <button onclick="placeOrder()">Place Order</button>
+
+  <h3>Your Orders</h3>
+  <table border="1" width="100%">
+    <thead><tr><th>Product</th><th>Qty</th><th>Status</th><th>Cancel</th></tr></thead>
+    <tbody id="orders-list"></tbody>
+  </table>
+</div>
+
+<script>
+  const BACKEND_URL = "YOUR_RENDER_BACKEND_URL";
+
+  function showMessage(msg, type) {
+    const div = document.getElementById('message');
+    div.textContent = msg;
+    div.className = type || '';
+    if(msg) setTimeout(() => { div.textContent = ''; div.className = ''; }, 5000);
+  }
+
+  function showRegister() {
+    document.getElementById('register-section').classList.remove('hidden');
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('dashboard-section').classList.add('hidden');
+  }
+  function showLogin() {
+    document.getElementById('register-section').classList.add('hidden');
+    document.getElementById('login-section').classList.remove('hidden');
+    document.getElementById('dashboard-section').classList.add('hidden');
+  }
+  function showDashboard() {
+    document.getElementById('register-section').classList.add('hidden');
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('dashboard-section').classList.remove('hidden');
+  }
+
+  // Register
+  async function register() {
+    const name = document.getElementById('reg-name').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const password = document.getElementById('reg-password').value;
+    if(!name || !email || !password) return showMessage("Fill all fields", "error");
+
+    try {
+      const res = await fetch(BACKEND_URL + "/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+      });
+      const data = await res.json();
+      if(data.error) return showMessage(data.error, "error");
+      showMessage(data.message, "success");
+      showLogin();
+    } catch(e) {
+      showMessage("Network error", "error");
+    }
+  }
+
+  // Login
+  async function login() {
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    if(!email || !password) return showMessage("Fill all fields", "error");
+
+    try {
+      const res = await fetch(BACKEND_URL + "/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if(data.error) return showMessage(data.error, "error");
+
+      sessionStorage.setItem("token", data.token);
+      sessionStorage.setItem("name", data.name);
+      showDashboard();
+      document.getElementById('user-name').textContent = data.name;
+      loadOrders();
+    } catch(e) {
+      showMessage("Network error", "error");
+    }
+  }
+
+  function logout() {
+    sessionStorage.clear();
+    showLogin();
+  }
+
+  async function placeOrder() {
+    const product = document.getElementById('order-product').value.trim();
+    const qty = document.getElementById('order-qty').value.trim();
+    const address = document.getElementById('order-address').value.trim();
+    const phone = document.getElementById('order-phone').value.trim();
+    const token = sessionStorage.getItem("token");
+    if(!product || !qty || !address || !phone) return showMessage("Fill all fields", "error");
+
+    try {
+      const res = await fetch(BACKEND_URL + "/order", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ product, qty: Number(qty), address, phone })
+      });
+      const data = await res.json();
+      if(data.error) return showMessage(data.error, "error");
+      showMessage(data.message, "success");
+      loadOrders();
+    } catch(e) {
+      showMessage("Network error", "error");
+    }
+  }
+
+  async function loadOrders() {
+    const token = sessionStorage.getItem("token");
+    if(!token) return;
+
+    try {
+      const res = await fetch(BACKEND_URL + "/orders", {
+        headers: { "Authorization": "Bearer " + token }
+      });
+      const data = await res.json();
+      if(data.error) {
+        showMessage(data.error, "error");
+        return;
+      }
+      const tbody = document.getElementById("orders-list");
+      tbody.innerHTML = "";
+      if(data.orders.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='4'>No orders found</td></tr>";
+        return;
+      }
+      data.orders.forEach(order => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${order.product}</td>
+          <td>${order.qty}</td>
+          <td>${order.status}</td>
+          <td>${order.status !== "Cancelled" ? `<button onclick="cancelOrder('${order._id}')">Cancel</button>` : ''}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } catch(e) {
+      showMessage("Network error", "error");
+    }
+  }
+
+  async function cancelOrder(orderId) {
+    if(!confirm("Cancel this order?")) return;
+    const token = sessionStorage.getItem("token");
+    try {
+      const res = await fetch(BACKEND_URL + "/order/cancel", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ orderId })
+      });
+      const data = await res.json();
+      if(data.error) return showMessage(data.error, "error");
+      showMessage(data.message, "success");
+      loadOrders();
+    } catch(e) {
+      showMessage("Network error", "error");
+    }
+  }
+
+  // On page load
+  (function() {
+    const token = sessionStorage.getItem("token");
+    const name = sessionStorage.getItem("name");
+    if(token && name) {
+      showDashboard();
+      document.getElementById('user-name').textContent = name;
+      loadOrders();
+    } else {
+      showRegister();
+    }
+  })();
+
+</script>
+
+</body>
+</html>
