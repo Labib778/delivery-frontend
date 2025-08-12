@@ -165,6 +165,12 @@
     text-decoration: underline;
   }
 
+  /* Login method toggle */
+  .login-method {
+    margin: 1rem 0 0.5rem 0;
+    font-weight: 600;
+  }
+
 </style>
 </head>
 <body>
@@ -173,7 +179,8 @@
   <div class="logo">Taqwa Delivery</div>
   <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
   <div id="menu-content" class="menu-content" role="menu">
-    <button onclick="showDashboardSection()">View Orders</button>
+    <button onclick="showDashboardSection()">Place Order</button>
+    <button onclick="showOrdersSection()">View Orders</button>
     <button onclick="logout()">Logout</button>
   </div>
 </div>
@@ -187,6 +194,7 @@
     <h2>Register</h2>
     <input type="text" id="reg-name" placeholder="Name" autocomplete="name" />
     <input type="email" id="reg-email" placeholder="Email" autocomplete="email" />
+    <input type="tel" id="reg-phone" placeholder="Phone Number" autocomplete="tel" />
     <input type="password" id="reg-password" placeholder="Password" autocomplete="new-password" />
     <button class="primary" onclick="register()">Register</button>
     <p>Already registered? <a href="#" onclick="showLoginSection()">Login here</a></p>
@@ -195,13 +203,20 @@
   <!-- Login -->
   <div id="login-section">
     <h2>Login</h2>
+
+    <div class="login-method">
+      <label><input type="radio" name="login-method" value="email" checked onchange="toggleLoginInput()"> Email</label> &nbsp;&nbsp;
+      <label><input type="radio" name="login-method" value="phone" onchange="toggleLoginInput()"> Phone</label>
+    </div>
+
     <input type="email" id="login-email" placeholder="Email" autocomplete="email" />
+    <input type="tel" id="login-phone" placeholder="Phone Number" autocomplete="tel" style="display:none;" />
     <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" />
     <button class="primary" onclick="login()">Login</button>
     <p>No account? <a href="#" onclick="showRegisterSection()">Register here</a></p>
   </div>
 
-  <!-- Dashboard -->
+  <!-- Dashboard - Place Order -->
   <div id="dashboard-section">
     <h2>Hi, <span id="user-name"></span>!</h2>
 
@@ -211,8 +226,11 @@
     <textarea id="order-address" placeholder="Delivery Address" autocomplete="off"></textarea>
     <input type="tel" id="order-phone" placeholder="Phone Number" autocomplete="tel" />
     <button class="primary" onclick="placeOrder()">Place Order</button>
+  </div>
 
-    <h3>Your Orders</h3>
+  <!-- Orders Section -->
+  <div id="orders-section">
+    <h2>Your Orders</h2>
     <table>
       <thead><tr><th>Product</th><th>Qty</th><th>Status</th><th>Cancel</th></tr></thead>
       <tbody id="orders-list"></tbody>
@@ -249,7 +267,13 @@
     }
   }
 
-  // Show sections helpers
+  // Show/hide sections helpers
+  function hideAllSections() {
+    document.getElementById("register-section").style.display = "none";
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("dashboard-section").style.display = "none";
+    document.getElementById("orders-section").style.display = "none";
+  }
   function showRegisterSection() {
     hideAllSections();
     document.getElementById("register-section").style.display = "block";
@@ -261,26 +285,40 @@
   function showDashboardSection() {
     hideAllSections();
     document.getElementById("dashboard-section").style.display = "block";
-    loadOrders();
+    // Clear order form when showing place order
+    clearOrderForm();
   }
-  function hideAllSections() {
-    document.getElementById("register-section").style.display = "none";
-    document.getElementById("login-section").style.display = "none";
-    document.getElementById("dashboard-section").style.display = "none";
+  async function showOrdersSection() {
+    hideAllSections();
+    document.getElementById("orders-section").style.display = "block";
+    await loadOrders();
+  }
+
+  // Toggle login input fields (email/phone)
+  function toggleLoginInput() {
+    const method = document.querySelector('input[name="login-method"]:checked').value;
+    if(method === "email") {
+      document.getElementById("login-email").style.display = "block";
+      document.getElementById("login-phone").style.display = "none";
+    } else {
+      document.getElementById("login-email").style.display = "none";
+      document.getElementById("login-phone").style.display = "block";
+    }
   }
 
   // Register
   async function register() {
     const name = document.getElementById('reg-name').value.trim();
     const email = document.getElementById('reg-email').value.trim();
+    const phone = document.getElementById('reg-phone').value.trim();
     const password = document.getElementById('reg-password').value;
-    if (!name || !email || !password) return showMessage("Please fill all fields", "error");
+    if (!name || !email || !phone || !password) return showMessage("Please fill all fields", "error");
 
     try {
       const res = await fetch(BACKEND_URL + "/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ name, email, phone, password })
       });
       const data = await res.json();
       if(data.error) return showMessage(data.error, "error");
@@ -293,15 +331,25 @@
 
   // Login
   async function login() {
-    const email = document.getElementById('login-email').value.trim();
+    const method = document.querySelector('input[name="login-method"]:checked').value;
+    let loginData = {};
+    if(method === "email") {
+      const email = document.getElementById('login-email').value.trim();
+      if(!email) return showMessage("Please enter your email", "error");
+      loginData.email = email;
+    } else {
+      const phone = document.getElementById('login-phone').value.trim();
+      if(!phone) return showMessage("Please enter your phone number", "error");
+      loginData.phone = phone;
+    }
     const password = document.getElementById('login-password').value;
-    if (!email || !password) return showMessage("Please fill all fields", "error");
+    if (!password) return showMessage("Please enter your password", "error");
 
     try {
       const res = await fetch(BACKEND_URL + "/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({...loginData, password})
       });
       const data = await res.json();
       if(data.error) return showMessage(data.error, "error");
@@ -346,7 +394,7 @@
       if(data.error) return showMessage(data.error, "error");
       showMessage("Order placed successfully!", "success");
       clearOrderForm();
-      loadOrders();
+      loadOrders(); // refresh orders list if user switches to view orders next
     } catch(e) {
       showMessage("Network error", "error");
     }
@@ -430,17 +478,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
