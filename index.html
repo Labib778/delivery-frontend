@@ -147,7 +147,7 @@
           "Content-Type": "application/json",
           "Authorization": "Bearer " + token
         },
-        body: JSON.stringify({ product, qty: Number(qty), address, phone })
+        body: JSON.stringify({ product, qty, address, phone })
       });
       const data = await res.json();
       if(data.error) return showMessage(data.error, "error");
@@ -230,4 +230,5 @@
 
 </body>
 </html>
+
 
