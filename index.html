@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>Simple Delivery App</title>
+<title>Taqwa Home Delivery</title>
 <style>
   /* Base */
   body {
@@ -12,8 +12,6 @@
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     background: #fafafa;
     color: #222;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Navbar */
@@ -42,14 +40,12 @@
     font-size: 1.3rem;
     color: white;
     user-select: none;
-    white-space: nowrap;
   }
   .menu-btn {
     background: none;
     border: none;
     cursor: pointer;
     font-size: 1.8rem;
-    padding: 0.2rem;
     color: white;
   }
   .menu-content {
@@ -60,7 +56,7 @@
     border: 1px solid #ddd;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     border-radius: 6px;
-    width: 160px;
+    width: 180px;
     display: none;
     flex-direction: column;
     z-index: 1000;
@@ -90,20 +86,18 @@
     padding: 0 1.2rem;
   }
 
-  /* Hide sections by default */
-  #dashboard-section, #orders-section, #login-section {
+  /* Sections */
+  #dashboard-section, #orders-section, #login-section, #admin-dashboard-section {
     display: none;
   }
-  #register-section {
-    display: block;
-  }
+  #register-section { display: block; }
 
   /* Inputs & Buttons */
   input, button, textarea {
     width: 100%;
     margin: 0.75rem 0;
     padding: 1.1rem;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     border-radius: 8px;
     border: 1.5px solid #ccc;
     box-sizing: border-box;
@@ -115,45 +109,23 @@
     cursor: pointer;
     transition: background 0.3s ease;
   }
-  button.primary:hover {
-    background: #db9c00;
-  }
-  textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
+  button.primary:hover { background: #db9c00; }
+  textarea { resize: vertical; min-height: 80px; }
 
-  /* Message */
-  .message {
-    margin-bottom: 1rem;
-    font-weight: 700;
-    font-size: 1.2rem;
+  /* WhatsApp Button */
+  button.whatsapp-btn {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 0.5rem;
   }
-  .message.error {
-    color: #d9534f;
-  }
-  .message.success {
-    color: #28a745;
-  }
+  button.whatsapp-btn:hover { background: #1ebe57; }
 
-  /* Table */
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 1.2rem;
-  }
-  th, td {
-    border: 1px solid #ddd;
-    padding: 1rem 0.8rem;
-    font-size: 1.2rem;
-  }
-  th {
-    background-color: #f4b400;
-    color: #333;
-  }
-  tr:nth-child(even) {
-    background: #f9f9f9;
-  }
+  /* Cancel Button */
   button.cancel-btn {
     background: #d9534f;
     color: white;
@@ -164,39 +136,27 @@
     cursor: pointer;
     transition: background 0.25s ease;
   }
-  button.cancel-btn:hover {
-    background: #c9302c;
-  }
+  button.cancel-btn:hover { background: #c9302c; }
+
+  /* Table */
+  table { border-collapse: collapse; width: 100%; margin-top: 1.2rem; }
+  th, td { border: 1px solid #ddd; padding: 0.8rem; font-size: 1.1rem; }
+  th { background-color: #f4b400; color: #333; }
+  tr:nth-child(even) { background: #f9f9f9; }
+
+  /* Message */
+  .message { margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem; }
+  .message.error { color: #d9534f; }
+  .message.success { color: #28a745; }
 
   /* Links */
-  a {
-    color: #f4b400;
-    font-weight: 600;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
+  a { color: #f4b400; font-weight: 600; }
+  a:hover { text-decoration: underline; }
 
   /* Login method toggle */
-  .login-method {
-    margin: 1rem 0 0.5rem 0;
-    font-weight: 600;
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-  }
-  .login-method label {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 1.15rem;
-  }
-  .login-method input[type="radio"] {
-    width: 18px;
-    height: 18px;
-    margin: 0;
-  }
+  .login-method { margin: 1rem 0 0.5rem 0; font-weight: 600; display: flex; gap: 1.5rem; align-items: center; }
+  .login-method label { cursor: pointer; display: flex; align-items: center; gap: 0.3rem; font-size: 1.15rem; }
+  .login-method input[type="radio"] { width: 18px; height: 18px; margin: 0; }
 </style>
 </head>
 <body>
@@ -210,12 +170,12 @@
   <div id="menu-content" class="menu-content" role="menu">
     <button onclick="showDashboardSection()">Place Order</button>
     <button onclick="showOrdersSection()">View Orders</button>
+    <button onclick="showAdminDashboard()">Admin Dashboard</button>
     <button onclick="logout()">Logout</button>
   </div>
 </div>
 
 <div class="container">
-
   <div id="message" class="message"></div>
 
   <!-- Register -->
@@ -246,7 +206,6 @@
   <!-- Dashboard - Place Order -->
   <div id="dashboard-section">
     <h2>Hi, <span id="user-name"></span>!</h2>
-
     <h3>Place Order</h3>
     <input type="text" id="order-product" placeholder="Product" autocomplete="off" />
     <input type="text" id="order-qty" placeholder="Quantity (Kg, Pcs, ml)" autocomplete="off" />
@@ -260,256 +219,171 @@
   <div id="orders-section">
     <h2>Your Orders</h2>
     <table>
-      <thead><tr><th>Product</th><th>Qty</th><th>Status</th><th>Cancel</th></tr></thead>
+      <thead><tr><th>Product</th><th>Qty</th><th>Status</th><th>Action</th></tr></thead>
       <tbody id="orders-list"></tbody>
     </table>
   </div>
 
+  <!-- Admin Dashboard -->
+  <div id="admin-dashboard-section">
+    <h2>Admin Dashboard</h2>
+    <table>
+      <thead>
+        <tr><th>Customer</th><th>Product</th><th>Qty</th><th>Phone</th><th>Address</th><th>Status</th><th>Action</th></tr>
+      </thead>
+      <tbody id="admin-orders-list"></tbody>
+    </table>
+  </div>
 </div>
 
 <script>
-  const BACKEND_URL = "https://delivery-backend-jd78.onrender.com";
+const BACKEND_URL = "https://delivery-backend-jd78.onrender.com";
 
-  const messageDiv = document.getElementById("message");
-  const menuContent = document.getElementById("menu-content");
+const messageDiv = document.getElementById("message");
+const menuContent = document.getElementById("menu-content");
 
-  function showMessage(msg, type="") {
-    messageDiv.textContent = msg;
-    messageDiv.className = "message " + type;
-    if(msg) setTimeout(() => {
-      messageDiv.textContent = "";
-      messageDiv.className = "message";
-    }, 4000);
+function showMessage(msg, type="") {
+  messageDiv.textContent = msg;
+  messageDiv.className = "message " + type;
+  if(msg) setTimeout(() => { messageDiv.textContent=""; messageDiv.className="message"; }, 4000);
+}
+
+function toggleMenu() { menuContent.classList.toggle("show"); }
+window.onclick = function(event) {
+  if (!event.target.matches('.menu-btn') && menuContent.classList.contains("show")) {
+    menuContent.classList.remove("show");
   }
+}
 
-  // Toggle menu visibility
-  function toggleMenu() {
-    menuContent.classList.toggle("show");
-  }
-  // Close menu on outside click
-  window.onclick = function(event) {
-    if (!event.target.matches('.menu-btn')) {
-      if(menuContent.classList.contains("show")) {
-        menuContent.classList.remove("show");
-      }
-    }
-  }
+// Sections
+function hideAllSections() {
+  ["register-section","login-section","dashboard-section","orders-section","admin-dashboard-section"]
+  .forEach(id => document.getElementById(id).style.display = "none");
+}
+function showRegisterSection(){ hideAllSections(); document.getElementById("register-section").style.display="block"; }
+function showLoginSection(){ hideAllSections(); document.getElementById("login-section").style.display="block"; }
+function showDashboardSection(){ hideAllSections(); document.getElementById("dashboard-section").style.display="block"; clearOrderForm(); }
+function showOrdersSection(){ hideAllSections(); document.getElementById("orders-section").style.display="block"; loadOrders(); }
+function showAdminDashboard(){ hideAllSections(); document.getElementById("admin-dashboard-section").style.display="block"; loadAdminOrders(); }
+function toggleLoginInput(){
+  const method = document.querySelector('input[name="login-method"]:checked').value;
+  document.getElementById("login-email").style.display = method==="email"?"block":"none";
+  document.getElementById("login-phone").style.display = method==="phone"?"block":"none";
+}
 
-  // Show/hide sections helpers
-  function hideAllSections() {
-    document.getElementById("register-section").style.display = "none";
-    document.getElementById("login-section").style.display = "none";
-    document.getElementById("dashboard-section").style.display = "none";
-    document.getElementById("orders-section").style.display = "none";
-  }
-  function showRegisterSection() {
-    hideAllSections();
-    document.getElementById("register-section").style.display = "block";
-  }
-  function showLoginSection() {
-    hideAllSections();
-    document.getElementById("login-section").style.display = "block";
-  }
-  function showDashboardSection() {
-    hideAllSections();
-    document.getElementById("dashboard-section").style.display = "block";
-    clearOrderForm();
-  }
-  async function showOrdersSection() {
-    hideAllSections();
-    document.getElementById("orders-section").style.display = "block";
-    await loadOrders();
-  }
+// WhatsApp messaging
+function openWhatsApp(phone, product, qty) {
+  const msg = encodeURIComponent(`Hello, regarding my order: ${product}, Qty: ${qty}`);
+  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+}
 
-  // Toggle login input fields (email/phone)
-  function toggleLoginInput() {
-    const method = document.querySelector('input[name="login-method"]:checked').value;
-    if(method === "email") {
-      document.getElementById("login-email").style.display = "block";
-      document.getElementById("login-phone").style.display = "none";
-    } else {
-      document.getElementById("login-email").style.display = "none";
-      document.getElementById("login-phone").style.display = "block";
-    }
-  }
+// Register
+async function register() {
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const phone=document.getElementById('reg-phone').value.trim();
+  const password=document.getElementById('reg-password').value;
+  if(!name||!email||!phone||!password) return showMessage("Please fill all fields","error");
+  try{
+    const res = await fetch(BACKEND_URL+"/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,email,phone,password})});
+    const data = await res.json();
+    if(data.error) return showMessage(data.error,"error");
+    showMessage("Registered successfully!","success"); showLoginSection();
+  }catch(e){showMessage("Network error","error");}
+}
 
-  // Register
-  async function register() {
-    const name = document.getElementById('reg-name').value.trim();
-    const email = document.getElementById('reg-email').value.trim();
-    const phone = document.getElementById('reg-phone').value.trim();
-    const password = document.getElementById('reg-password').value;
-    if (!name || !email || !phone || !password) return showMessage("Please fill all fields", "error");
+// Login
+async function login() {
+  const method=document.querySelector('input[name="login-method"]:checked').value;
+  let loginData={};
+  if(method==="email"){ const email=document.getElementById('login-email').value.trim(); if(!email)return showMessage("Please enter email","error"); loginData.email=email; }
+  else { const phone=document.getElementById('login-phone').value.trim(); if(!phone)return showMessage("Please enter phone","error"); loginData.phone=phone; }
+  const password=document.getElementById('login-password').value;
+  if(!password)return showMessage("Please enter password","error");
+  try{
+    const res=await fetch(BACKEND_URL+"/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...loginData,password})});
+    const data=await res.json();
+    if(data.error)return showMessage(data.error,"error");
+    localStorage.setItem("token",data.token);
+    localStorage.setItem("name",data.name);
+    document.getElementById("user-name").textContent=data.name;
+    showDashboardSection();
+  }catch(e){showMessage("Network error","error");}
+}
 
-    try {
-      const res = await fetch(BACKEND_URL + "/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, password })
-      });
-      const data = await res.json();
-      if(data.error) return showMessage(data.error, "error");
-      showMessage("Registered successfully!", "success");
-      showLoginSection();
-    } catch(e) {
-      showMessage("Network error", "error");
-    }
-  }
+// Logout
+function logout(){ localStorage.clear(); hideAllSections(); showLoginSection(); }
 
-  // Login
-  async function login() {
-    const method = document.querySelector('input[name="login-method"]:checked').value;
-    let loginData = {};
-    if(method === "email") {
-      const email = document.getElementById('login-email').value.trim();
-      if(!email) return showMessage("Please enter your email", "error");
-      loginData.email = email;
-    } else {
-      const phone = document.getElementById('login-phone').value.trim();
-      if(!phone) return showMessage("Please enter your phone number", "error");
-      loginData.phone = phone;
-    }
-    const password = document.getElementById('login-password').value;
-    if (!password) return showMessage("Please enter your password", "error");
+// Orders
+async function placeOrder(){
+  const product=document.getElementById('order-product').value.trim();
+  const qty=document.getElementById('order-qty').value.trim();
+  const address=document.getElementById('order-address').value.trim();
+  const phone=document.getElementById('order-phone').value.trim();
+  const message=document.getElementById('order-message').value.trim();
+  if(!product||!qty||!address||!phone)return showMessage("Please fill all required fields","error");
+  const token=localStorage.getItem("token"); if(!token)return logout();
+  try{
+    const res=await fetch(BACKEND_URL+"/order",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({product,qty,address,phone,message})});
+    const data=await res.json();
+    if(data.error)return showMessage(data.error,"error");
+    showMessage("Order placed successfully!","success"); clearOrderForm(); loadOrders();
+  }catch(e){showMessage("Network error","error");}
+}
+function clearOrderForm(){
+  ["order-product","order-qty","order-address","order-phone","order-message"].forEach(id=>document.getElementById(id).value="");
+}
+async function loadOrders(){
+  const token=localStorage.getItem("token"); if(!token)return logout();
+  try{
+    const res=await fetch(BACKEND_URL+"/orders",{headers:{"Authorization":"Bearer "+token}});
+    const data=await res.json(); const tbody=document.getElementById("orders-list"); tbody.innerHTML="";
+    if(data.orders.length===0){tbody.innerHTML="<tr><td colspan='4'>No orders found</td></tr>"; return;}
+    data.orders.forEach(order=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${order.product}</td><td>${order.qty}</td><td>${order.status}</td>
+      <td>${order.status!=="Cancelled"?`<button class="cancel-btn" onclick="cancelOrder('${order._id}')">Cancel</button>`:""}
+      <button class="whatsapp-btn" onclick="openWhatsApp('${order.phone}','${order.product}','${order.qty}')">WhatsApp</button></td>`;
+      tbody.appendChild(tr);
+    });
+  }catch(e){showMessage("Network error","error");}
+}
+async function cancelOrder(orderId){
+  if(!confirm("Cancel this order?")) return;
+  const token=localStorage.getItem("token");
+  try{
+    const res=await fetch(BACKEND_URL+"/order/cancel",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({orderId})});
+    const data=await res.json(); if(data.error)return showMessage(data.error,"error");
+    showMessage(data.message,"success"); loadOrders(); loadAdminOrders();
+  }catch(e){showMessage("Network error","error");}
+}
 
-    try {
-      const res = await fetch(BACKEND_URL + "/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({...loginData, password})
-      });
-      const data = await res.json();
-      if(data.error) return showMessage(data.error, "error");
+// Admin
+async function loadAdminOrders(){
+  const token=localStorage.getItem("token"); if(!token)return logout();
+  try{
+    const res=await fetch(BACKEND_URL+"/admin/orders",{headers:{"Authorization":"Bearer "+token}});
+    const data=await res.json(); const tbody=document.getElementById("admin-orders-list"); tbody.innerHTML="";
+    if(!data.orders || data.orders.length===0){tbody.innerHTML="<tr><td colspan='7'>No orders found</td></tr>"; return;}
+    data.orders.forEach(order=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${order.userName}</td><td>${order.product}</td><td>${order.qty}</td>
+      <td>${order.phone}</td><td>${order.address}</td><td>${order.status}</td>
+      <td>${order.status!=="Cancelled"?`<button class="cancel-btn" onclick="cancelOrder('${order._id}')">Cancel</button>`:""}
+      <button class="whatsapp-btn" onclick="openWhatsApp('${order.phone}','${order.product}','${order.qty}')">WhatsApp</button></td>`;
+      tbody.appendChild(tr);
+    });
+  }catch(e){showMessage("Network error","error");}
+}
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("name", data.name);
-
-      document.getElementById("user-name").textContent = data.name;
-      showDashboardSection();
-    } catch(e) {
-      showMessage("Network error", "error");
-    }
-  }
-
-  // Logout
-  function logout() {
-    localStorage.clear();
-    hideAllSections();
-    showLoginSection();
-  }
-
-  // Place order
-  async function placeOrder() {
-    const product = document.getElementById('order-product').value.trim();
-    const qty = document.getElementById('order-qty').value.trim();
-    const address = document.getElementById('order-address').value.trim();
-    const phone = document.getElementById('order-phone').value.trim();
-    const message = document.getElementById('order-message').value.trim();
-    if (!product || !qty || !address || !phone) return showMessage("Please fill all required fields", "error");
-
-    const token = localStorage.getItem("token");
-    if (!token) return logout();
-
-    try {
-      const res = await fetch(BACKEND_URL + "/order", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + token
-        },
-        body: JSON.stringify({ product, qty, address, phone, message })
-      });
-      const data = await res.json();
-      if(data.error) return showMessage(data.error, "error");
-      showMessage("Order placed successfully!", "success");
-      clearOrderForm();
-      loadOrders();
-    } catch(e) {
-      showMessage("Network error", "error");
-    }
-  }
-  function clearOrderForm() {
-    document.getElementById('order-product').value = '';
-    document.getElementById('order-qty').value = '';
-    document.getElementById('order-address').value = '';
-    document.getElementById('order-phone').value = '';
-    document.getElementById('order-message').value = '';
-  }
-
-  // Load orders
-  async function loadOrders() {
-    const token = localStorage.getItem("token");
-    if (!token) return logout();
-
-    try {
-      const res = await fetch(BACKEND_URL + "/orders", {
-        headers: { "Authorization": "Bearer " + token }
-      });
-      const data = await res.json();
-      if(data.error) {
-        showMessage(data.error, "error");
-        return;
-      }
-      const tbody = document.getElementById("orders-list");
-      tbody.innerHTML = "";
-      if(data.orders.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='4'>No orders found</td></tr>";
-        return;
-      }
-      data.orders.forEach(order => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${order.product}</td>
-          <td>${order.qty}</td>
-          <td>${order.status}</td>
-          <td>${order.status !== "Cancelled" ? `<button class="cancel-btn" onclick="cancelOrder('${order._id}')">Cancel</button>` : ''}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    } catch(e) {
-      showMessage("Network error", "error");
-    }
-  }
-
-  // Cancel order
-  async function cancelOrder(orderId) {
-    if(!confirm("Cancel this order?")) return;
-    const token = localStorage.getItem("token");
-    try {
-      const res = await fetch(BACKEND_URL + "/order/cancel", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + token
-        },
-        body: JSON.stringify({ orderId })
-      });
-      const data = await res.json();
-      if(data.error) return showMessage(data.error, "error");
-      showMessage(data.message, "success");
-      loadOrders();
-    } catch(e) {
-      showMessage("Network error", "error");
-    }
-  }
-
-  // On load: show login or dashboard
-  (function(){
-    const token = localStorage.getItem("token");
-    const name = localStorage.getItem("name");
-
-    if(token && name) {
-      document.getElementById("user-name").textContent = name;
-      showDashboardSection();
-    } else {
-      showRegisterSection();
-    }
-  })();
+// On load
+(function(){
+  const token=localStorage.getItem("token");
+  const name=localStorage.getItem("name");
+  if(token && name){ document.getElementById("user-name").textContent=name; showDashboardSection(); }
+  else showRegisterSection();
+})();
 </script>
 
 </body>
 </html>
-
-
-
-
