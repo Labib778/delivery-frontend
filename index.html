@@ -613,11 +613,28 @@ window.onclick = function(event) {
 
 // Centralized Section Management
 function showSection(sectionId) {
-  document.querySelectorAll('.app-section').forEach(section => {
-    section.classList.remove('active');
-  });
-  document.getElementById(sectionId).classList.add('active');
-  menuContent.classList.remove("show"); // Hide menu after selection
+  document.querySelectorAll('.app-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(sectionId).classList.add('active');
+  menuContent.classList.remove("show"); // Hide menu after selection
+}
+
+// Run on page load
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM fully loaded");
+
+  const token = localStorage.getItem("token");
+  const name = localStorage.getItem("name");
+
+  if (token && name) {
+    const nameElem = document.getElementById("user-name");
+    if (nameElem) nameElem.textContent = name;
+    showSection('dashboard-section');
+  } else {
+    showSection('splash-section');
+  }
+});
   
   // Specific actions for certain sections
   if (sectionId === 'dashboard-section') clearOrderForm();
@@ -906,6 +923,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
