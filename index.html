@@ -892,19 +892,21 @@ async function loadAdminOrders(){
 }
 
 // On load
-(function(){
-  const token=localStorage.getItem("token");
-  const name=localStorage.getItem("name");
-  if(token && name){ 
-    document.getElementById("user-name").textContent=name; 
-    showSection('dashboard-section'); // Go to dashboard if logged in
-  }
-  else showSection('splash-section'); // Show splash screen if not logged in
-})();
+document.addEventListener("DOMContentLoaded", function () {
+  const token = localStorage.getItem("token");
+  const name = localStorage.getItem("name");
+  if (token && name) { 
+    document.getElementById("user-name").textContent = name; 
+    showSection('dashboard-section'); // Go to dashboard if logged in
+  } else {
+    showSection('splash-section'); // Show splash screen if not logged in
+  }
+});
 </script>
 
 </body>
 </html>
+
 
 
 
