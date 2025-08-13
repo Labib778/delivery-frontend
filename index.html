@@ -5,235 +5,589 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title>Taqwa Home Delivery</title>
 <style>
-  /* Base */
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    background: #fafafa;
-    color: #222;
-  }
+  /* Base */
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background: #fafafa;
+    color: #222;
+  }
 
-  /* Navbar */
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f4b400;
-    padding: 0.8rem 1.5rem;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-    position: relative;
-  }
-  .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .logo-img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  .logo-text {
-    font-weight: 700;
-    font-size: 1.3rem;
-    color: white;
-    user-select: none;
-  }
-  .menu-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.8rem;
-    color: white;
-  }
-  .menu-content {
-    position: absolute;
-    right: 1.5rem;
-    top: 3.8rem;
-    background: white;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    border-radius: 6px;
-    width: 180px;
-    display: none;
-    flex-direction: column;
-    z-index: 1000;
-  }
-  .menu-content.show {
-    display: flex;
-  }
-  .menu-content button {
-    background: none;
-    border: none;
-    padding: 1rem 1.2rem;
-    cursor: pointer;
-    font-size: 1.2rem;
-    text-align: left;
-    color: #333;
-    transition: background 0.25s ease;
-  }
-  .menu-content button:hover {
-    background: #f4b400;
-    color: white;
-  }
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f4b400; /* Original color */
+    padding: 0.8rem 1.5rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    position: relative;
+  }
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .logo-text {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: white;
+    user-select: none;
+  }
+  .menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: white;
+  }
+  .menu-content {
+    position: absolute;
+    right: 1.5rem;
+    top: 3.8rem;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    width: 180px;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+  }
+  .menu-content.show {
+    display: flex;
+  }
+  .menu-content button {
+    background: none;
+    border: none;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    text-align: left;
+    color: #333;
+    transition: background 0.25s ease;
+  }
+  .menu-content button:hover {
+    background: #f4b400;
+    color: white;
+  }
 
-  /* Container */
-  .container {
-    max-width: 480px;
-    margin: 1.5rem auto;
-    padding: 0 1.2rem;
-  }
+  /* Container */
+  .container {
+    max-width: 480px;
+    margin: 1.5rem auto;
+    padding: 0 1.2rem;
+  }
 
-  /* Sections */
-  #dashboard-section, #orders-section, #login-section, #admin-dashboard-section {
-    display: none;
-  }
-  #register-section { display: block; }
+  /* Sections */
+  .app-section {
+    display: none; /* All sections hidden by default */
+  }
+  .app-section.active {
+    display: block; /* Active section is shown */
+  }
 
-  /* Inputs & Buttons */
-  input, button, textarea {
-    width: 100%;
-    margin: 0.75rem 0;
-    padding: 1.1rem;
-    font-size: 1.2rem;
-    border-radius: 8px;
-    border: 1.5px solid #ccc;
-    box-sizing: border-box;
-  }
-  button.primary {
-    background: #f4b400;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  button.primary:hover { background: #db9c00; }
-  textarea { resize: vertical; min-height: 80px; }
+  /* Inputs & Buttons */
+  input, button, textarea {
+    width: 100%;
+    margin: 0.75rem 0;
+    padding: 1.1rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    box-sizing: border-box;
+  }
+  button.primary {
+    background: #f4b400;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    color: white; /* Added for better visibility */
+  }
+  button.primary:hover { background: #db9c00; }
+  textarea { resize: vertical; min-height: 80px; }
 
-  /* WhatsApp Button */
-  button.whatsapp-btn {
-    background: #25D366;
-    color: white;
-    border: none;
-    padding: 0.6rem 1rem;
-    font-size: 1.1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-left: 0.5rem;
-  }
-  button.whatsapp-btn:hover { background: #1ebe57; }
+  /* WhatsApp Button */
+  button.whatsapp-btn {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+  }
+  button.whatsapp-btn:hover { background: #1ebe57; }
 
-  /* Cancel Button */
-  button.cancel-btn {
-    background: #d9534f;
-    color: white;
-    border: none;
-    padding: 0.7rem 1.2rem;
-    font-size: 1.1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.25s ease;
-  }
-  button.cancel-btn:hover { background: #c9302c; }
+  /* Cancel Button */
+  button.cancel-btn {
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.25s ease;
+  }
+  button.cancel-btn:hover { background: #c9302c; }
 
-  /* Table */
-  table { border-collapse: collapse; width: 100%; margin-top: 1.2rem; }
-  th, td { border: 1px solid #ddd; padding: 0.8rem; font-size: 1.1rem; }
-  th { background-color: #f4b400; color: #333; }
-  tr:nth-child(even) { background: #f9f9f9; }
+  /* Table */
+  table { border-collapse: collapse; width: 100%; margin-top: 1.2rem; }
+  th, td { border: 1px solid #ddd; padding: 0.8rem; font-size: 1.1rem; text-align: left; } /* Added text-align */
+  th { background-color: #f4b400; color: #333; }
+  tr:nth-child(even) { background: #f9f9f9; }
 
-  /* Message */
-  .message { margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem; }
-  .message.error { color: #d9534f; }
-  .message.success { color: #28a745; }
+  /* Message */
+  .message { margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem; }
+  .message.error { color: #d9534f; }
+  .message.success { color: #28a745; }
 
-  /* Links */
-  a { color: #f4b400; font-weight: 600; }
-  a:hover { text-decoration: underline; }
+  /* Links */
+  a { color: #f4b400; font-weight: 600; text-decoration: none; } /* Removed underline by default */
+  a:hover { text-decoration: underline; }
 
-  /* Login method toggle */
-  .login-method { margin: 1rem 0 0.5rem 0; font-weight: 600; display: flex; gap: 1.5rem; align-items: center; }
-  .login-method label { cursor: pointer; display: flex; align-items: center; gap: 0.3rem; font-size: 1.15rem; }
-  .login-method input[type="radio"] { width: 18px; height: 18px; margin: 0; }
+  /* Login method toggle */
+  .login-method { margin: 1rem 0 0.5rem 0; font-weight: 600; display: flex; gap: 1.5rem; align-items: center; }
+  .login-method label { cursor: pointer; display: flex; align-items: center; gap: 0.3rem; font-size: 1.15rem; }
+  .login-method input[type="radio"] { width: 18px; height: 18px; margin: 0; }
+
+  /* Specific styles for UI match */
+  .splash-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh; /* Adjust as needed */
+    text-align: center;
+    background: #f4b400;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .splash-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+  .splash-section p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+  .splash-image {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .verification-code-inputs {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .verification-code-inputs input {
+    width: 50px;
+    text-align: center;
+    font-size: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0.8rem;
+  }
+  .verification-code-inputs input:focus {
+    outline: none;
+    border-color: #f4b400;
+    box-shadow: 0 0 0 2px rgba(244, 180, 0, 0.3);
+  }
+
+  .welcome-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 60vh;
+  }
+  .welcome-section .tick-icon {
+    font-size: 5rem;
+    color: #28a745;
+    margin-bottom: 20px;
+  }
+  .welcome-section h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  .welcome-section p {
+    font-size: 1.1rem;
+    color: #666;
+  }
+
+  .checkout-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+  }
+  .checkout-item:last-child {
+    border-bottom: none;
+  }
+  .checkout-item .item-details {
+    flex-grow: 1;
+  }
+  .checkout-item .item-name {
+    font-weight: 600;
+  }
+  .checkout-item .item-price {
+    font-weight: 600;
+    color: #f4b400;
+  }
+
+  .checkout-summary {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+  }
+  .checkout-summary div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .checkout-summary .total {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #f4b400;
+  }
+  .checkout-summary button {
+    margin-top: 20px;
+  }
+
+  .order-success-section {
+    text-align: center;
+    padding: 30px;
+  }
+  .order-success-section .success-image {
+    max-width: 150px;
+    margin-bottom: 20px;
+  }
+  .order-success-section h2 {
+    color: #28a745;
+    margin-bottom: 10px;
+  }
+  .order-success-section p {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .order-success-section button {
+    margin-top: 15px;
+  }
+
+  .user-profile-section .profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f4b400;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  .user-profile-section .profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    margin-bottom: 15px;
+  }
+  .user-profile-section .profile-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .user-profile-section .profile-email {
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  .user-profile-section .profile-info {
+    margin-bottom: 20px;
+  }
+  .user-profile-section .profile-info label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  .user-profile-section .profile-info input {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .user-profile-section .profile-actions button {
+    margin-top: 15px;
+  }
+
+  .customer-support-section .support-chat-bubble {
+    background: #e0e0e0;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    position: relative;
+  }
+  .customer-support-section .support-chat-bubble.user-message {
+    background: #f4b400;
+    color: white;
+    margin-left: auto;
+    text-align: right;
+  }
+  .customer-support-section .support-chat-bubble.agent-message {
+    background: #e0e0e0;
+    color: #333;
+    text-align: left;
+  }
+  .customer-support-section .support-chat-bubble p {
+    margin: 0;
+    font-size: 1rem;
+  }
+  .customer-support-section .support-chat-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .customer-support-section .support-chat-input input {
+    flex-grow: 1;
+    margin: 0;
+  }
+  .customer-support-section .support-chat-input button {
+    width: auto;
+    padding: 10px 15px;
+    margin: 0;
+  }
 </style>
 </head>
 <body>
 
 <div class="navbar">
-  <div class="logo-container">
-    <img class="logo-img" src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/Artboard%201.png" alt="Taqwa Logo" />
-    <div class="logo-text">Taqwa Home Delivery</div>
-  </div>
-  <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
-  <div id="menu-content" class="menu-content" role="menu">
-    <button onclick="showDashboardSection()">Place Order</button>
-    <button onclick="showOrdersSection()">View Orders</button>
-    <button onclick="showAdminDashboard()">Admin Dashboard</button>
-    <button onclick="logout()">Logout</button>
-  </div>
+  <div class="logo-container">
+    <img class="logo-img" src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/Artboard%201.png" alt="Taqwa Logo" />
+    <div class="logo-text">Taqwa Home Delivery</div>
+  </div>
+  <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">☰</button>
+  <div id="menu-content" class="menu-content" role="menu">
+    <button onclick="showSection('dashboard-section')">Place Order</button>
+    <button onclick="showSection('orders-section')">View Orders</button>
+    <button onclick="showSection('user-profile-section')">Profile</button>
+    <button onclick="showSection('customer-support-section')">Support</button>
+    <button onclick="showSection('admin-dashboard-section')">Admin Dashboard</button>
+    <button onclick="logout()">Logout</button>
+  </div>
 </div>
 
 <div class="container">
-  <div id="message" class="message"></div>
+  <div id="message" class="message"></div>
 
-  <!-- Register -->
-  <div id="register-section">
-    <h2>Register</h2>
-    <input type="text" id="reg-name" placeholder="Name" autocomplete="name" />
-    <input type="email" id="reg-email" placeholder="Email" autocomplete="email" />
-    <input type="tel" id="reg-phone" placeholder="Phone Number" autocomplete="tel" />
-    <input type="password" id="reg-password" placeholder="Password" autocomplete="new-password" />
-    <button class="primary" onclick="register()">Register</button>
-    <p>Already registered? <a href="#" onclick="showLoginSection()">Login here</a></p>
-  </div>
+    <div id="splash-section" class="app-section active">
+    <img class="splash-image" src="https://via.placeholder.com/300x200?text=Food+Delivery+Image" alt="Food Delivery">
+    <h1>Hungry? We deliver!</h1>
+    <p>Get your favorite meals delivered right to your doorstep, fast and fresh.</p>
+    <button class="primary" onclick="showSection('register-section')">Get Started</button>
+  </div>
 
-  <!-- Login -->
-  <div id="login-section">
-    <h2>Login</h2>
-    <div class="login-method">
-      <label><input type="radio" name="login-method" value="email" checked onchange="toggleLoginInput()"> Email</label>
-      <label><input type="radio" name="login-method" value="phone" onchange="toggleLoginInput()"> Phone</label>
-    </div>
-    <input type="email" id="login-email" placeholder="Email" autocomplete="email" />
-    <input type="tel" id="login-phone" placeholder="Phone Number" autocomplete="tel" style="display:none;" />
-    <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" />
-    <button class="primary" onclick="login()">Login</button>
-    <p>No account? <a href="#" onclick="showRegisterSection()">Register here</a></p>
-  </div>
+    <div id="register-section" class="app-section">
+    <h2>Create Account</h2>
+    <div class="form-group">
+      <input type="text" id="reg-name" placeholder="Full Name" autocomplete="name" />
+    </div>
+    <div class="form-group">
+      <input type="email" id="reg-email" placeholder="Email Address" autocomplete="email" />
+    </div>
+    <div class="form-group">
+      <input type="tel" id="reg-phone" placeholder="Phone Number" autocomplete="tel" />
+    </div>
+    <div class="form-group">
+      <input type="password" id="reg-password" placeholder="Password" autocomplete="new-password" />
+    </div>
+    <button class="primary" onclick="register()">Sign Up</button>
+    <p>Already have an account? <a href="#" onclick="showSection('login-section')">Login here</a></p>
+  </div>
 
-  <!-- Dashboard - Place Order -->
-  <div id="dashboard-section">
-    <h2>Hi, <span id="user-name"></span>!</h2>
-    <h3>Place Order</h3>
-    <input type="text" id="order-product" placeholder="Product" autocomplete="off" />
-    <input type="text" id="order-qty" placeholder="Quantity (Kg, Pcs, ml)" autocomplete="off" />
-    <textarea id="order-address" placeholder="Delivery Address" autocomplete="off"></textarea>
-    <input type="tel" id="order-phone" placeholder="Phone Number" autocomplete="tel" />
-    <textarea id="order-message" placeholder="Optional message (e.g. delivery instructions)" rows="3"></textarea>
-    <button class="primary" onclick="placeOrder()">Place Order</button>
-  </div>
+    <div id="login-section" class="app-section">
+    <h2>Login to Your Account</h2>
+    <div class="login-method">
+      <label><input type="radio" name="login-method" value="email" checked onchange="toggleLoginInput()"> Email</label>
+      <label><input type="radio" name="login-method" value="phone" onchange="toggleLoginInput()"> Phone</label>
+    </div>
+    <div class="form-group">
+      <input type="email" id="login-email" placeholder="Email" autocomplete="email" />
+    </div>
+    <div class="form-group">
+      <input type="tel" id="login-phone" placeholder="Phone Number" autocomplete="tel" style="display:none;" />
+    </div>
+    <div class="form-group">
+      <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" />
+    </div>
+    <button class="primary" onclick="login()">Login</button>
+    <p>No account? <a href="#" onclick="showSection('register-section')">Register here</a></p>
+  </div>
 
-  <!-- Orders Section -->
-  <div id="orders-section">
-    <h2>Your Orders</h2>
-    <table>
-      <thead><tr><th>Product</th><th>Qty</th><th>Status</th><th>Action</th></tr></thead>
-      <tbody id="orders-list"></tbody>
-    </table>
-  </div>
+    <div id="verification-section" class="app-section">
+    <h2>Verify Your Phone</h2>
+    <p>Please enter the 4-digit code sent to your phone number.</p>
+    <div class="verification-code-inputs">
+      <input type="text" maxlength="1" id="vcode-1" onkeyup="moveToNext(this, 'vcode-2')" />
+      <input type="text" maxlength="1" id="vcode-2" onkeyup="moveToNext(this, 'vcode-3')" />
+      <input type="text" maxlength="1" id="vcode-3" onkeyup="moveToNext(this, 'vcode-4')" />
+      <input type="text" maxlength="1" id="vcode-4" onkeyup="verifyCode()" />
+    </div>
+    <button class="primary" onclick="verifyCode()">Verify</button>
+    <p>Didn't receive code? <a href="#">Resend Code</a></p>
+  </div>
 
-  <!-- Admin Dashboard -->
-  <div id="admin-dashboard-section">
-    <h2>Admin Dashboard</h2>
-    <table>
-      <thead>
-        <tr><th>Customer</th><th>Product</th><th>Qty</th><th>Phone</th><th>Address</th><th>Status</th><th>Action</th></tr>
-      </thead>
-      <tbody id="admin-orders-list"></tbody>
-    </table>
-  </div>
+    <div id="welcome-section" class="app-section">
+    <div class="welcome-section">
+      <span class="tick-icon">✔</span>
+      <h2>WELCOME</h2>
+      <p>You have successfully registered and verified your account!</p>
+      <button class="primary" onclick="showSection('dashboard-section')">Continue to Home</button>
+    </div>
+  </div>
+
+    <div id="dashboard-section" class="app-section">
+    <h2 style="text-align: center;">Taqwa Home Delivery</h2>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <img src="https://via.placeholder.com/300x150?text=Delicious+Burger" alt="Burger" style="max-width: 100%; border-radius: 8px;" />
+    </div>
+    <h3>Order Your Food</h3>
+    <input type="text" id="order-product" placeholder="Product (e.g., Burger, Pizza)" autocomplete="off" />
+    <input type="text" id="order-qty" placeholder="Quantity (e.g., 1 Pcs, 500g)" autocomplete="off" />
+    <textarea id="order-address" placeholder="Delivery Address" autocomplete="off"></textarea>
+    <input type="tel" id="order-phone" placeholder="Phone Number" autocomplete="tel" />
+    <textarea id="order-message" placeholder="Optional message (e.g. delivery instructions)" rows="3"></textarea>
+    <button class="primary" onclick="placeOrder()">Add to Cart</button>
+  </div>
+
+    <div id="checkout-section" class="app-section">
+    <h2>Checkout</h2>
+    <h3>Your Items</h3>
+    <div id="checkout-items-list">
+            <div class="checkout-item">
+        <div class="item-details">
+          <div class="item-name">Chicken Burger</div>
+          <div class="item-qty">Qty: 2 Pcs</div>
+        </div>
+        <div class="item-price">$12.00</div>
+      </div>
+      <div class="checkout-item">
+        <div class="item-details">
+          <div class="item-name">Cold Drink</div>
+          <div class="item-qty">Qty: 1</div>
+        </div>
+        <div class="item-price">$3.00</div>
+      </div>
+    </div>
+    <textarea id="checkout-delivery-address" placeholder="Delivery Address" disabled style="margin-top: 15px;"></textarea>
+    <div class="checkout-summary">
+      <div><span>Subtotal:</span> <span>$15.00</span></div>
+      <div><span>Delivery Fee:</span> <span>$2.00</span></div>
+      <div class="total"><span>Total:</span> <span>$17.00</span></div>
+      <button class="primary" onclick="confirmOrder()">Place Order</button>
+    </div>
+  </div>
+
+    <div id="order-success-section" class="app-section">
+    <div class="order-success-section">
+      <img class="success-image" src="https://via.placeholder.com/150x150?text=Order+Success" alt="Order Success">
+      <h2>Your order is confirmed!</h2>
+      <p>Your order will be delivered to you within approximately 30-45 minutes.</p>
+      <button class="primary" onclick="showSection('dashboard-section')">Check My Orders</button>
+      <button class="primary" style="background: #ccc; color: #333;" onclick="showSection('dashboard-section')">Anything else?</button>
+    </div>
+  </div>
+
+    <div id="user-profile-section" class="app-section">
+    <h2>User Profile</h2>
+    <div class="profile-header">
+      <img class="profile-avatar" src="https://via.placeholder.com/100?text=User" alt="User Avatar">
+      <div class="profile-name" id="profile-display-name">Rubin Paul</div>
+      <div class="profile-email" id="profile-display-email">rubinpaul@gmail.com</div>
+    </div>
+    <div class="profile-info">
+      <label for="profile-name">Name</label>
+      <input type="text" id="profile-name" value="Rubin Paul" />
+    </div>
+    <div class="profile-info">
+      <label for="profile-email">Email Address</label>
+      <input type="email" id="profile-email" value="rubinpaul@gmail.com" />
+    </div>
+    <div class="profile-info">
+      <label for="profile-phone">Phone Number</label>
+      <input type="tel" id="profile-phone" value="+88017xxxxxxxx" />
+    </div>
+    <div class="profile-info">
+      <label for="profile-address">Delivery Address</label>
+      <input type="text" id="profile-address" value="2972 Westheimer Rd. Santa Ana, Illinois 85486" />
+    </div>
+    <div class="profile-actions">
+      <button class="primary" onclick="updateProfile()">Save Changes</button>
+      <button class="cancel-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+    <div id="customer-support-section" class="app-section">
+    <h2>Customer Support</h2>
+    <div class="support-chat-container" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; max-height: 400px; overflow-y: auto;">
+      <div class="support-chat-bubble agent-message">
+        <p>Hi, how can I help you?</p>
+      </div>
+      <div class="support-chat-bubble user-message">
+        <p>I want to change my delivery address, can I do that now?</p>
+      </div>
+      <div class="support-chat-bubble agent-message">
+        <p>Yes, please provide your order ID and the new address.</p>
+      </div>
+      <div class="support-chat-bubble user-message">
+        <p>It's order #12345, new address is...</p>
+      </div>
+    </div>
+    <div class="support-chat-input">
+      <input type="text" id="chat-message" placeholder="Type your message..." />
+      <button class="primary">Send</button>
+    </div>
+  </div>
+
+
+    <div id="orders-section" class="app-section">
+    <h2>Your Orders</h2>
+    <table>
+      <thead><tr><th>Product</th><th>Qty</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody id="orders-list"></tbody>
+    </table>
+  </div>
+
+    <div id="admin-dashboard-section" class="app-section">
+    <h2>Admin Dashboard</h2>
+    <table>
+      <thead>
+        <tr><th>Customer</th><th>Product</th><th>Qty</th><th>Phone</th><th>Address</th><th>Status</th><th>Action</th></tr>
+      </thead>
+      <tbody id="admin-orders-list"></tbody>
+    </table>
+  </div>
 </div>
 
 <script>
@@ -243,145 +597,307 @@ const messageDiv = document.getElementById("message");
 const menuContent = document.getElementById("menu-content");
 
 function showMessage(msg, type="") {
-  messageDiv.textContent = msg;
-  messageDiv.className = "message " + type;
-  if(msg) setTimeout(() => { messageDiv.textContent=""; messageDiv.className="message"; }, 4000);
+  messageDiv.textContent = msg;
+  messageDiv.className = "message " + type;
+  if(msg) setTimeout(() => { messageDiv.textContent=""; messageDiv.className="message"; }, 4000);
 }
 
 function toggleMenu() { menuContent.classList.toggle("show"); }
 window.onclick = function(event) {
-  if (!event.target.matches('.menu-btn') && menuContent.classList.contains("show")) {
-    menuContent.classList.remove("show");
-  }
+  if (!event.target.matches('.menu-btn') && menuContent.classList.contains("show")) {
+    menuContent.classList.remove("show");
+  }
 }
 
-// Sections
-function hideAllSections() {
-  ["register-section","login-section","dashboard-section","orders-section","admin-dashboard-section"]
-  .forEach(id => document.getElementById(id).style.display = "none");
+// Centralized Section Management
+function showSection(sectionId) {
+  document.querySelectorAll('.app-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(sectionId).classList.add('active');
+  menuContent.classList.remove("show"); // Hide menu after selection
+  
+  // Specific actions for certain sections
+  if (sectionId === 'dashboard-section') clearOrderForm();
+  else if (sectionId === 'orders-section') loadOrders();
+  else if (sectionId === 'admin-dashboard-section') loadAdminOrders();
+  else if (sectionId === 'user-profile-section') loadUserProfile(); // New function
 }
-function showRegisterSection(){ hideAllSections(); document.getElementById("register-section").style.display="block"; }
-function showLoginSection(){ hideAllSections(); document.getElementById("login-section").style.display="block"; }
-function showDashboardSection(){ hideAllSections(); document.getElementById("dashboard-section").style.display="block"; clearOrderForm(); }
-function showOrdersSection(){ hideAllSections(); document.getElementById("orders-section").style.display="block"; loadOrders(); }
-function showAdminDashboard(){ hideAllSections(); document.getElementById("admin-dashboard-section").style.display="block"; loadAdminOrders(); }
+
 function toggleLoginInput(){
-  const method = document.querySelector('input[name="login-method"]:checked').value;
-  document.getElementById("login-email").style.display = method==="email"?"block":"none";
-  document.getElementById("login-phone").style.display = method==="phone"?"block":"none";
+  const method = document.querySelector('input[name="login-method"]:checked').value;
+  document.getElementById("login-email").style.display = method==="email"?"block":"none";
+  document.getElementById("login-phone").style.display = method==="phone"?"block":"none";
 }
 
 // WhatsApp messaging
 function openWhatsApp(phone, product, qty) {
-  const msg = encodeURIComponent(`Hello, regarding my order: ${product}, Qty: ${qty}`);
-  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+  const msg = encodeURIComponent(`Hello, regarding my order: ${product}, Qty: ${qty}`);
+  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
 }
 
 // Register
 async function register() {
-  const name=document.getElementById('reg-name').value.trim();
-  const email=document.getElementById('reg-email').value.trim();
-  const phone=document.getElementById('reg-phone').value.trim();
-  const password=document.getElementById('reg-password').value;
-  if(!name||!email||!phone||!password) return showMessage("Please fill all fields","error");
-  try{
-    const res = await fetch(BACKEND_URL+"/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,email,phone,password})});
-    const data = await res.json();
-    if(data.error) return showMessage(data.error,"error");
-    showMessage("Registered successfully!","success"); showLoginSection();
-  }catch(e){showMessage("Network error","error");}
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const phone=document.getElementById('reg-phone').value.trim();
+  const password=document.getElementById('reg-password').value;
+  if(!name||!email||!phone||!password) return showMessage("Please fill all fields","error");
+  try{
+    const res = await fetch(BACKEND_URL+"/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,email,phone,password})});
+    const data = await res.json();
+    if(data.error) return showMessage(data.error,"error");
+    showMessage("Registered successfully! Now verify your phone.","success"); 
+    // Assuming backend sends a verification code, or you'd simulate it here
+    showSection('verification-section'); // Redirect to verification after registration
+  }catch(e){showMessage("Network error","error");}
 }
 
 // Login
 async function login() {
-  const method=document.querySelector('input[name="login-method"]:checked').value;
-  let loginData={};
-  if(method==="email"){ const email=document.getElementById('login-email').value.trim(); if(!email)return showMessage("Please enter email","error"); loginData.email=email; }
-  else { const phone=document.getElementById('login-phone').value.trim(); if(!phone)return showMessage("Please enter phone","error"); loginData.phone=phone; }
-  const password=document.getElementById('login-password').value;
-  if(!password)return showMessage("Please enter password","error");
-  try{
-    const res=await fetch(BACKEND_URL+"/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...loginData,password})});
-    const data=await res.json();
-    if(data.error)return showMessage(data.error,"error");
-    localStorage.setItem("token",data.token);
-    localStorage.setItem("name",data.name);
-    document.getElementById("user-name").textContent=data.name;
-    showDashboardSection();
-  }catch(e){showMessage("Network error","error");}
+  const method=document.querySelector('input[name="login-method"]:checked').value;
+  let loginData={};
+  if(method==="email"){ const email=document.getElementById('login-email').value.trim(); if(!email)return showMessage("Please enter email","error"); loginData.email=email; }
+  else { const phone=document.getElementById('login-phone').value.trim(); if(!phone)return showMessage("Please enter phone","error"); loginData.phone=phone; }
+  const password=document.getElementById('login-password').value;
+  if(!password)return showMessage("Please enter password","error");
+  try{
+    const res=await fetch(BACKEND_URL+"/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...loginData,password})});
+    const data=await res.json();
+    if(data.error)return showMessage(data.error,"error");
+    localStorage.setItem("token",data.token);
+    localStorage.setItem("name",data.name);
+    // Simulate storing other user details for profile
+    localStorage.setItem("email", data.email || loginData.email);
+    localStorage.setItem("phone", data.phone || loginData.phone);
+    localStorage.setItem("address", data.address || ""); 
+
+    document.getElementById("user-name").textContent=data.name; // Keep this for dashboard greeting
+    showSection('welcome-section'); // Redirect to welcome after login
+  }catch(e){showMessage("Network error","error");}
 }
 
 // Logout
-function logout(){ localStorage.clear(); hideAllSections(); showLoginSection(); }
+function logout(){ localStorage.clear(); showSection('login-section'); }
+
+// Verification (New functionality)
+function moveToNext(currentInput, nextInputId) {
+  if (currentInput.value.length === currentInput.maxLength) {
+    const nextInput = document.getElementById(nextInputId);
+    if (nextInput) {
+      nextInput.focus();
+    } else {
+      // If this is the last input, trigger verification
+      verifyCode();
+    }
+  }
+}
+
+async function verifyCode() {
+  const code1 = document.getElementById('vcode-1').value;
+  const code2 = document.getElementById('vcode-2').value;
+  const code3 = document.getElementById('vcode-3').value;
+  const code4 = document.getElementById('vcode-4').value;
+  const verificationCode = code1 + code2 + code3 + code4;
+
+  if (verificationCode.length !== 4) {
+    return showMessage("Please enter the complete 4-digit code.", "error");
+  }
+
+  const token = localStorage.getItem("token"); // Assuming token is set after registration
+  if (!token) return logout();
+
+  try {
+    // This is a placeholder. You'd send the verification code to your backend.
+    const res = await fetch(BACKEND_URL + "/verify-phone", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({ code: verificationCode })
+    });
+    const data = await res.json();
+    if (data.error) return showMessage(data.error, "error");
+
+    showMessage("Phone number verified successfully!", "success");
+    showSection('welcome-section'); // Go to welcome screen on successful verification
+  } catch (e) {
+    showMessage("Error verifying code. Please try again.", "error");
+  }
+}
+
 
 // Orders
 async function placeOrder(){
-  const product=document.getElementById('order-product').value.trim();
-  const qty=document.getElementById('order-qty').value.trim();
-  const address=document.getElementById('order-address').value.trim();
-  const phone=document.getElementById('order-phone').value.trim();
-  const message=document.getElementById('order-message').value.trim();
-  if(!product||!qty||!address||!phone)return showMessage("Please fill all required fields","error");
-  const token=localStorage.getItem("token"); if(!token)return logout();
-  try{
-    const res=await fetch(BACKEND_URL+"/order",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({product,qty,address,phone,message})});
-    const data=await res.json();
-    if(data.error)return showMessage(data.error,"error");
-    showMessage("Order placed successfully!","success"); clearOrderForm(); loadOrders();
-  }catch(e){showMessage("Network error","error");}
+  const product=document.getElementById('order-product').value.trim();
+  const qty=document.getElementById('order-qty').value.trim();
+  const address=document.getElementById('order-address').value.trim();
+  const phone=document.getElementById('order-phone').value.trim();
+  const message=document.getElementById('order-message').value.trim();
+  if(!product||!qty||!address||!phone)return showMessage("Please fill all required fields","error");
+  const token=localStorage.getItem("token"); if(!token)return logout();
+  try{
+    // In a real app, "Add to Cart" might just store locally or hit a /cart endpoint
+    // For now, we'll simulate going to checkout directly for simplicity of this example.
+    // A more robust solution would involve a cart array.
+    const orderDetails = { product, qty, address, phone, message };
+    localStorage.setItem('currentOrderDetails', JSON.stringify(orderDetails));
+    
+    showSection('checkout-section'); // Go to checkout page
+    populateCheckoutPage(); // Populate checkout with current order details
+    showMessage("Item added to checkout!", "success");
+  }catch(e){showMessage("Error preparing order for checkout.","error");}
 }
+
 function clearOrderForm(){
-  ["order-product","order-qty","order-address","order-phone","order-message"].forEach(id=>document.getElementById(id).value="");
+  ["order-product","order-qty","order-address","order-phone","order-message"].forEach(id=>document.getElementById(id).value="");
 }
+
+function populateCheckoutPage() {
+  const orderDetails = JSON.parse(localStorage.getItem('currentOrderDetails'));
+  const checkoutItemsList = document.getElementById('checkout-items-list');
+  const checkoutDeliveryAddress = document.getElementById('checkout-delivery-address');
+
+  checkoutItemsList.innerHTML = ''; // Clear previous items
+
+  if (orderDetails) {
+    const itemHtml = `
+      <div class="checkout-item">
+        <div class="item-details">
+          <div class="item-name">${orderDetails.product}</div>
+          <div class="item-qty">Qty: ${orderDetails.qty}</div>
+        </div>
+        <div class="item-price">N/A</div>       </div>
+    `;
+    checkoutItemsList.innerHTML = itemHtml;
+    checkoutDeliveryAddress.value = orderDetails.address;
+  } else {
+    checkoutItemsList.innerHTML = '<p>No items in checkout.</p>';
+    checkoutDeliveryAddress.value = '';
+  }
+}
+
+
+async function confirmOrder(){
+  const orderDetails = JSON.parse(localStorage.getItem('currentOrderDetails'));
+  if (!orderDetails) return showMessage("No order to confirm.", "error");
+
+  const token = localStorage.getItem("token");
+  if (!token) return logout();
+
+  try {
+    const res = await fetch(BACKEND_URL + "/order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+      body: JSON.stringify(orderDetails)
+    });
+    const data = await res.json();
+    if (data.error) return showMessage(data.error, "error");
+    
+    localStorage.removeItem('currentOrderDetails'); // Clear after placing order
+    showMessage("Order placed successfully!", "success");
+    showSection('order-success-section'); // Go to order success page
+    loadOrders(); // Refresh user's orders
+  } catch (e) {
+    showMessage("Network error placing order.", "error");
+  }
+}
+
 async function loadOrders(){
-  const token=localStorage.getItem("token"); if(!token)return logout();
-  try{
-    const res=await fetch(BACKEND_URL+"/orders",{headers:{"Authorization":"Bearer "+token}});
-    const data=await res.json(); const tbody=document.getElementById("orders-list"); tbody.innerHTML="";
-    if(data.orders.length===0){tbody.innerHTML="<tr><td colspan='4'>No orders found</td></tr>"; return;}
-    data.orders.forEach(order=>{
-      const tr=document.createElement("tr");
-      tr.innerHTML=`<td>${order.product}</td><td>${order.qty}</td><td>${order.status}</td>
-      <td>${order.status!=="Cancelled"?`<button class="cancel-btn" onclick="cancelOrder('${order._id}')">Cancel</button>`:""}
-      <button class="whatsapp-btn" onclick="openWhatsApp('${order.phone}','${order.product}','${order.qty}')">WhatsApp</button></td>`;
-      tbody.appendChild(tr);
-    });
-  }catch(e){showMessage("Network error","error");}
+  const token=localStorage.getItem("token"); if(!token)return logout();
+  try{
+    const res=await fetch(BACKEND_URL+"/orders",{headers:{"Authorization":"Bearer "+token}});
+    const data=await res.json(); const tbody=document.getElementById("orders-list"); tbody.innerHTML="";
+    if(data.orders.length===0){tbody.innerHTML="<tr><td colspan='4'>No orders found</td></tr>"; return;}
+    data.orders.forEach(order=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${order.product}</td><td>${order.qty}</td><td>${order.status}</td>
+      <td>${order.status!=="Cancelled"?`<button class="cancel-btn" onclick="cancelOrder('${order._id}')">Cancel</button>`:""}
+      <button class="whatsapp-btn" onclick="openWhatsApp('${order.phone}','${order.product}','${order.qty}')">WhatsApp</button></td>`;
+      tbody.appendChild(tr);
+    });
+  }catch(e){showMessage("Network error","error");}
 }
 async function cancelOrder(orderId){
-  if(!confirm("Cancel this order?")) return;
-  const token=localStorage.getItem("token");
-  try{
-    const res=await fetch(BACKEND_URL+"/order/cancel",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({orderId})});
-    const data=await res.json(); if(data.error)return showMessage(data.error,"error");
-    showMessage(data.message,"success"); loadOrders(); loadAdminOrders();
-  }catch(e){showMessage("Network error","error");}
+  if(!confirm("Cancel this order?")) return;
+  const token=localStorage.getItem("token");
+  try{
+    const res=await fetch(BACKEND_URL+"/order/cancel",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({orderId})});
+    const data=await res.json(); if(data.error)return showMessage(data.error,"error");
+    showMessage(data.message,"success"); loadOrders(); loadAdminOrders();
+  }catch(e){showMessage("Network error","error");}
 }
+
+// User Profile Functions
+function loadUserProfile() {
+  document.getElementById('profile-display-name').textContent = localStorage.getItem('name') || 'Guest';
+  document.getElementById('profile-display-email').textContent = localStorage.getItem('email') || 'N/A';
+  document.getElementById('profile-name').value = localStorage.getItem('name') || '';
+  document.getElementById('profile-email').value = localStorage.getItem('email') || '';
+  document.getElementById('profile-phone').value = localStorage.getItem('phone') || '';
+  document.getElementById('profile-address').value = localStorage.getItem('address') || '';
+}
+
+async function updateProfile() {
+  const name = document.getElementById('profile-name').value.trim();
+  const email = document.getElementById('profile-email').value.trim();
+  const phone = document.getElementById('profile-phone').value.trim();
+  const address = document.getElementById('profile-address').value.trim();
+
+  if (!name || !email || !phone) return showMessage("Name, Email, and Phone are required.", "error");
+
+  const token = localStorage.getItem("token");
+  if (!token) return logout();
+
+  try {
+    const res = await fetch(BACKEND_URL + "/user/profile", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+      body: JSON.stringify({ name, email, phone, address })
+    });
+    const data = await res.json();
+    if (data.error) return showMessage(data.error, "error");
+
+    localStorage.setItem('name', name);
+    localStorage.setItem('email', email);
+    localStorage.setItem('phone', phone);
+    localStorage.setItem('address', address);
+    showMessage("Profile updated successfully!", "success");
+    loadUserProfile(); // Refresh displayed profile data
+  } catch (e) {
+    showMessage("Network error updating profile.", "error");
+  }
+}
+
 
 // Admin
 async function loadAdminOrders(){
-  const token=localStorage.getItem("token"); if(!token)return logout();
-  try{
-    const res=await fetch(BACKEND_URL+"/admin/orders",{headers:{"Authorization":"Bearer "+token}});
-    const data=await res.json(); const tbody=document.getElementById("admin-orders-list"); tbody.innerHTML="";
-    if(!data.orders || data.orders.length===0){tbody.innerHTML="<tr><td colspan='7'>No orders found</td></tr>"; return;}
-    data.orders.forEach(order=>{
-      const tr=document.createElement("tr");
-      tr.innerHTML=`<td>${order.userName}</td><td>${order.product}</td><td>${order.qty}</td>
-      <td>${order.phone}</td><td>${order.address}</td><td>${order.status}</td>
-      <td>${order.status!=="Cancelled"?`<button class="cancel-btn" onclick="cancelOrder('${order._id}')">Cancel</button>`:""}
-      <button class="whatsapp-btn" onclick="openWhatsApp('${order.phone}','${order.product}','${order.qty}')">WhatsApp</button></td>`;
-      tbody.appendChild(tr);
-    });
-  }catch(e){showMessage("Network error","error");}
+  const token=localStorage.getItem("token"); if(!token)return logout();
+  try{
+    const res=await fetch(BACKEND_URL+"/admin/orders",{headers:{"Authorization":"Bearer "+token}});
+    const data=await res.json(); const tbody=document.getElementById("admin-orders-list"); tbody.innerHTML="";
+    if(!data.orders || data.orders.length===0){tbody.innerHTML="<tr><td colspan='7'>No orders found</td></tr>"; return;}
+    data.orders.forEach(order=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${order.userName}</td><td>${order.product}</td><td>${order.qty}</td>
+      <td>${order.phone}</td><td>${order.address}</td><td>${order.status}</td>
+      <td>${order.status!=="Cancelled"?`<button class="cancel-btn" onclick="cancelOrder('${order._id}')">Cancel</button>`:""}
+      <button class="whatsapp-btn" onclick="openWhatsApp('${order.phone}','${order.product}','${order.qty}')">WhatsApp</button></td>`;
+      tbody.appendChild(tr);
+    });
+  }catch(e){showMessage("Network error","error");}
 }
 
 // On load
 (function(){
-  const token=localStorage.getItem("token");
-  const name=localStorage.getItem("name");
-  if(token && name){ document.getElementById("user-name").textContent=name; showDashboardSection(); }
-  else showRegisterSection();
+  const token=localStorage.getItem("token");
+  const name=localStorage.getItem("name");
+  if(token && name){ 
+    document.getElementById("user-name").textContent=name; 
+    showSection('dashboard-section'); // Go to dashboard if logged in
+  }
+  else showSection('splash-section'); // Show splash screen if not logged in
 })();
 </script>
 
