@@ -54,18 +54,25 @@ footer{text-align:center;padding:1rem;background:#333;color:#fff;}
   backdrop-filter:blur(5px);
   z-index:1001;
 }
+:root {
+  --login-width: 400px;    /* width of login box */
+  --login-padding: 2rem;   /* padding inside box */
+  --login-top: 50%;        /* vertical position */
+}
+
 .login-box {
-  position: fixed; 
-  top: 50%;
+  position: fixed;
+  top: var(--login-top);
   left: 50%;
-  transform: translate(-50%, -50%); /* center vertically & horizontally */
+  transform: translate(-50%, -50%);
   background: #fff;
-  padding: 2rem;      /* enough space inside */
+  padding: var(--login-padding);
   border-radius: 15px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  width: 300px;       /* slightly bigger so content fits nicely */
+  width: var(--login-width);
   z-index: 1002;
 }
+
 }
 .login-box h2 {margin-bottom:1rem; color:#ff7733;}
 .login-box input, .login-box button {width:100%; padding:.8rem; margin-bottom:1rem; border-radius:8px; border:1px solid #ccc;}
@@ -216,6 +223,7 @@ loadProjects();
 
 </body>
 </html>
+
 
 
 
