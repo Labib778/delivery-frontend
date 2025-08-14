@@ -45,13 +45,43 @@ section{padding:100px 20px;min-height:100vh;display:flex;align-items:center;just
 footer{text-align:center;padding:1rem;background:#333;color:#fff;}
 
 /* Admin modal & form */
-#admin {display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(5px);display:flex;justify-content:center;align-items:center;z-index:1000;flex-direction:column;}
-.login-box {background:#fff;padding:2rem;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,0.3);text-align:center;width:300px;margin-bottom:20px;}
+#admin {display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;}
+#admin-login-overlay {
+  display:none;
+  position:fixed;
+  top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.3);
+  backdrop-filter:blur(5px);
+  z-index:1001;
+}
+.login-box {
+  position:fixed; /* floating on top */
+  top:50px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#fff;
+  padding:2rem;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  width:300px;
+  z-index:1002;
+}
 .login-box h2 {margin-bottom:1rem; color:#ff7733;}
 .login-box input, .login-box button {width:100%; padding:.8rem; margin-bottom:1rem; border-radius:8px; border:1px solid #ccc;}
 .login-box button {background:#ff7733;color:#fff;border:none; cursor:pointer;}
 .login-box button:hover {background:#ffbb33;color:#333;}
-#admin-content {display:none;background:#fff;padding:2rem;border-radius:15px;width:90%;max-width:500px;box-shadow:0 5px 20px rgba(0,0,0,0.2);}
+#admin-content {
+  display:none; /* hidden until login */
+  background:#fff;
+  padding:2rem;
+  border-radius:15px;
+  width:90%;
+  max-width:500px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.2);
+  margin:100px auto 50px;
+  position:relative;
+  z-index:1; /* behind login overlay */
+}
 #admin-content form{display:flex;flex-direction:column;gap:1rem;}
 #admin-content form input,#admin-content form textarea,#admin-content form button{padding:.8rem;border-radius:8px;border:1px solid #ccc;}
 #admin-content form button{background:#ff7733;color:#fff;border:none;cursor:pointer;}
@@ -104,11 +134,17 @@ footer{text-align:center;padding:1rem;background:#333;color:#fff;}
 
 <!-- Admin modal -->
 <div id="admin">
+  <!-- blur overlay for login only -->
+  <div id="admin-login-overlay"></div>
+
+  <!-- Floating login box -->
   <div class="login-box">
     <h2>Admin Login</h2>
     <input type="password" id="admin-password" placeholder="Enter Admin Password">
     <button onclick="checkAdminPassword()">Login</button>
   </div>
+
+  <!-- Admin panel content -->
   <div id="admin-content">
     <h2>Admin Panel</h2>
     <form id="admin-form">
@@ -132,6 +168,7 @@ const admin = document.getElementById("admin");
 const adminContent = document.getElementById("admin-content");
 const adminForm = document.getElementById("admin-form");
 const ADMIN_PASSWORD = "La12345"; // change password
+const adminOverlay = document.getElementById("admin-login-overlay");
 
 function loadProjects(){
   projectList.innerHTML = "";
@@ -157,8 +194,9 @@ adminForm.addEventListener("submit", function(e){
 function checkAdminPassword(){
   const pass = document.getElementById("admin-password").value;
   if(pass === ADMIN_PASSWORD){
-    adminContent.style.display="block";
+    adminOverlay.style.display="none";
     document.querySelector(".login-box").style.display="none";
+    adminContent.style.display="block";
   } else {
     alert("Incorrect password!");
   }
@@ -167,7 +205,8 @@ function checkAdminPassword(){
 // Show admin modal if URL hash is #admin
 window.addEventListener("DOMContentLoaded", ()=>{
   if(window.location.hash === "#admin"){
-    admin.style.display="flex";
+    admin.style.display="block";
+    adminOverlay.style.display="block";
   }
 });
 
@@ -176,4 +215,3 @@ loadProjects();
 
 </body>
 </html>
-
