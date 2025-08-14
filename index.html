@@ -132,30 +132,46 @@ footer{text-align:center;padding:1rem;background:#333;color:#fff;}
   </form>
 </section>
 
-<!-- Admin modal -->
-<div id="admin">
-  <!-- blur overlay for login only -->
-  <div id="admin-login-overlay"></div>
-
-  <!-- Floating login box -->
-  <div class="login-box">
-    <h2>Admin Login</h2>
-    <input type="password" id="admin-password" placeholder="Enter Admin Password">
-    <button onclick="checkAdminPassword()">Login</button>
-  </div>
-
-  <!-- Admin panel content -->
-  <div id="admin-content">
-    <h2>Admin Panel</h2>
-    <form id="admin-form">
-      <input type="text" id="title" placeholder="Project Title" required>
-      <input type="text" id="image" placeholder="Image URL" required>
-      <input type="text" id="link" placeholder="Project Link" required>
-      <textarea id="description" placeholder="Project Description" rows="4" required></textarea>
-      <button type="submit">Add Project</button>
-    </form>
-  </div>
-</div>
+/* Admin modal & form */
+#admin {display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;}
+#admin-login-overlay {
+  display:none;
+  position:fixed;
+  top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.3);
+  backdrop-filter:blur(5px);
+  z-index:1001;
+}
+/* Floating login box */
+.login-box {
+  position:fixed; /* floating */
+  top:100px; /* some distance from top */
+  left:50%;
+  transform:translateX(-50%);
+  background:#fff;
+  padding:3rem; /* bigger size */
+  border-radius:15px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.4);
+  width:400px; /* bigger width */
+  z-index:1002;
+}
+.login-box h2 {margin-bottom:1rem; font-size:1.8rem; color:#ff7733;}
+.login-box input, .login-box button {width:100%; padding:1rem; margin-bottom:1rem; border-radius:10px; border:1px solid #ccc; font-size:1rem;}
+.login-box button {background:#ff7733;color:#fff;border:none; cursor:pointer; font-weight:600;}
+.login-box button:hover {background:#ffbb33;color:#333;}
+/* Admin panel */
+#admin-content {
+  display:none; /* hidden until login */
+  background:#fff;
+  padding:2rem;
+  border-radius:15px;
+  width:90%;
+  max-width:600px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.2);
+  margin:50px auto 50px; /* normal placement on page */
+  position:relative;
+  z-index:1; /* behind login overlay */
+}
 
 <footer>
   &copy; 2025 Labib Sharker. All Rights Reserved.
@@ -215,3 +231,4 @@ loadProjects();
 
 </body>
 </html>
+
