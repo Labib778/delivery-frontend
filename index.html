@@ -1,262 +1,1709 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taqwa Home Delivery</title>
-<style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; }
-    header { background:#007BFF; color:#fff; padding:1em; display:flex; justify-content:space-between; align-items:center; }
-    nav { display:flex; gap:1em; }
-    nav a { color:#fff; text-decoration:none; cursor:pointer; }
-    .menu-toggle { display:none; cursor:pointer; }
-    .app-section { display:none; padding:2em; }
-    .app-section.active { display:block; }
-    input, button { padding:0.5em; margin:0.5em 0; width:100%; max-width:300px; }
-    .checkout-item { display:flex; justify-content:space-between; margin-bottom:0.5em; }
-    .chat-bubble { padding:0.5em; border-radius:5px; margin-bottom:0.5em; max-width:60%; }
-    .user-bubble { background:#DCF8C6; align-self:flex-end; }
-    .agent-bubble { background:#EEE; align-self:flex-start; }
-    .chat-container { display:flex; flex-direction:column; gap:0.5em; margin-top:1em; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taqwa Home Delivery</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts for custom typography (approximating design fonts) -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles - Using Tailwind JIT for most, but defining base */
+        :root {
+            --primary-red: #FF3B3F; /* Primary button/accent color */
+            --light-bg-gray: #F5F5F5; /* Background behind cards */
+            --card-bg: #FFFFFF; /* Card background */
+            --input-bg: #F0F0F0; /* Input background */
+            --text-dark: #333333; /* Dark text */
+            --text-medium: #666666; /* Medium text */
+            --text-light: #999999; /* Light text */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevent scroll outside of active page */
+        }
+
+        /* Container for the mobile screen view */
+        .mobile-screen-container {
+            width: 100%;
+            max-width: 400px; /* Typical mobile width */
+            height: 100vh; /* Full viewport height on mobile */
+            max-height: 800px; /* Cap max height for desktop preview */
+            background-color: var(--card-bg);
+            border-radius: 1.5rem; /* Rounded corners for the "phone" screen */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Hide overflow content within the screen */
+            position: relative;
+            display: flex;
+            flex-direction: column; /* Stack content vertically */
+        }
+
+        /* Page/Section specific styles */
+        .app-section {
+            display: none; /* Hidden by default */
+            flex-grow: 1; /* Take up available space */
+            overflow-y: auto; /* Enable scrolling for content within sections */
+            padding: 1.5rem;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: var(--card-bg); /* Ensure background for each section */
+        }
+
+        .app-section.active {
+            display: flex; /* Show active section */
+            flex-direction: column;
+        }
+
+        /* Splash Screen specific gradient */
+        #splash-screen.active {
+            background: linear-gradient(to bottom, #FF6B6B, var(--primary-red)); /* Red gradient */
+            color: white;
+            justify-content: flex-end; /* Push content to bottom */
+            text-align: center;
+            padding-bottom: 0; /* Adjust padding if image is at bottom */
+        }
+        #splash-screen h1 {
+            font-family: 'Dancing Script', cursive; /* Applying specific font */
+            font-size: 3.5rem; /* Large font size */
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+        #splash-screen p {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+        #splash-screen img {
+            width: 100%;
+            max-width: 300px; /* Adjust as needed for the image size */
+            margin-top: auto; /* Pushes image to the bottom */
+            display: block; /* Remove extra space below image */
+            object-fit: contain; /* Ensure image fits */
+        }
+
+        /* Slide Screens specific styles */
+        .slide-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+        }
+        .slide-screen img {
+            max-width: 80%;
+            height: auto;
+            margin-bottom: 2rem;
+        }
+        .slide-screen h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+        .slide-screen p {
+            font-size: 1rem;
+            color: var(--text-medium);
+            margin-bottom: 3rem;
+        }
+        .slide-dots {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .dot {
+            width: 0.6rem;
+            height: 0.6rem;
+            background-color: var(--text-light);
+            border-radius: 50%;
+            margin: 0 0.4rem;
+            transition: background-color 0.3s ease;
+        }
+        .dot.active {
+            background-color: var(--primary-red);
+            width: 1.5rem; /* Elongated active dot */
+            border-radius: 0.3rem; /* Rounded rectangle */
+        }
+
+        /* Login/Register/Verification forms */
+        .form-card {
+            background-color: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1; /* Allow content to grow */
+            box-sizing: border-box;
+        }
+        .form-card img.illustration {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+        .form-card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+        .form-card p {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 3rem; /* Left padding for icon */
+            background-color: var(--input-bg);
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            color: var(--text-dark);
+            outline: none;
+        }
+        .form-group .icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-medium);
+        }
+        .form-link-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            font-size: 0.85rem;
+            color: var(--text-medium);
+            margin-bottom: 1.5rem;
+        }
+        .form-link-group a {
+            color: var(--primary-red);
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .form-checkbox input {
+            margin-right: 0.5rem;
+        }
+        .btn-primary {
+            background-color: var(--primary-red);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #E03030;
+        }
+        .btn-primary i {
+            margin-left: 0.75rem;
+        }
+        .auth-link {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-top: 1.5rem;
+        }
+        .auth-link a {
+            color: var(--primary-red);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Verification Page Specific */
+        .verification-code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .verification-code-inputs input {
+            width: 3rem;
+            height: 3rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border: 1px solid #CCC;
+            border-radius: 0.5rem;
+            background-color: white;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        .verification-code-inputs input:focus {
+            border-color: var(--primary-red);
+        }
+        .resend-link {
+            font-size: 0.85rem;
+            color: var(--text-medium);
+            margin-top: 1rem;
+        }
+        .resend-link a {
+            color: var(--primary-red);
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .back-arrow-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-dark);
+            position: absolute;
+            left: 1.5rem;
+            bottom: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Welcome To Home Page */
+        #welcome-to-home-screen {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        #welcome-to-home-screen img {
+            max-width: 250px;
+            margin-bottom: 2rem;
+        }
+        #welcome-to-home-screen h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+
+        /* Header (Used on Home, Cart, Checkout, Notification, Account) */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid #E0E0E0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .header .logo-img {
+            width: 40px;
+            height: 40px;
+            margin-right: 0.5rem;
+        }
+        .header .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            font-family: 'Dancing Script', cursive; /* Applied to Taqwa Home Delivery */
+        }
+        .menu-btn {
+            background-color: var(--primary-red);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.25rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 60px;
+            background-color: var(--primary-red);
+            border-top-left-radius: 1.5rem; /* Rounded corners for the bottom bar */
+            border-top-right-radius: 1.5rem;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            padding-top: 0.5rem;
+        }
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-size: 0.75rem;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        .bottom-nav-item:hover, .bottom-nav-item.active {
+            opacity: 1;
+        }
+        .bottom-nav-item i {
+            font-size: 1.25rem;
+            margin-bottom: 0.2rem;
+        }
+        .message-us-btn {
+            background-color: var(--primary-red); /* Same as primary */
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: absolute; /* Position relative to .mobile-screen-container */
+            right: 1.5rem;
+            bottom: 5rem; /* Above the bottom navigation */
+            z-index: 20;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Sidebar Menu */
+        .sidebar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 70%; /* Adjust width as needed */
+            background-color: var(--card-bg);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%); /* Hidden by default */
+            transition: transform 0.3s ease-in-out;
+            z-index: 100;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+        .sidebar.open {
+            transform: translateX(0); /* Show when open */
+        }
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .sidebar-header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 0.5rem;
+            border: 2px solid var(--primary-red);
+        }
+        .sidebar-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .sidebar-header p {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+        }
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.75rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .sidebar-nav-item:hover, .sidebar-nav-item.active {
+            background-color: rgba(255, 59, 63, 0.1); /* Light red background */
+            color: var(--primary-red);
+        }
+        .sidebar-nav-item i {
+            font-size: 1.25rem;
+            margin-right: 1rem;
+        }
+
+        /* Admin Dashboard specific styling */
+        .admin-section {
+            background-color: var(--input-bg);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .admin-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+        .admin-table {
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+        }
+        .admin-table th, .admin-table td {
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid #CCC;
+            font-size: 0.85rem;
+            vertical-align: top;
+        }
+        .admin-table th {
+            font-weight: 600;
+            color: var(--text-medium);
+        }
+        .admin-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .admin-table-row:nth-child(even) {
+            background-color: rgba(255, 59, 63, 0.05);
+        }
+    </style>
 </head>
 <body>
+    <div class="mobile-screen-container">
+        <!-- Message/Toast Area -->
+        <div id="message" class="hidden fixed top-0 left-0 right-0 p-4 text-center text-white bg-green-500 z-50 transition-all duration-300 transform -translate-y-full"></div>
 
-<header>
-    <h1>Taqwa Home Delivery</h1>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    <nav id="menu">
-        <a onclick="showSection('dashboard-section')">Dashboard</a>
-        <a onclick="showSection('checkout-section')">Checkout</a>
-        <a onclick="showSection('orders-section')">Orders</a>
-        <a onclick="showSection('user-profile-section')">Profile</a>
-        <a onclick="showSection('customer-support-section')">Support</a>
-        <a onclick="logout()">Logout</a>
-    </nav>
-</header>
+        <!-- 1. Splash Screen -->
+        <div id="splash-screen" class="app-section active">
+            <h1 class="font-bold text-6xl">Taqwa</h1>
+            <h1 class="font-bold text-4xl mt-2">Home Delivery</h1>
+            <img src="https://picsum.photos/300/300?random=splash" alt="Food Illustration" class="mx-auto mt-auto">
+        </div>
 
-<!-- Sections -->
-<section id="login-section" class="app-section active">
-    <h2>Login</h2>
-    <input type="email" id="login-email" placeholder="Email">
-    <input type="password" id="login-password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p>Don't have an account? <a onclick="showSection('register-section')">Register</a></p>
-</section>
+        <!-- 2. Slide Screens -->
+        <div id="slide-screens" class="app-section hidden flex-col">
+            <div id="slider-content" class="flex-grow flex flex-col justify-center items-center px-6">
+                <!-- Slide content will be dynamically updated by JS -->
+            </div>
+            <div class="flex items-center justify-between px-6 pb-6">
+                <div id="slide-dots" class="flex justify-center flex-grow"></div>
+                <button id="next-slide-btn" class="bg-primary-red text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
 
-<section id="register-section" class="app-section">
-    <h2>Register</h2>
-    <input type="text" id="register-name" placeholder="Full Name">
-    <input type="email" id="register-email" placeholder="Email">
-    <input type="password" id="register-password" placeholder="Password">
-    <input type="text" id="register-phone" placeholder="Phone">
-    <input type="text" id="register-address" placeholder="Address">
-    <button onclick="register()">Register</button>
-    <p>Already have an account? <a onclick="showSection('login-section')">Login</a></p>
-</section>
+        <!-- 3. Create Account Page -->
+        <div id="register-screen" class="app-section hidden form-card">
+            <img src="https://picsum.photos/200/150?random=register" alt="Get Started Illustration" class="illustration">
+            <h2 class="text-2xl font-bold text-text-dark mb-1">Get Started</h2>
+            <p class="text-sm text-text-medium mb-6">by creating a free account.</p>
 
-<section id="verification-section" class="app-section">
-    <h2>Verify Code</h2>
-    <div>
-        <input type="text" maxlength="1" oninput="moveToNext(this, 'code2')" id="code1">
-        <input type="text" maxlength="1" oninput="moveToNext(this, 'code3')" id="code2">
-        <input type="text" maxlength="1" oninput="moveToNext(this, 'code4')" id="code3">
-        <input type="text" maxlength="1" oninput="verifyCode()" id="code4">
+            <div class="form-group">
+                <i class="icon fas fa-user"></i>
+                <input type="text" id="reg-full-name" placeholder="Full name">
+            </div>
+            <div class="form-group">
+                <i class="icon fas fa-envelope"></i>
+                <input type="email" id="reg-email" placeholder="Valid email">
+            </div>
+            <div class="form-group">
+                <i class="icon fas fa-phone"></i>
+                <input type="tel" id="reg-phone" placeholder="Phone number">
+            </div>
+            <div class="form-group">
+                <i class="icon fas fa-lock"></i>
+                <input type="password" id="reg-password" placeholder="Strong Password">
+            </div>
+            <div class="form-link-group mb-6">
+                <label class="flex items-center text-sm">
+                    <input type="checkbox" class="mr-2"> By checking the box you agree to our <a href="#" class="ml-1 text-primary-red font-medium">Terms</a> and <a href="#" class="ml-1 text-primary-red font-medium">Conditions.</a>
+                </label>
+            </div>
+            <button class="btn-primary" onclick="register()">Next <i class="fas fa-chevron-right"></i></button>
+            <p class="auth-link">Already a member? <a href="#" onclick="showSection('login-screen')">Log In</a></p>
+        </div>
+
+        <!-- 4. Login Page -->
+        <div id="login-screen" class="app-section hidden form-card">
+            <img src="https://picsum.photos/200/150?random=login" alt="Welcome Back Illustration" class="illustration">
+            <h2 class="text-2xl font-bold text-text-dark mb-1">Welcome back</h2>
+            <p class="text-sm text-text-medium mb-6">sign in to access your account</p>
+
+            <div class="form-group">
+                <i class="icon fas fa-envelope"></i>
+                <input type="email" id="login-email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <i class="icon fas fa-lock"></i>
+                <input type="password" id="login-password" placeholder="Password">
+            </div>
+            <div class="form-link-group">
+                <label class="flex items-center text-sm text-text-medium">
+                    <input type="checkbox" class="mr-2"> Remember me
+                </label>
+                <a href="#" class="text-primary-red font-medium">Forgot password?</a>
+            </div>
+            <button class="btn-primary" onclick="login()">Next <i class="fas fa-chevron-right"></i></button>
+            <p class="auth-link">New Member? <a href="#" onclick="showSection('register-screen')">Register now</a></p>
+        </div>
+
+        <!-- 5. Verification Page -->
+        <div id="verification-screen" class="app-section hidden form-card">
+            <h2 class="text-2xl font-bold text-text-dark mb-2">Almost there</h2>
+            <p class="text-sm text-text-medium mb-6">Please enter the 6-digit code sent to your email <span class="text-primary-red font-medium" id="verification-email"></span> for verification.</p>
+
+            <div class="verification-code-inputs">
+                <input type="text" maxlength="1" id="vcode-1" onkeyup="moveToNext(this, 'vcode-2')" />
+                <input type="text" maxlength="1" id="vcode-2" onkeyup="moveToNext(this, 'vcode-3')" />
+                <input type="text" maxlength="1" id="vcode-3" onkeyup="moveToNext(this, 'vcode-4')" />
+                <input type="text" maxlength="1" id="vcode-4" onkeyup="moveToNext(this, 'vcode-5')" />
+                <input type="text" maxlength="1" id="vcode-5" onkeyup="moveToNext(this, 'vcode-6')" />
+                <input type="text" maxlength="1" id="vcode-6" onkeyup="verifyCode()" />
+            </div>
+            <button class="btn-primary w-full max-w-xs" onclick="verifyCode()">Verify</button>
+            <p class="resend-link">Didn't receive any code? <a href="#" onclick="resendCode()">Resend Again</a></p>
+            <p class="text-xs text-text-light">Request new code in <span id="resend-timer">00:30s</span></p>
+
+            <button class="back-arrow-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i></button>
+        </div>
+
+        <!-- 6. Welcome To Home Screen -->
+        <div id="welcome-to-home-screen" class="app-section hidden">
+            <img src="https://picsum.photos/250/200?random=welcome" alt="Welcome Illustration" class="illustration mx-auto">
+            <h2 class="text-primary-red">WELCOME</h2>
+            <p class="text-text-dark text-lg mb-8">You have successfully registered and verified your account!</p>
+            <button class="btn-primary w-full max-w-xs" onclick="showSection('home-order-screen')">Continue to Home</button>
+        </div>
+
+        <!-- 7. Home / Order Page -->
+        <div id="home-order-screen" class="app-section hidden">
+            <header class="header">
+                <div class="logo-container">
+                    <img class="logo-img" src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/Artboard%201.png" alt="Taqwa Logo" />
+                    <div class="logo-text">Taqwa Home Delivery</div>
+                </div>
+                <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            </header>
+            
+            <main class="flex-grow p-4">
+                <h2 class="text-xl font-semibold text-text-dark mb-4">Order your favourite food!</h2>
+                
+                <div class="form-group mb-4">
+                    <input type="text" id="order-product" placeholder="Product">
+                </div>
+                <div class="form-group mb-4">
+                    <input type="number" id="order-quantity" placeholder="Quantity">
+                </div>
+                <div class="form-group mb-4">
+                    <!-- Option to choose default address or add new -->
+                    <select id="order-address-type" class="w-full p-3 bg-input-bg border-none rounded-xl text-base text-text-dark outline-none">
+                        <option value="default">Use Default Address</option>
+                        <option value="new">Add New Address</option>
+                    </select>
+                </div>
+                <div class="form-group mb-6">
+                    <textarea id="order-message" placeholder="Optional Message" rows="3" class="w-full p-3 bg-input-bg border-none rounded-xl text-base text-text-dark outline-none"></textarea>
+                </div>
+                <button class="btn-primary w-full" onclick="placeOrder()">Add to Cart <i class="fas fa-shopping-cart ml-2"></i></button>
+            </main>
+
+            <!-- Message Us Button -->
+            <button class="message-us-btn" onclick="showSection('customer-support-screen')">
+                <i class="fas fa-comment"></i>
+            </button>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav">
+                <a href="#" class="bottom-nav-item active" onclick="showSection('home-order-screen')">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('cart-screen')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('messages-screen')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('notification-screen')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notification</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('account-screen')">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- 8. Cart Page (Inferred from description) -->
+        <div id="cart-screen" class="app-section hidden">
+            <header class="header">
+                <div class="logo-container">
+                    <img class="logo-img" src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/Artboard%201.png" alt="Taqwa Logo" />
+                    <div class="logo-text">Taqwa Home Delivery</div>
+                </div>
+                <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            </header>
+            <main class="flex-grow p-4">
+                <h2 class="text-2xl font-bold text-text-dark mb-6">Your Cart</h2>
+                <div id="cart-items-list" class="space-y-4">
+                    <!-- Example Cart Item -->
+                    <div class="flex items-center justify-between p-4 bg-input-bg rounded-xl">
+                        <input type="checkbox" class="form-checkbox text-primary-red mr-3">
+                        <div class="flex-grow">
+                            <h3 class="font-semibold text-text-dark">Delicious Burger</h3>
+                            <p class="text-sm text-text-medium">$12.00</p>
+                        </div>
+                        <div class="flex items-center">
+                            <button class="bg-gray-300 text-text-dark w-8 h-8 rounded-full flex items-center justify-center">-</button>
+                            <span class="mx-2 text-lg font-medium">1</span>
+                            <button class="bg-gray-300 text-text-dark w-8 h-8 rounded-full flex items-center justify-center">+</button>
+                        </div>
+                    </div>
+                    <!-- More cart items would go here -->
+                </div>
+                <button class="btn-primary w-full mt-8" onclick="showSection('checkout-screen')">Checkout <i class="fas fa-credit-card ml-2"></i></button>
+            </main>
+            <nav class="bottom-nav">
+                <a href="#" class="bottom-nav-item" onclick="showSection('home-order-screen')">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="bottom-nav-item active" onclick="showSection('cart-screen')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('messages-screen')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('notification-screen')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notification</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('account-screen')">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- 9. Checkout Page (Inferred from description) -->
+        <div id="checkout-screen" class="app-section hidden">
+            <header class="header">
+                <div class="logo-container">
+                    <img class="logo-img" src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/Artboard%201.png" alt="Taqwa Logo" />
+                    <div class="logo-text">Taqwa Home Delivery</div>
+                </div>
+                <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            </header>
+            <main class="flex-grow p-4">
+                <h2 class="text-2xl font-bold text-text-dark mb-6">Checkout</h2>
+                
+                <h3 class="text-lg font-semibold mb-3">Delivery Address</h3>
+                <div class="form-group mb-4">
+                    <select id="checkout-address-type" class="w-full p-3 bg-input-bg border-none rounded-xl text-base text-text-dark outline-none">
+                        <option value="default">Use Saved Address</option>
+                        <option value="new">Add New Address</option>
+                    </select>
+                </div>
+                <div class="form-group mb-6">
+                    <textarea id="checkout-new-address" placeholder="Enter new address (if selected)" rows="3" class="w-full p-3 bg-input-bg border-none rounded-xl text-base text-text-dark outline-none hidden"></textarea>
+                </div>
+
+                <h3 class="text-lg font-semibold mb-3">Customer Information</h3>
+                <div class="form-group">
+                    <input type="text" id="checkout-name" placeholder="Name" value="John Doe">
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="checkout-phone" placeholder="Phone Number" value="+1234567890">
+                </div>
+
+                <div class="bg-input-bg p-4 rounded-xl mt-6">
+                    <div class="flex justify-between text-lg font-medium mb-2">
+                        <span>Subtotal:</span>
+                        <span>$15.00</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-medium mb-2">
+                        <span>Delivery Fee:</span>
+                        <span>$2.00</span>
+                    </div>
+                    <div class="flex justify-between text-2xl font-bold text-primary-red pt-2 border-t border-gray-300">
+                        <span>Total:</span>
+                        <span>$17.00</span>
+                    </div>
+                </div>
+                
+                <button class="btn-primary w-full mt-8" onclick="confirmOrder()">Place Order <i class="fas fa-money-bill-wave ml-2"></i></button>
+            </main>
+            <nav class="bottom-nav">
+                <a href="#" class="bottom-nav-item" onclick="showSection('home-order-screen')">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('cart-screen')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('messages-screen')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('notification-screen')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notification</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('account-screen')">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- 10. Order Success Page (Inferred from description) -->
+        <div id="order-success-screen" class="app-section hidden flex-col justify-center items-center text-center">
+            <img src="https://picsum.photos/150/150?random=success" alt="Order Confirmed" class="w-32 h-32 mb-6">
+            <h2 class="text-2xl font-bold text-text-dark mb-2">Your order is confirmed!</h2>
+            <p class="text-text-medium mb-8">Your order will be delivered to you within approximately 30-45 minutes.</p>
+            <button class="btn-primary w-full max-w-xs mb-4" onclick="showSection('home-order-screen')">Continue Shopping</button>
+            <button class="btn-primary w-full max-w-xs bg-gray-300 text-text-dark" onclick="showSection('orders-history-screen')">Check My Orders</button>
+        </div>
+
+        <!-- 11. Notification Page (Inferred from description) -->
+        <div id="notification-screen" class="app-section hidden">
+            <header class="header">
+                <div class="logo-container">
+                    <img class="logo-img" src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/Artboard%201.png" alt="Taqwa Logo" />
+                    <div class="logo-text">Taqwa Home Delivery</div>
+                </div>
+                <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            </header>
+            <main class="flex-grow p-4">
+                <h2 class="text-2xl font-bold text-text-dark mb-6">Notifications</h2>
+                <div id="notification-list" class="space-y-4">
+                    <!-- Notifications will be loaded here -->
+                </div>
+            </main>
+            <nav class="bottom-nav">
+                <a href="#" class="bottom-nav-item" onclick="showSection('home-order-screen')">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('cart-screen')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('messages-screen')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="bottom-nav-item active" onclick="showSection('notification-screen')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notification</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('account-screen')">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- 12. Account Page -->
+        <div id="account-screen" class="app-section hidden">
+            <header class="header">
+                <div class="logo-container">
+                    <img class="logo-img" src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/Artboard%201.png" alt="Taqwa Logo" />
+                    <div class="logo-text">Taqwa Home Delivery</div>
+                </div>
+                <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            </header>
+            <main class="flex-grow p-4">
+                <h2 class="text-2xl font-bold text-text-dark mb-6">User Profile</h2>
+                <div class="flex flex-col items-center mb-6">
+                    <img class="profile-avatar w-24 h-24 rounded-full object-cover mb-2 border-4 border-primary-red" src="https://picsum.photos/100/100?random=user" alt="User Avatar">
+                    <h3 class="text-xl font-semibold text-text-dark" id="profile-display-name">Rubin Paul</h3>
+                    <p class="text-sm text-text-medium" id="profile-display-email">rubinpaul@gmail.com</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="form-group">
+                        <label for="profile-name" class="text-sm text-text-medium mb-1 block text-left">Name</label>
+                        <input type="text" id="profile-name" value="Rubin Paul">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-email" class="text-sm text-text-medium mb-1 block text-left">Email Address</label>
+                        <input type="email" id="profile-email" value="rubinpaul@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-phone" class="text-sm text-text-medium mb-1 block text-left">Phone Number</label>
+                        <input type="tel" id="profile-phone" value="+88017xxxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-address" class="text-sm text-text-medium mb-1 block text-left">Delivery Address</label>
+                        <input type="text" id="profile-address" value="2972 Westheimer Rd. Santa Ana, Illinois 85486">
+                    </div>
+                </div>
+
+                <div class="flex flex-col space-y-4 mt-8">
+                    <button class="btn-primary" onclick="updateProfile()">Save Changes</button>
+                    <button class="btn-primary bg-gray-300 text-text-dark hover:bg-gray-400" onclick="logout()">Logout</button>
+                </div>
+            </main>
+            <nav class="bottom-nav">
+                <a href="#" class="bottom-nav-item" onclick="showSection('home-order-screen')">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('cart-screen')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('messages-screen')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('notification-screen')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notification</span>
+                </a>
+                <a href="#" class="bottom-nav-item active" onclick="showSection('account-screen')">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- 13. Customer Support Page (Chat) -->
+        <div id="customer-support-screen" class="app-section hidden">
+            <header class="header">
+                <div class="logo-container">
+                    <img class="logo-img" src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/Artboard%201.png" alt="Taqwa Logo" />
+                    <div class="logo-text">Taqwa Home Delivery</div>
+                </div>
+                <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            </header>
+            <main class="flex-grow flex flex-col p-4">
+                <h2 class="text-2xl font-bold text-text-dark mb-6">Customer Support</h2>
+                <div class="flex-grow overflow-y-auto bg-input-bg p-4 rounded-xl mb-4 space-y-4">
+                    <div class="flex justify-start">
+                        <div class="bg-gray-200 text-text-dark p-3 rounded-xl max-w-[70%]">
+                            <p>Hi, how can I help you?</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <div class="bg-primary-red text-white p-3 rounded-xl max-w-[70%]">
+                            <p>I want to change my delivery address, can I do that now?</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-start">
+                        <div class="bg-gray-200 text-text-dark p-3 rounded-xl max-w-[70%]">
+                            <p>Yes, please provide your order ID and the new address.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <div class="bg-primary-red text-white p-3 rounded-xl max-w-[70%]">
+                            <p>It's order #12345, new address is...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <input type="text" id="chat-message-input" placeholder="Type your message..." class="flex-grow p-3 bg-input-bg border-none rounded-xl text-base text-text-dark outline-none mr-2">
+                    <button class="bg-primary-red text-white w-10 h-10 rounded-full flex items-center justify-center text-xl">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </main>
+            <nav class="bottom-nav">
+                <a href="#" class="bottom-nav-item" onclick="showSection('home-order-screen')">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('cart-screen')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('messages-screen')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('notification-screen')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notification</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('account-screen')">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </a>
+            </nav>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <div id="sidebar-menu" class="sidebar">
+            <button class="absolute top-4 right-4 text-xl text-text-dark" onclick="toggleSidebar()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="sidebar-header">
+                <img src="https://picsum.photos/100/100?random=sidebar-user" alt="Profile" class="mx-auto">
+                <h3 class="mt-2" id="sidebar-user-name">User Name</h3>
+                <p id="sidebar-user-email">user@email.com</p>
+            </div>
+            <nav class="flex-grow mt-8">
+                <a href="#" class="sidebar-nav-item active" onclick="showSection('home-order-screen'); toggleSidebar();">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="#" class="sidebar-nav-item" onclick="showSection('messages-screen'); toggleSidebar();">
+                    <i class="fas fa-envelope"></i> Messages
+                </a>
+                <a href="#" class="sidebar-nav-item" onclick="showSection('notification-screen'); toggleSidebar();">
+                    <i class="fas fa-bell"></i> Notifications
+                </a>
+                <a href="#" class="sidebar-nav-item" onclick="showSection('account-screen'); toggleSidebar();">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <!-- Admin Dashboard link (optional) -->
+                <a href="#" class="sidebar-nav-item" id="admin-dashboard-sidebar-link" style="display:none;" onclick="showSection('admin-dashboard-screen'); toggleSidebar();">
+                    <i class="fas fa-shield-alt"></i> Admin Dashboard
+                </a>
+                <a href="#" class="sidebar-nav-item mt-auto" onclick="logout(); toggleSidebar();">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </div>
+
+        <!-- 14. Admin Dashboard -->
+        <div id="admin-dashboard-screen" class="app-section hidden">
+            <header class="header">
+                <div class="logo-container">
+                    <img class="logo-img" src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/Artboard%201.png" alt="Taqwa Logo" />
+                    <div class="logo-text">Taqwa Home Delivery</div>
+                </div>
+                <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            </header>
+            <main class="flex-grow p-4">
+                <h2 class="text-2xl font-bold text-text-dark mb-6">Admin Dashboard</h2>
+
+                <!-- Orders Section -->
+                <div class="admin-section">
+                    <h3 class="flex justify-between items-center">
+                        All Orders
+                        <button class="text-primary-red text-sm font-medium" onclick="fetchOrders()">Refresh</button>
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User Email</th>
+                                    <th>Product</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-list">
+                                <!-- Orders will be loaded here -->
+                                <tr><td colspan="4" class="text-center text-text-medium">No orders found.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Users Section -->
+                <div class="admin-section">
+                    <h3 class="flex justify-between items-center">
+                        All Users
+                        <button class="text-primary-red text-sm font-medium" onclick="fetchUsers()">Refresh</button>
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users-list">
+                                <!-- Users will be loaded here -->
+                                <tr><td colspan="3" class="text-center text-text-medium">No users found.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Send Notification Section -->
+                <div class="admin-section">
+                    <h3>Send a Notification</h3>
+                    <div class="form-group">
+                        <input type="text" id="notification-title" placeholder="Notification Title">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="notification-message" placeholder="Message" rows="3"></textarea>
+                    </div>
+                    <button class="btn-primary" onclick="sendNotification()">Send Notification</button>
+                </div>
+            </main>
+            <nav class="bottom-nav">
+                <a href="#" class="bottom-nav-item active" onclick="showSection('admin-dashboard-screen')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('messages-screen')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('notification-screen')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+                <a href="#" class="bottom-nav-item" onclick="showSection('account-screen')">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </a>
+            </nav>
+        </div>
+
     </div>
-</section>
 
-<section id="dashboard-section" class="app-section">
-    <h2>Place Order</h2>
-    <input type="text" id="product-name" placeholder="Product Name">
-    <input type="number" id="product-quantity" placeholder="Quantity">
-    <input type="text" id="product-address" placeholder="Delivery Address">
-    <input type="text" id="product-phone" placeholder="Phone Number">
-    <button onclick="placeOrder()">Add to Checkout</button>
-</section>
+    <script>
+        // Custom Tailwind colors for JS access
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-red': '#FF3B3F',
+                        'light-bg-gray': '#F5F5F5',
+                        'card-bg': '#FFFFFF',
+                        'input-bg': '#F0F0F0',
+                        'text-dark': '#333333',
+                        'text-medium': '#666666',
+                        'text-light': '#999999',
+                    },
+                }
+            }
+        }
 
-<section id="checkout-section" class="app-section">
-    <h2>Checkout</h2>
-    <div id="checkout-items"></div>
-    <p>Subtotal: <span id="subtotal">0</span></p>
-    <p>Delivery Fee: <span id="delivery-fee">50</span></p>
-    <p>Total: <span id="total">0</span></p>
-    <button onclick="confirmOrder()">Confirm Order</button>
-</section>
+        // --- IMPORTANT: CONFIGURE YOUR BACKEND URL HERE ---
+        // After deploying your backend to Render, replace this placeholder with the live URL.
+        const BACKEND_URL = "http://localhost:3000";
 
-<section id="orders-section" class="app-section">
-    <h2>Your Orders</h2>
-    <div id="orders-list"></div>
-</section>
+        // --- Global State & Elements ---
+        const messageDisplay = document.getElementById('message');
+        const mobileScreenContainer = document.querySelector('.mobile-screen-container');
+        const sidebarMenu = document.getElementById('sidebar-menu');
 
-<section id="user-profile-section" class="app-section">
-    <h2>Profile</h2>
-    <input type="text" id="profile-name" placeholder="Name">
-    <input type="email" id="profile-email" placeholder="Email">
-    <input type="text" id="profile-phone" placeholder="Phone">
-    <input type="text" id="profile-address" placeholder="Address">
-    <button onclick="updateProfile()">Update Profile</button>
-</section>
+        // --- Sections Array for easy management ---
+        const sections = [
+            { id: 'splash-screen', element: document.getElementById('splash-screen') },
+            { id: 'slide-screens', element: document.getElementById('slide-screens') },
+            { id: 'register-screen', element: document.getElementById('register-screen') },
+            { id: 'login-screen', element: document.getElementById('login-screen') },
+            { id: 'verification-screen', element: document.getElementById('verification-screen') },
+            { id: 'welcome-to-home-screen', element: document.getElementById('welcome-to-home-screen') },
+            { id: 'home-order-screen', element: document.getElementById('home-order-screen') },
+            { id: 'cart-screen', element: document.getElementById('cart-screen') },
+            { id: 'checkout-screen', element: document.getElementById('checkout-screen') },
+            { id: 'order-success-screen', element: document.getElementById('order-success-screen') },
+            { id: 'notification-screen', element: document.getElementById('notification-screen') },
+            { id: 'account-screen', element: document.getElementById('account-screen') },
+            { id: 'customer-support-screen', element: document.getElementById('customer-support-screen') },
+            { id: 'admin-dashboard-screen', element: document.getElementById('admin-dashboard-screen') }
+        ];
 
-<section id="customer-support-section" class="app-section">
-    <h2>Support</h2>
-    <div class="chat-container" id="chat-container"></div>
-    <input type="text" id="chat-input" placeholder="Type your message">
-    <button onclick="sendMessage()">Send</button>
-</section>
+        let currentActiveSection = 'splash-screen'; // Default starting screen
 
-<script>
-let menuContent = document.getElementById("menu");
+        // --- Core Navigation Function ---
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                if (section.element) {
+                    section.element.classList.remove('active');
+                    section.element.classList.add('hidden'); // Ensure hidden by Tailwind
+                }
+            });
 
-function toggleMenu() {
-    menuContent.classList.toggle("show");
-}
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                targetSection.classList.remove('hidden'); // Remove hidden class to show
+                currentActiveSection = sectionId;
 
-// Section switching
-function showSection(sectionId) {
-    document.querySelectorAll('.app-section').forEach(section => section.classList.remove('active'));
-    document.getElementById(sectionId).classList.add('active');
-    menuContent.classList.remove("show");
+                // Update bottom nav active state
+                const navItems = document.querySelectorAll('.bottom-nav-item');
+                navItems.forEach(item => {
+                    // Check if the onclick attribute exists and contains the sectionId
+                    const onclickAttr = item.getAttribute('onclick');
+                    if (onclickAttr && onclickAttr.includes(`showSection('${sectionId}')`)) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
 
-    if(sectionId === 'dashboard-section') clearOrderForm();
-    else if(sectionId === 'checkout-section') populateCheckoutPage();
-    else if(sectionId === 'orders-section') loadOrders();
-    else if(sectionId === 'user-profile-section') loadUserProfile();
-}
+                // Special handling for the admin dashboard
+                if (sectionId === 'admin-dashboard-screen') {
+                    renderAdminDashboard();
+                }
+                
+                // Close sidebar if open
+                if (sidebarMenu.classList.contains('open')) {
+                    toggleSidebar();
+                }
 
-// Auth Functions
-function register() {
-    let name = document.getElementById('register-name').value;
-    let email = document.getElementById('register-email').value;
-    let password = document.getElementById('register-password').value;
-    let phone = document.getElementById('register-phone').value;
-    let address = document.getElementById('register-address').value;
-    localStorage.setItem('token', 'dummyToken');
-    localStorage.setItem('name', name);
-    localStorage.setItem('email', email);
-    localStorage.setItem('phone', phone);
-    localStorage.setItem('address', address);
-    showSection('dashboard-section');
-}
+                // Scroll active section to top if it's scrollable
+                if (targetSection.scrollHeight > targetSection.clientHeight) {
+                    targetSection.scrollTop = 0;
+                }
 
-function login() {
-    let email = document.getElementById('login-email').value;
-    let password = document.getElementById('login-password').value;
-    if(email && password) {
-        localStorage.setItem('token', 'dummyToken');
-        showSection('dashboard-section');
-    }
-}
+            } else {
+                console.error(`Error: Section with ID "${sectionId}" not found.`);
+            }
+        }
 
-function logout() {
-    localStorage.clear();
-    showSection('login-section');
-}
+        // --- UI Utility Functions ---
 
-// Verification
-function moveToNext(current, nextId) {
-    if(current.value.length >= 1) document.getElementById(nextId).focus();
-}
-function verifyCode() { showSection('dashboard-section'); }
+        // Simple message display (like a toast)
+        function showMessage(msg, type = 'success') {
+            messageDisplay.textContent = msg;
+            messageDisplay.classList.remove('bg-green-500', 'bg-red-500', 'bg-blue-500');
+            let colorClass = 'bg-green-500';
+            if (type === 'error') colorClass = 'bg-red-500';
+            if (type === 'info') colorClass = 'bg-blue-500';
+            messageDisplay.classList.add(colorClass, 'translate-y-0');
+            messageDisplay.classList.remove('hidden');
 
-// Orders
-let currentOrderDetails = [];
+            setTimeout(() => {
+                messageDisplay.classList.add('-translate-y-full');
+                messageDisplay.classList.add('hidden');
+            }, 3000);
+        }
 
-function placeOrder() {
-    let product = document.getElementById('product-name').value;
-    let quantity = parseInt(document.getElementById('product-quantity').value);
-    let address = document.getElementById('product-address').value;
-    let phone = document.getElementById('product-phone').value;
-    if(!product || !quantity || !address || !phone) { alert('Fill all fields'); return; }
-    currentOrderDetails.push({product, quantity, address, phone});
-    alert('Added to checkout');
-    clearOrderForm();
-}
+        // Sidebar Toggle
+        function toggleSidebar() {
+            sidebarMenu.classList.toggle('open');
+            // Update sidebar user info
+            if(sidebarMenu.classList.contains('open')) {
+                const name = localStorage.getItem('name');
+                const email = localStorage.getItem('email');
+                document.getElementById('sidebar-user-name').textContent = name || 'User Name';
+                document.getElementById('sidebar-user-email').textContent = email || 'user@email.com';
+            }
+        }
 
-function clearOrderForm() {
-    document.getElementById('product-name').value = '';
-    document.getElementById('product-quantity').value = '';
-    document.getElementById('product-address').value = '';
-    document.getElementById('product-phone').value = '';
-}
+        // Form input icon toggle (Example, not directly from design but good practice)
+        function toggleLoginInput() {
+            const emailInput = document.getElementById('login-email');
+            const phoneInput = document.getElementById('login-phone');
+            const loginEmailIcon = document.querySelector('#login-screen .form-group .fa-envelope');
+            const loginPhoneIcon = document.querySelector('#login-screen .form-group .fa-phone');
 
-// Checkout
-function populateCheckoutPage() {
-    let container = document.getElementById('checkout-items');
-    container.innerHTML = '';
-    let subtotal = 0;
-    currentOrderDetails.forEach(item => {
-        let div = document.createElement('div');
-        div.className = 'checkout-item';
-        div.textContent = `${item.product} x${item.quantity}`;
-        container.appendChild(div);
-        subtotal += item.quantity * 100; // Assume price 100 per item
-    });
-    document.getElementById('subtotal').textContent = subtotal;
-    document.getElementById('total').textContent = subtotal + 50;
-}
+            const loginMethodRadio = document.querySelector('input[name="login-method"]:checked');
+            if (loginMethodRadio) { // Ensure radio button exists
+                if (loginMethodRadio.value === 'email') {
+                    if (emailInput) emailInput.style.display = 'block';
+                    if (phoneInput) phoneInput.style.display = 'none';
+                    if (loginEmailIcon) loginEmailIcon.style.display = 'block';
+                    if (loginPhoneIcon) loginPhoneIcon.style.display = 'none';
+                } else {
+                    if (emailInput) emailInput.style.display = 'none';
+                    if (phoneInput) phoneInput.style.display = 'block';
+                    if (loginEmailIcon) loginEmailIcon.style.display = 'none';
+                    if (loginPhoneIcon) loginPhoneIcon.style.display = 'block';
+                }
+            }
+        }
 
-function confirmOrder() {
-    if(currentOrderDetails.length === 0) { alert('No items'); return; }
-    let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    orders.push(...currentOrderDetails);
-    localStorage.setItem('orders', JSON.stringify(orders));
-    currentOrderDetails = [];
-    alert('Order confirmed');
-    populateCheckoutPage();
-}
+        // Initialize toggleLoginInput on load for login page if it's active
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('login-screen') && document.getElementById('login-screen').classList.contains('active')) {
+                toggleLoginInput();
+            }
+            // Initially hide the new address input on checkout
+            const checkoutAddressType = document.getElementById('checkout-address-type');
+            const checkoutNewAddress = document.getElementById('checkout-new-address');
+            if (checkoutAddressType && checkoutNewAddress) {
+                checkoutAddressType.addEventListener('change', () => {
+                    if (checkoutAddressType.value === 'new') {
+                        checkoutNewAddress.classList.remove('hidden');
+                    } else {
+                        checkoutNewAddress.classList.add('hidden');
+                    }
+                });
+            }
+        });
 
-// Orders List
-function loadOrders() {
-    let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    let container = document.getElementById('orders-list');
-    container.innerHTML = '';
-    orders.forEach((o, idx) => {
-        let div = document.createElement('div');
-        div.textContent = `${o.product} x${o.quantity} to ${o.address}`;
-        container.appendChild(div);
-    });
-}
 
-// Profile
-function loadUserProfile() {
-    document.getElementById('profile-name').value = localStorage.getItem('name') || '';
-    document.getElementById('profile-email').value = localStorage.getItem('email') || '';
-    document.getElementById('profile-phone').value = localStorage.getItem('phone') || '';
-    document.getElementById('profile-address').value = localStorage.getItem('address') || '';
-}
+        // Verification Code Input Navigation
+        function moveToNext(currentInput, nextInputId) {
+            if (currentInput.value.length === currentInput.maxLength) {
+                const nextInput = document.getElementById(nextInputId);
+                if (nextInput) {
+                    nextInput.focus();
+                } else {
+                    // If it's the last input, trigger verify or blur
+                    currentInput.blur();
+                    // verifyCode(); // Auto-verify on last digit, uncomment if desired
+                }
+            }
+        }
 
-function updateProfile() {
-    localStorage.setItem('name', document.getElementById('profile-name').value);
-    localStorage.setItem('email', document.getElementById('profile-email').value);
-    localStorage.setItem('phone', document.getElementById('profile-phone').value);
-    localStorage.setItem('address', document.getElementById('profile-address').value);
-    alert('Profile updated');
-}
+        // --- Slide Show Logic ---
+        let currentSlide = 0;
+        const slides = [
+            {
+                img: 'https://picsum.photos/300/200?random=slide1', // Placeholder image
+                title: 'Order anything at your doorstep',
+                description: 'To your desire'
+            },
+            {
+                img: 'https://picsum.photos/300/200?random=slide2', // Placeholder image
+                title: 'Best user friendly UI',
+                description: 'To your destination'
+            },
+            {
+                img: 'https://picsum.photos/300/200?random=slide3', // Placeholder image
+                title: 'Start Ordering..',
+                description: 'your fev food'
+            }
+        ];
+        const sliderContent = document.getElementById('slider-content');
+        const slideDotsContainer = document.getElementById('slide-dots');
+        const nextSlideBtn = document.getElementById('next-slide-btn');
 
-// Chat
-function sendMessage() {
-    let input = document.getElementById('chat-input');
-    let message = input.value.trim();
-    if(!message) return;
-    addChatBubble(message, 'user');
-    input.value = '';
-    setTimeout(() => addChatBubble('We received your message.', 'agent'), 500);
-}
+        function renderSlide(index) {
+            const slide = slides[index];
+            sliderContent.innerHTML = `
+                <img src="${slide.img}" alt="Slide Illustration" class="mb-8 mx-auto">
+                <h2 class="text-2xl font-bold text-text-dark mb-2">${slide.title}</h2>
+                <p class="text-text-medium">${slide.description}</p>
+            `;
+            updateDots(index);
+        }
 
-function addChatBubble(msg, type) {
-    let container = document.getElementById('chat-container');
-    let div = document.createElement('div');
-    div.className = 'chat-bubble ' + (type === 'user' ? 'user-bubble' : 'agent-bubble');
-    div.textContent = msg;
-    container.appendChild(div);
-    container.scrollTop = container.scrollHeight;
-}
+        function updateDots(index) {
+            slideDotsContainer.innerHTML = '';
+            slides.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === index) {
+                    dot.classList.add('active');
+                }
+                slideDotsContainer.appendChild(dot);
+            });
+        }
 
-// Auto-login if token exists
-document.addEventListener('DOMContentLoaded', () => {
-    if(localStorage.getItem('token')) showSection('dashboard-section');
-});
-</script>
+        function nextSlide() {
+            currentSlide++; // Move to the next slide index
 
+            if (currentSlide < slides.length) {
+                // If there are more slides (not the last one yet)
+                renderSlide(currentSlide);
+                // Keep the button as a chevron and its function as nextSlide
+                nextSlideBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                nextSlideBtn.onclick = nextSlide;
+            } else {
+                // This is the end of the slides (after the last slide has been viewed)
+                localStorage.setItem('onboarding_complete', 'true'); // Mark onboarding complete
+                showSection('register-screen'); // Go to registration screen as per flow
+                currentSlide = 0; // Reset slide index for future visits
+                // Reset button text and action for next time slides are shown
+                nextSlideBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                nextSlideBtn.onclick = nextSlide;
+            }
+        }
+
+
+        // --- Backend Interaction Functions (Updated to use Fetch API) ---
+
+        let currentVerificationEmail = ''; // To store the email for verification
+
+        async function register() {
+            const name = document.getElementById('reg-full-name').value;
+            const email = document.getElementById('reg-email').value;
+            const phone = document.getElementById('reg-phone').value;
+            const password = document.getElementById('reg-password').value;
+
+            if (!name || !email || !phone || !password) {
+                showMessage("Please fill all fields.", "error");
+                return;
+            }
+
+            showMessage("Registering and sending verification email...", "info");
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phone, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(data.message, "success");
+                    currentVerificationEmail = email; // Save the email for the verification screen
+                    document.getElementById('verification-email').textContent = currentVerificationEmail;
+                    showSection('verification-screen');
+                } else {
+                    showMessage(data.message, "error");
+                }
+            } catch (error) {
+                console.error('Registration failed:', error);
+                showMessage("Registration failed. Please try again.", "error");
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!email || !password) {
+                showMessage("Please enter email and password.", "error");
+                return;
+            }
+
+            showMessage("Logging in...", "info");
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Save the token and user data to local storage
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('name', data.user.name);
+                    localStorage.setItem('email', data.user.email);
+                    localStorage.setItem('role', data.user.role || 'user'); // Default to 'user'
+
+                    showMessage(data.message, "success");
+                    // Check if the user is an admin
+                    if (data.user.role === 'admin') {
+                         showSection('admin-dashboard-screen');
+                    } else {
+                        showSection('home-order-screen');
+                    }
+                } else {
+                    showMessage(data.message, "error");
+                }
+            } catch (error) {
+                console.error('Login failed:', error);
+                showMessage("Login failed. Please check your credentials.", "error");
+            }
+        }
+
+        async function verifyCode() {
+            const code = Array.from(document.querySelectorAll('.verification-code-inputs input')).map(input => input.value).join('');
+            if (code.length !== 6) {
+                showMessage("Please enter the full 6-digit code.", "error");
+                return;
+            }
+
+            showMessage("Verifying code...", "info");
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/verify-email`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentVerificationEmail, code })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage(data.message, "success");
+                    showSection('welcome-to-home-screen');
+                } else {
+                    showMessage(data.message, "error");
+                }
+            } catch (error) {
+                console.error('Verification failed:', error);
+                showMessage("Verification failed. Please try again.", "error");
+            }
+        }
+
+        async function resendCode() {
+            if (!currentVerificationEmail) {
+                showMessage("No email to resend code to.", "error");
+                return;
+            }
+            
+            showMessage("Resending code...", "info");
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/resend-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentVerificationEmail })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showMessage(data.message, "success");
+                } else {
+                    showMessage(data.message, "error");
+                }
+            } catch (error) {
+                console.error('Resend failed:', error);
+                showMessage("Failed to resend code. Please try again.", "error");
+            }
+        }
+
+        async function placeOrder() {
+            // Placeholder for a protected route call
+            const token = localStorage.getItem('token');
+            if (!token) {
+                showMessage("You must be logged in to place an order.", "error");
+                showSection('login-screen');
+                return;
+            }
+
+            showMessage("Placing order...", "info");
+            // Simulate API call
+            setTimeout(() => {
+                showMessage("Order placed successfully! Redirecting to success page.", "success");
+                showSection('order-success-screen'); // Go to order success screen
+            }, 1500);
+        }
+
+        async function confirmOrder() {
+            showMessage("Confirming order...", "info");
+            setTimeout(() => {
+                showMessage("Order confirmed! Payment processed.", "success");
+                showSection('order-success-screen'); // Go to order success screen after final confirmation
+            }, 1500);
+        }
+
+        async function updateProfile() {
+            showMessage("Updating profile...", "info");
+            setTimeout(() => {
+                showMessage("Profile updated successfully!", "success");
+            }, 1500);
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('name');
+            localStorage.removeItem('role');
+            localStorage.removeItem('onboarding_complete'); // Clear this on logout to show slides next time
+            showMessage("Logged out successfully.", "success");
+            showSection('login-screen'); // Go back to login or splash
+        }
+        
+        // --- Admin Dashboard Functions ---
+        async function renderAdminDashboard() {
+            const role = localStorage.getItem('role');
+            if (role !== 'admin') {
+                showMessage("You do not have permission to view this page.", "error");
+                showSection('home-order-screen');
+                return;
+            }
+
+            // Fetch and render data
+            await fetchUsers();
+            await fetchOrders();
+        }
+
+        async function fetchUsers() {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+            
+            const usersList = document.getElementById('admin-users-list');
+            usersList.innerHTML = `<tr><td colspan="3" class="text-center text-text-medium">Loading users...</td></tr>`;
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/admin/users`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    usersList.innerHTML = '';
+                    if (data.users && data.users.length > 0) {
+                        data.users.forEach(user => {
+                            const row = document.createElement('tr');
+                            row.classList.add('admin-table-row');
+                            row.innerHTML = `
+                                <td>${user.name}</td>
+                                <td>${user.email}</td>
+                                <td>${user.role}</td>
+                            `;
+                            usersList.appendChild(row);
+                        });
+                    } else {
+                        usersList.innerHTML = `<tr><td colspan="3" class="text-center text-text-medium">No users found.</td></tr>`;
+                    }
+                } else {
+                    showMessage(data.message, "error");
+                    usersList.innerHTML = `<tr><td colspan="3" class="text-center text-red-500">Failed to load users.</td></tr>`;
+                }
+            } catch (error) {
+                console.error('Failed to fetch users:', error);
+                showMessage("Failed to load users.", "error");
+                usersList.innerHTML = `<tr><td colspan="3" class="text-center text-red-500">Failed to load users.</td></tr>`;
+            }
+        }
+
+        async function fetchOrders() {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+            const ordersList = document.getElementById('admin-orders-list');
+            ordersList.innerHTML = `<tr><td colspan="4" class="text-center text-text-medium">Loading orders...</td></tr>`;
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/admin/orders`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    ordersList.innerHTML = '';
+                    if (data.orders && data.orders.length > 0) {
+                        data.orders.forEach(order => {
+                            const row = document.createElement('tr');
+                            row.classList.add('admin-table-row');
+                            row.innerHTML = `
+                                <td>${order.orderId}</td>
+                                <td>${order.userEmail}</td>
+                                <td>${order.product}</td>
+                                <td>${order.status}</td>
+                            `;
+                            ordersList.appendChild(row);
+                        });
+                    } else {
+                        ordersList.innerHTML = `<tr><td colspan="4" class="text-center text-text-medium">No orders found.</td></tr>`;
+                    }
+                } else {
+                    showMessage(data.message, "error");
+                    ordersList.innerHTML = `<tr><td colspan="4" class="text-center text-red-500">Failed to load orders.</td></tr>`;
+                }
+            } catch (error) {
+                console.error('Failed to fetch orders:', error);
+                showMessage("Failed to load orders.", "error");
+                ordersList.innerHTML = `<tr><td colspan="4" class="text-center text-red-500">Failed to load orders.</td></tr>`;
+            }
+        }
+
+        async function sendNotification() {
+            const token = localStorage.getItem('token');
+            const title = document.getElementById('notification-title').value;
+            const message = document.getElementById('notification-message').value;
+
+            if (!token) {
+                showMessage("You are not logged in as an admin.", "error");
+                return;
+            }
+            if (!title || !message) {
+                showMessage("Please fill both title and message.", "error");
+                return;
+            }
+
+            showMessage("Sending notification...", "info");
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/admin/notifications`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ title, message })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(data.message, "success");
+                    document.getElementById('notification-title').value = '';
+                    document.getElementById('notification-message').value = '';
+                } else {
+                    showMessage(data.message, "error");
+                }
+            } catch (error) {
+                console.error('Failed to send notification:', error);
+                showMessage("Failed to send notification.", "error");
+            }
+        }
+        
+        // Function to fetch and display notifications for regular users
+        async function fetchNotifications() {
+            const notificationsList = document.getElementById('notification-list');
+            notificationsList.innerHTML = '<p class="text-center text-text-medium">Loading notifications...</p>';
+            
+            // In a real app, you would fetch from the backend
+            setTimeout(() => {
+                const mockNotifications = [
+                    { title: "Welcome to Taqwa!", message: "We're glad to have you here. Start exploring our offers." },
+                    { title: "New Offer Alert!", message: "Get 20% off on all burgers this weekend!" },
+                    { title: "Order #12345 Update", message: "Your order has been dispatched and is on its way." }
+                ];
+                
+                notificationsList.innerHTML = '';
+                mockNotifications.forEach(notif => {
+                    const div = document.createElement('div');
+                    div.classList.add('bg-input-bg', 'p-4', 'rounded-xl', 'flex', 'items-center');
+                    div.innerHTML = `
+                        <i class="fas fa-tag text-primary-red text-xl mr-3"></i>
+                        <div>
+                            <h3 class="font-semibold text-text-dark">${notif.title}</h3>
+                            <p class="text-sm text-text-medium">${notif.message}</p>
+                        </div>
+                    `;
+                    notificationsList.appendChild(div);
+                });
+            }, 1000); // Simulate API call delay
+        }
+
+
+        // --- Initial App Load Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('role');
+            const onboardingComplete = localStorage.getItem('onboarding_complete');
+
+            // Show Admin Dashboard link if user is admin
+            if (role === 'admin') {
+                document.getElementById('admin-dashboard-sidebar-link').style.display = 'flex';
+            }
+
+            if (token) {
+                if (role === 'admin') {
+                    showSection('admin-dashboard-screen');
+                } else {
+                    showSection('home-order-screen'); // Go to home if already logged in as user
+                }
+            } else {
+                if (!onboardingComplete) {
+                    showSection('splash-screen');
+                    setTimeout(() => {
+                        showSection('slide-screens');
+                        renderSlide(currentSlide); // Render first slide
+                        nextSlideBtn.onclick = nextSlide; // <<< ADDED THIS LINE: Assign click handler for the first time
+                    }, 2000); // Show splash for 2 seconds, then go to slides
+                } else {
+                    showSection('login-screen'); // If onboarding done, go straight to login
+                }
+            }
+        });
+    </script>
 </body>
 </html>
