@@ -1,229 +1,548 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Labib Sharker Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<style>
-/* Basic Reset */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Roboto',sans-serif;}
-body{scroll-behavior:smooth;background:#f5f5f5;color:#333;}
-header{position:fixed;top:0;width:100%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.1);z-index:1000;}
-nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;}
-nav .logo{font-weight:700;font-size:1.5rem;color:#ffbb33;}
-nav ul{display:flex;gap:1.5rem;list-style:none;}
-nav ul li a{text-decoration:none;color:#333;font-weight:500;}
-nav ul li a:hover{color:#ff7733;}
-.menu-toggle{display:none;font-size:1.5rem;cursor:pointer;}
-@media(max-width:768px){
-  nav ul{display:none;flex-direction:column;background:#fff;position:absolute;top:60px;right:20px;border-radius:8px;padding:1rem;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
-  nav ul.show{display:flex;}
-  .menu-toggle{display:block;}
-}
-section{padding:100px 20px;min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;}
-#home{background:linear-gradient(135deg,#ffbb33,#ff7733);color:#fff;}
-#home h1{font-size:3rem;margin-bottom:1rem;}
-#home p{font-size:1.2rem;margin-bottom:2rem;}
-#home a{background:#fff;color:#ff7733;padding:.8rem 1.5rem;border-radius:25px;text-decoration:none;}
-#home a:hover{background:#ffdd88;}
-#about h2,#portfolio h2,#contact h2,#admin h2{color:#ff7733;margin-bottom:1rem;}
-#about p{max-width:600px;margin-bottom:1.5rem;}
-.skills{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;}
-.skills span{background:#ffbb33;color:#fff;padding:.5rem 1rem;border-radius:20px;}
-.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;width:90%;max-width:1200px;}
-.project{background:#fff;padding:1rem;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1);transition:transform .3s;}
-.project:hover{transform:translateY(-5px);}
-.project img{width:100%;border-radius:10px;margin-bottom:.8rem;}
-.project h3{margin-bottom:.5rem;color:#ff7733;}
-.project a{text-decoration:none;color:#333;}
-.project a:hover{color:#ffbb33;}
-#contact form{display:flex;flex-direction:column;gap:1rem;width:100%;max-width:500px;}
-#contact form input,#contact form textarea{padding:.8rem;border:1px solid #ccc;border-radius:8px;}
-#contact form button{background:#ff7733;color:#fff;padding:.8rem;border:none;border-radius:25px;cursor:pointer;}
-#contact form button:hover{background:#ffbb33;color:#333;}
-footer{text-align:center;padding:1rem;background:#333;color:#fff;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labib's Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet" />
+    
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-/* Admin modal & form */
-#admin {display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;}
-#admin-login-overlay {
-  display:none;
-  position:fixed;
-  top:0; left:0; right:0; bottom:0;
-  background:rgba(0,0,0,0.3);
-  backdrop-filter:blur(5px);
-  z-index:1001;
-}
-:root {
-  --login-width: 400px;    /* width of login box */
-  --login-padding: 2rem;   /* padding inside box */
-  --login-top: 50%;        /* vertical position */
-}
+    <style>
+        /* 
+        ========================================
+        BASE & RESET STYLES
+        ========================================
+        */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
 
-.login-box {
-  position: fixed;
-  top: var(--login-top);
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  padding: var(--login-padding);
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  width: var(--login-width);
-  z-index: 1002;
-}
+        body {
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            background-color: #FFF;
+        }
+        
+        /* 
+        ========================================
+        MOBILE-FIRST STYLES (Default)
+        ========================================
+        */
+        
+        /* Mobile Header */
+        .mobile-header {
+            width: 100%;
+            height: 60px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(5px);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #eee;
+        }
 
-}
-.login-box h2 {margin-bottom:1rem; color:#ff7733;}
-.login-box input, .login-box button {width:100%; padding:.8rem; margin-bottom:1rem; border-radius:8px; border:1px solid #ccc;}
-.login-box button {background:#ff7733;color:#fff;border:none; cursor:pointer;}
-.login-box button:hover {background:#ffbb33;color:#333;}
-#admin-content {
-  display:none; /* hidden until login */
-  background:#fff;
-  padding:2rem;
-  border-radius:15px;
-  width:90%;
-  max-width:500px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.2);
-  margin:100px auto 50px;
-  position:relative;
-  z-index:1; /* behind login overlay */
-}
-#admin-content form{display:flex;flex-direction:column;gap:1rem;}
-#admin-content form input,#admin-content form textarea,#admin-content form button{padding:.8rem;border-radius:8px;border:1px solid #ccc;}
-#admin-content form button{background:#ff7733;color:#fff;border:none;cursor:pointer;}
-#admin-content form button:hover{background:#ffbb33;color:#333;}
-</style>
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            font-size: 22px;
+            text-decoration: none;
+            color: #111827;
+        }
+        
+        .hamburger-menu {
+            width: 24px;
+            height: 17px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .hamburger-menu .bar {
+            width: 24px;
+            height: 3px;
+            background: #000;
+            position: absolute;
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger-menu .bar1 { top: 0; }
+        .hamburger-menu .bar2 { top: 7px; }
+        .hamburger-menu .bar3 { top: 14px; }
+        
+        /* Mobile Menu Panel */
+        .mobile-menu-panel {
+            position: fixed;
+            top: 0;
+            left: -100%; /* Start off-screen */
+            width: 80%;
+            max-width: 300px;
+            height: 100%;
+            background: white;
+            z-index: 1001;
+            overflow-y: auto;
+            transition: left 0.3s ease-in-out;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-menu-panel.active {
+            left: 0; /* Slide in */
+        }
+        
+        .mobile-menu-links {
+            list-style: none;
+            margin-top: 40px;
+        }
+        .mobile-menu-links li {
+            margin-bottom: 15px;
+        }
+        .mobile-menu-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            padding: 10px 0;
+            display: block;
+            font-weight: 500;
+        }
+        
+        .close-btn {
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: right;
+            color: #333;
+        }
+        
+        .main-container {
+            padding-top: 60px; /* Offset for fixed header */
+        }
+        
+        /* Hero Section (Mobile) */
+        .hero-section {
+            background: rgba(249,250,251,1);
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .hero-content {
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+        }
+
+        .hero-image-wrapper {
+            width: 100%;
+            max-width: 350px; /* Control max size on mobile */
+            height: auto;
+            order: 1; /* Image first on mobile */
+        }
+        
+        .hero-image-wrapper img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            object-fit: cover;
+        }
+
+        .hero-text {
+            margin-top: 30px;
+            order: 2; /* Text second on mobile */
+        }
+
+        .hero-text .title {
+            color: rgba(253,196,53,1);
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .hero-text .name {
+            color: rgba(51,51,51,1);
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            font-size: 40px;
+            margin: 10px 0;
+        }
+
+        .hero-text .description {
+            color: rgba(130,130,130,1);
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            max-width: 344px;
+            margin: 0 auto;
+        }
+        
+        /* General Section Styling */
+        .section { padding: 64px 20px; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        .section-title-container { text-align: center; margin-bottom: 48px; }
+        .section-title { color: rgba(75,85,99,1); font-size: 20px; line-height: 1.4; }
+        
+        /* Skills Section */
+        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 20px; justify-items: center; }
+        .skill-item { text-align: center; }
+        .skill-icon { width: 74px; height: 74px; margin: 0 auto 12px auto; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-radius: 8px; }
+        .skill-name { color: rgba(75,85,99,1); font-size: 18px; }
+        
+        /* Experience Section */
+        .experience-section { background: rgba(249,250,251,1); }
+        .experience-card { background: #fff; border-radius: 12px; box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.06); padding: 32px; margin-bottom: 24px; }
+        .experience-title { color: rgba(17,24,39,1); font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .experience-date { color: rgba(55,65,81,1); font-size: 16px; margin-bottom: 16px; }
+        .experience-description { color: rgba(75,85,99,1); font-size: 16px; line-height: 1.6; }
+        .experience-description span { display: block; margin-bottom: 8px; }
+        
+        /* Projects Section */
+        .project-card { background: #fff; border-radius: 12px; box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.06); margin-bottom: 40px; overflow: hidden; }
+        .project-image img { width: 100%; height: auto; display: block; }
+        .project-info { padding: 32px; }
+        .project-title { color: rgba(17,24,39,1); font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+        .project-description { color: rgba(75,85,99,1); font-size: 16px; line-height: 1.6; }
+        
+        /* Testimonials Section */
+        .testimonials-section { background: rgba(249,250,251,1); }
+        .testimonial-card { background: #fff; border-radius: 12px; box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.06); padding: 32px; margin-bottom: 24px; text-align: center; }
+        .testimonial-quote { color: rgba(75,85,99,1); font-size: 16px; line-height: 1.6; margin: 24px 0; }
+        .testimonial-author { color: rgba(17,24,39,1); font-size: 18px; font-weight: 600; }
+        .testimonial-author-title { color: rgba(75,85,99,1); font-size: 14px; }
+        
+        /* Contact Section */
+        .contact-info { text-align: center; }
+        .contact-email, .contact-phone { color: rgba(17,24,39,1); text-decoration: none; font-size: 18px; font-weight: 600; display: block; margin-bottom: 10px; word-break: break-all; }
+        .social-platforms-text { color: rgba(75,85,99,1); font-size: 16px; margin-top: 40px; margin-bottom: 20px; }
+        .social-icons a { color: rgba(75,85,99,1); font-size: 24px; margin: 0 10px; text-decoration: none; transition: color 0.3s; }
+        .social-icons a:hover { color: #fca311; }
+        
+        /* Footer */
+        .footer { background: rgba(249,250,251,1); padding: 20px; text-align: center; }
+        .footer-text { color: rgba(75,85,99,1); font-size: 14px; }
+
+        /* Hiding desktop elements on mobile */
+        .desktop-header { display: none; }
+
+
+        /* 
+        ========================================
+        DESKTOP STYLES (min-width: 769px)
+        ========================================
+        */
+        @media (min-width: 769px) {
+            .mobile-header, .mobile-menu-panel { display: none; }
+            .main-container { padding-top: 68px; }
+            .container { padding: 0 80px; }
+
+            .desktop-header {
+                display: flex;
+                width: 100%;
+                height: 68px;
+                background: rgba(255,255,255,0.9);
+                backdrop-filter: blur(5px);
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 80px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+                border-bottom: 1px solid #eee;
+            }
+            .desktop-nav { display: flex; gap: 32px; }
+            .desktop-nav a { text-decoration: none; color: #4B5563; font-size: 16px; font-weight: 500; transition: color 0.3s; }
+            .desktop-nav a:hover { color: #fca311; }
+
+            /* Desktop Hero Section */
+            .hero-section {
+                padding: 0;
+                height: 704px;
+                display: flex;
+                align-items: center;
+            }
+            .hero-content {
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+            }
+            .hero-text {
+                order: 1; /* Text first on desktop */
+                width: 500px;
+                text-align: left;
+                margin-top: 0;
+            }
+            .hero-text .name { font-size: 64px; line-height: 1.1; margin: 16px 0 24px 0; }
+            .hero-text .description { font-size: 24px; line-height: 1.5; max-width: none; margin: 0; }
+            
+            .hero-image-wrapper {
+                order: 2; /* Image second on desktop */
+                width: 480px; /* Adjusted size */
+                height: auto;
+            }
+            
+            /* General Section Adjustments for Desktop */
+            .section { padding: 96px 80px; }
+            .section-title { font-size: 20px; max-width: 576px; margin: 0 auto; }
+            
+            /* Skills Section Desktop */
+            .skills-grid { display: flex; justify-content: center; gap: 80px; max-width: 930px; margin: 48px auto 0 auto; }
+            
+            /* Experience Section Desktop */
+            .experience-container { max-width: 896px; margin: 48px auto 0 auto; }
+            .experience-card { display: flex; align-items: flex-start; justify-content: space-between; gap: 48px; padding: 32px; }
+            .experience-details { flex-grow: 1; }
+            .experience-date { flex-shrink: 0; width: 161px; text-align: right; margin-bottom: 0; }
+            
+            /* Projects Section Desktop */
+            .projects-container { max-width: 1044px; margin: 48px auto 0 auto; }
+            .project-card { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 48px; }
+            .project-card:nth-child(even) .project-image { order: 2; }
+            .project-card:nth-child(even) .project-info { order: 1; }
+            
+            /* Testimonials Section Desktop */
+            .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1216px; margin: 48px auto 0 auto; }
+
+            /* Contact Section Desktop */
+            .contact-section-content { max-width: 576px; margin: 0 auto; }
+            .contact-info a { display: block; }
+            .contact-email, .contact-phone { font-size: 36px; }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <nav>
-    <div class="logo">Labib Sharker</div>
-    <div class="menu-toggle" onclick="document.querySelector('nav ul').classList.toggle('show')">☰</div>
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-</header>
+    <!-- ============================ START: HEADER SECTION ============================ -->
+    <header class="mobile-header">
+        <a href="#" class="logo">Labib</a>
+        <div class="hamburger-menu" id="hamburger-menu">
+            <div class="bar bar1"></div>
+            <div class="bar bar2"></div>
+            <div class="bar bar3"></div>
+        </div>
+    </header>
+    <header class="desktop-header">
+        <a href="#" class="logo">Labib</a>
+        <nav class="desktop-nav">
+            <a href="#about">About</a>
+            <a href="#work">Work</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    
+    <nav class="mobile-menu-panel" id="mobile-menu">
+        <div class="close-btn" id="close-menu-btn">&times;</div>
+        <ul class="mobile-menu-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <!-- ============================ END: HEADER SECTION ============================ -->
+    
+    <div class="main-container">
+        <!-- ============================ START: HERO SECTION ============================ -->
+        <section class="hero-section">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <p class="title">Graphic Designer</p>
+                    <h1 class="name">Hi, I’m Labib👋</h1>
+                    <p class="description">Short text with details about you, what you do or your professional career. You can add more information on the about page.</p>
+                </div>
+                <div class="hero-image-wrapper">
+                    <img src="https://github.com/Labib778/delivery-frontend/blob/dd8af9ae97bc4834fe78bc84963d419d4dba7413/images/Profile_image.png?raw=true" alt="Profile picture of Labib">
+                </div>
+            </div>
+        </section>
+        <!-- ============================ END: HERO SECTION ============================ -->
 
-<section id="home">
-  <h1>Hello, I'm Labib Sharker</h1>
-  <p>Creative Designer & Developer crafting beautiful experiences</p>
-  <a href="https://www.fiverr.com/s/Q7WvGER" target="_blank">See My Work</a>
-</section>
+        <main>
+            <!-- ============================ START: SKILLS SECTION ============================ -->
+            <section class="section" id="skills">
+                <div class="container">
+                    <div class="section-title-container">
+                        <h2 class="section-title">The skills, tools and technologies I am really good at:</h2>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-item"><div class="skill-icon"></div><span class="skill-name">After Effect</span></div>
+                        <div class="skill-item"><div class="skill-icon"></div><span class="skill-name">Photoshop</span></div>
+                        <div class="skill-item"><div class="skill-icon"></div><span class="skill-name">Illustrator</span></div>
+                        <div class="skill-item"><div class="skill-icon"></div><span class="skill-name">InDesign</span></div>
+                    </div>
+                </div>
+            </section>
+            <!-- ============================ END: SKILLS SECTION ============================ -->
 
-<section id="about">
-  <h2>About Me</h2>
-  <p>I'm a passionate designer and developer with experience in creating engaging web interfaces and digital experiences.</p>
-  <div class="skills">
-    <span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span><span>UI/UX Design</span>
-  </div>
-</section>
+            <!-- ============================ START: EXPERIENCE SECTION ============================ -->
+            <section class="section experience-section" id="about">
+                <div class="container experience-container">
+                    <div class="section-title-container">
+                        <h2 class="section-title">Here is a quick summary of my most recent experiences:</h2>
+                    </div>
+                    <div class="experience-card">
+                        <div class="experience-details">
+                            <h3 class="experience-title">Sr. Frontend Developer</h3>
+                            <div class="experience-description">
+                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span><span>Ut pretium arcu et massa semper, id fringilla leo semper.</span><span>Sed quis justo ac magna.</span><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                            </div>
+                        </div>
+                        <p class="experience-date">Nov 2021 - Present</p>
+                    </div>
+                    <div class="experience-card">
+                        <div class="experience-details">
+                            <h3 class="experience-title">Team Lead</h3>
+                            <div class="experience-description">
+                                <span>Sed quis justo ac magna.</span><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span><span>Sed quis justo ac magna.</span><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                            </div>
+                        </div>
+                        <p class="experience-date">Jul 2017 - Oct 2021</p>
+                    </div>
+                    <div class="experience-card">
+                        <div class="experience-details">
+                            <h3 class="experience-title">Full Stack Developer</h3>
+                            <div class="experience-description">
+                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                            </div>
+                        </div>
+                        <p class="experience-date">Dec 2015 - May 2017</p>
+                    </div>
+                </div>
+            </section>
+            <!-- ============================ END: EXPERIENCE SECTION ============================ -->
 
-<section id="portfolio">
-  <h2>My Portfolio</h2>
-  <div class="projects" id="project-list"></div>
-</section>
+            <!-- ============================ START: PROJECTS SECTION ============================ -->
+            <section class="section" id="work">
+                <div class="container projects-container">
+                    <div class="section-title-container">
+                        <h2 class="section-title">Some of the noteworthy projects I have built:</h2>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image"><img src="https://github.com/Labib778/delivery-frontend/blob/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png?raw=true" alt="Project 1 Screenshot"></div>
+                        <div class="project-info">
+                            <h3 class="project-title">Fiskil</h3>
+                            <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nec urna ac tellus volutpat viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image"><img src="https://github.com/Labib778/delivery-frontend/blob/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png?raw=true" alt="Project 2 Screenshot"></div>
+                        <div class="project-info">
+                            <h3 class="project-title">Fiskil</h3>
+                            <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nec urna ac tellus volutpat viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image"><img src="https://github.com/Labib778/delivery-frontend/blob/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png?raw=true" alt="Project 3 Screenshot"></div>
+                        <div class="project-info">
+                            <h3 class="project-title">Fiskil</h3>
+                            <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nec urna ac tellus volutpat viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ============================ END: PROJECTS SECTION ============================ -->
+            
+            <!-- ============================ START: TESTIMONIALS SECTION ============================ -->
+            <section class="section testimonials-section" id="testimonials">
+                <div class="container">
+                    <div class="section-title-container">
+                        <h2 class="section-title">Nice things people have said about me:</h2>
+                    </div>
+                    <div class="testimonials-grid">
+                        <div class="testimonial-card">
+                            <p class="testimonial-quote">“Job well done! I am really impressed. He is very very good at what he does:) I would recommend Sagar and will rehire in the future for Frontend development.”</p>
+                            <p class="testimonial-author">John Doe</p>
+                            <p class="testimonial-author-title">Founder - xyz.com</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <p class="testimonial-quote">“Great guy, highly recommended for any COMPLEX front-end development job! His skills are top-notch and he will be an amazing addition to any team.”</p>
+                            <p class="testimonial-author">John Doe</p>
+                            <p class="testimonial-author-title">Founder - abc.com</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <p class="testimonial-quote">“Sagar was extremely easy and pleasant to work with and he truly cares about the project being a success. Sagar has a high level of knowledge and was able to work on my MERN stack application without any issues.”</p>
+                            <p class="testimonial-author">John Doe</p>
+                            <p class="testimonial-author-title">Freelancer</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ============================ END: TESTIMONIALS SECTION ============================ -->
 
-<section id="contact">
-  <h2>Contact Me</h2>
-  <form>
-    <input type="text" placeholder="Your Name" required>
-    <input type="email" placeholder="Your Email" required>
-    <textarea placeholder="Your Message" rows="5" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
-</section>
+            <!-- ============================ START: CONTACT SECTION ============================ -->
+            <section class="section contact-section" id="contact">
+                <div class="container contact-section-content">
+                    <div class="section-title-container">
+                        <h2 class="section-title">What’s next? Feel free to reach out to me if you're looking for a developer, have a query, or simply want to connect.</h2>
+                    </div>
+                    <div class="contact-info">
+                        <a class="contact-email" href="mailto:labib78780@gmail.com"><i class="fas fa-envelope"></i> labib78780@gmail.com</a>
+                        <a class="contact-phone" href="tel:+8801301149994"><i class="fas fa-phone"></i> +880 1301149994</a>
+                        <p class="social-platforms-text">You may also find me on these platforms!</p>
+                        <div class="social-icons">
+                            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ============================ END: CONTACT SECTION ============================ -->
+        </main>
+    </div>
 
-<!-- Admin modal -->
-<div id="admin">
-  <!-- blur overlay for login only -->
-  <div id="admin-login-overlay"></div>
+    <!-- ============================ START: FOOTER SECTION ============================ -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">2025 | Designed and coded with ❤️️ by Labib</p>
+        </div>
+    </footer>
+    <!-- ============================ END: FOOTER SECTION ============================ -->
+    
+    <script>
+        // JavaScript for mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeBtn = document.getElementById('close-menu-btn');
+            const menuLinks = document.querySelectorAll('.mobile-menu-links a');
 
-  <!-- Floating login box -->
-  <div class="login-box">
-    <h2>Admin Login</h2>
-    <input type="password" id="admin-password" placeholder="Enter Admin Password">
-    <button onclick="checkAdminPassword()">Login</button>
-  </div>
+            function openMenu() {
+                mobileMenu.classList.add('active');
+            }
 
-  <!-- Admin panel content -->
-  <div id="admin-content">
-    <h2>Admin Panel</h2>
-    <form id="admin-form">
-      <input type="text" id="title" placeholder="Project Title" required>
-      <input type="text" id="image" placeholder="Image URL" required>
-      <input type="text" id="link" placeholder="Project Link" required>
-      <textarea id="description" placeholder="Project Description" rows="4" required></textarea>
-      <button type="submit">Add Project</button>
-    </form>
-  </div>
-</div>
+            function closeMenu() {
+                mobileMenu.classList.remove('active');
+            }
 
-<footer>
-  &copy; 2025 Labib Sharker. All Rights Reserved.
-</footer>
+            if (hamburger) {
+                hamburger.addEventListener('click', openMenu);
+            }
 
-<script>
-const projects = [];
-const projectList = document.getElementById("project-list");
-const admin = document.getElementById("admin");
-const adminContent = document.getElementById("admin-content");
-const adminForm = document.getElementById("admin-form");
-const ADMIN_PASSWORD = "La12345"; // change password
-const adminOverlay = document.getElementById("admin-login-overlay");
-
-function loadProjects(){
-  projectList.innerHTML = "";
-  projects.forEach(proj=>{
-    const div = document.createElement("div");
-    div.classList.add("project");
-    div.innerHTML = `<img src="${proj.image}" alt="${proj.title}"><h3>${proj.title}</h3><p>${proj.description}</p><a href="${proj.link}" target="_blank">View Project</a>`;
-    projectList.appendChild(div);
-  });
-}
-
-adminForm.addEventListener("submit", function(e){
-  e.preventDefault();
-  const title = document.getElementById("title").value;
-  const image = document.getElementById("image").value;
-  const link = document.getElementById("link").value;
-  const description = document.getElementById("description").value;
-  projects.push({title,image,link,description});
-  loadProjects();
-  adminForm.reset();
-});
-
-function checkAdminPassword(){
-  const pass = document.getElementById("admin-password").value;
-  if(pass === ADMIN_PASSWORD){
-    adminOverlay.style.display="none";
-    document.querySelector(".login-box").style.display="none";
-    adminContent.style.display="block";
-  } else {
-    alert("Incorrect password!");
-  }
-}
-
-// Show admin modal if URL hash is #admin
-window.addEventListener("DOMContentLoaded", ()=>{
-  if(window.location.hash === "#admin"){
-    admin.style.display="block";
-    adminOverlay.style.display="block";
-  }
-});
-
-loadProjects();
-</script>
-
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeMenu);
+            }
+            
+            // Close menu when a link is clicked
+            menuLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+        });
+    </script>
 </body>
 </html>
-
-
-
-
