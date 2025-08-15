@@ -274,26 +274,43 @@
                 height: 704px;
                 display: flex;
                 align-items: center;
+                position: relative; /* allow absolute positioning inside */
             }
+
             .hero-content {
                 flex-direction: row;
                 justify-content: space-between;
                 width: 100%;
             }
+
             .hero-text {
                 order: 1; /* Text first on desktop */
                 width: 500px;
                 text-align: left;
                 margin-top: 0;
             }
-            .hero-text .name { font-size: 64px; line-height: 1.1; margin: 16px 0 24px 0; }
-            .hero-text .description { font-size: 24px; line-height: 1.5; max-width: none; margin: 0; }
-            
+
+            .hero-text .name { 
+                font-size: 64px; 
+                line-height: 1.1; 
+                margin: 16px 0 24px 0; 
+            }
+
+            .hero-text .description { 
+                font-size: 24px; 
+                line-height: 1.5; 
+                max-width: none; 
+                margin: 0; 
+            }
+
             .hero-image-wrapper {
-                order: 2; /* Image second on desktop */
-                width: 480px; /* Adjusted size */
+                position: absolute; /* float it */
+                top: 0; /* stick to the top */
+                right: 0; /* stick to the right */
+                width: 680px; /* control size */
                 height: auto;
             }
+
             
             /* General Section Adjustments for Desktop */
             .section { padding: 96px 80px; }
