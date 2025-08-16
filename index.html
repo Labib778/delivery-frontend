@@ -324,32 +324,8 @@
                             Here you'll find my thoughts, insights, and latest articles on design, creativity, and industry trends.
                         </p>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105">
-                            <img src="https://via.placeholder.com/400x250/E2E8F0/1A202C?text=Blog+Image+1" alt="Blog Post Image" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <h3 class="text-dark-text text-xl font-semibold mb-2">The Power of Minimalism in Design</h3>
-                                <p class="text-subtle-gray text-base mb-4">Explore how less can truly be more in graphic design and its impact on user experience.</p>
-                                <a href="#" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
-                            </div>
+                    <div id="blog-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                         </div>
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105">
-                            <img src="https://via.placeholder.com/400x250/E2E8F0/1A202C?text=Blog+Image+2" alt="Blog Post Image" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <h3 class="text-dark-text text-xl font-semibold mb-2">Trends in Motion Graphics for 2025</h3>
-                                <p class="text-subtle-gray text-base mb-4">A look into the exciting new directions motion graphics are taking this year.</p>
-                                <a href="#" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105">
-                            <img src="https://via.placeholder.com/400x250/E2E8F0/1A202C?text=Blog+Image+3" alt="Blog Post Image" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <h3 class="text-dark-text text-xl font-semibold mb-2">Developing a Strong Brand Narrative</h3>
-                                <p class="text-subtle-gray text-base mb-4">Tips and tricks for building a compelling story around your brand through design.</p>
-                                <a href="#" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
             <section class="py-12 md:py-24 bg-white" id="contact">
@@ -445,74 +421,184 @@
                 }
             });
 
-            // --- Project Loading Logic ---
-            const projectsContainer = document.getElementById('projects-container');
+            // ==============================================================================
+            // INSTRUCTIONS:
+            // To add a new project, simply add a new object to the `projects` array below.
+            // The HTML will be generated automatically.
+            // To make a project appear later (for the 'See More' functionality),
+            // set `loadStage: 'first-load'` or `loadStage: 'full-load'`.
+            // To make it appear immediately, remove the `loadStage` property.
+            // ==============================================================================
+            const projects = [
+                {
+                    // Project 1
+                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png',
+                    title: 'Fiskil: A Modern Banking App UI',
+                    description: 'Designed a clean and intuitive user interface for a fictional mobile banking application. The project focused on creating a seamless user experience for managing finances, making payments, and tracking savings.',
+                    imageRight: false
+                },
+                {
+                    // Project 2
+                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png',
+                    title: 'Aura: Travel Booking Website Redesign',
+                    description: 'Complete redesign of a travel booking website. The project aimed to improve user navigation, integrate stunning visual elements, and streamline the booking process to enhance user engagement and conversion rates.',
+                    imageRight: true
+                },
+                {
+                    // Project 3
+                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png',
+                    title: 'Nexus: Branding for a Tech Conference',
+                    description: 'Developed a comprehensive brand identity for a new technology conference, including a logo, color palette, typography, and a suite of promotional materials. The branding captured the innovative and forward-thinking nature of the event.',
+                    imageRight: false
+                },
+                {
+                    // Project 4 - Hidden on initial load, appears with 'See More'
+                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png',
+                    title: 'Digital Campaign for a Local Cafe',
+                    description: 'Created a full-suite digital marketing campaign for a local cafe, including social media graphics, a loyalty app UI, and email templates. The design focused on creating a warm and inviting brand presence that boosted customer engagement.',
+                    loadStage: 'first-load',
+                    imageRight: true
+                },
+                {
+                    // Project 5 - Hidden on initial load, appears with 'See More'
+                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png',
+                    title: 'Book Cover Design for a Sci-Fi Novel',
+                    description: 'Designed a compelling book cover for a new sci-fi novel. The project required capturing the futuristic and mysterious tone of the story through typography, color, and visual elements, resulting in a design that stands out on the shelf.',
+                    loadStage: 'first-load',
+                    imageRight: false
+                },
+                {
+                    // Project 6 - Hidden on initial load, appears with 'See All'
+                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png',
+                    title: 'Infographic Series for a Health Campaign',
+                    description: 'Developed a series of clear and concise infographics to communicate complex health data. The project utilized vibrant colors and simple icons to make the information accessible and engaging for a wide audience.',
+                    loadStage: 'full-load',
+                    imageRight: true
+                },
+                {
+                    // Project 7 - Hidden on initial load, appears with 'See All'
+                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png',
+                    title: 'Website Landing Page for a New Startup',
+                    description: 'Designed a visually striking and highly converting landing page for a new tech startup. The design focused on a strong hero section, clear calls-to-action, and a clean layout that guided users through the product\'s benefits.',
+                    loadStage: 'full-load',
+                    imageRight: false
+                }
+            ];
+            
+            // Data for the blog posts
+            const blogPosts = [
+                {
+                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png',
+                    title: 'The Power of Minimalism in Design',
+                    description: 'Explore how less can truly be more in graphic design and its impact on user experience.',
+                    link: '#'
+                },
+                {
+                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png',
+                    title: 'Trends in Motion Graphics for 2025',
+                    description: 'A look into the exciting new directions motion graphics are taking this year.',
+                    link: '#'
+                },
+                {
+                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png',
+                    title: 'Developing a Strong Brand Narrative',
+                    description: 'Tips and tricks for building a compelling story around your brand through design.',
+                    link: '#'
+                }
+            ];
+
+            // Function to create the HTML for a single project
+            const createProjectHtml = (project) => {
+                const imageOrder = project.imageRight ? 'order-2 md:order-2' : 'order-1 md:order-1';
+                const textOrder = project.imageRight ? 'order-1 md:order-1' : 'order-2 md:order-2';
+                const loadAttribute = project.loadStage ? `data-load-stage="${project.loadStage}"` : '';
+
+                return `
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center project-item relative" ${loadAttribute}>
+                        <div class="p-8 md:w-1/2 ${textOrder}">
+                            <h3 class="text-dark-text text-lg font-semibold mb-4">${project.title}</h3>
+                            <p class="text-subtle-gray text-base leading-relaxed">${project.description}</p>
+                        </div>
+                        <div class="md:w-1/2 ${imageOrder}">
+                            <img src="${project.imageSrc}"
+                                alt="${project.title} image"
+                                class="w-full h-auto object-cover"
+                                onerror="this.onerror=null; this.src='https://placehold.co/600x400/E2E8F0/1A202C?text=Image+Not+Found'">
+                        </div>
+                    </div>
+                `;
+            };
+            
+            // Function to create the HTML for a single blog post
+            const createBlogHtml = (post) => {
+                return `
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105">
+                        <img src="${post.imageSrc}" alt="Blog Post Image" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-dark-text text-xl font-semibold mb-2">${post.title}</h3>
+                            <p class="text-subtle-gray text-base mb-4">${post.description}</p>
+                            <a href="${post.link}" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
+                        </div>
+                    </div>
+                `;
+            };
+
+            // Function to render the projects
+            const renderProjects = () => {
+                const projectsContainer = document.getElementById('projects-container');
+                projectsContainer.innerHTML = projects.map(createProjectHtml).join('');
+            };
+            
+            // Function to render the blog posts
+            const renderBlogPosts = () => {
+                const blogContainer = document.getElementById('blog-container');
+                blogContainer.innerHTML = blogPosts.map(createBlogHtml).join('');
+            };
+            
+            renderProjects();
+            renderBlogPosts();
+            
+            // Now that all projects are rendered, we can manage their visibility
+            const firstLoadProjects = document.querySelectorAll('[data-load-stage="first-load"]');
+            const fullLoadProjects = document.querySelectorAll('[data-load-stage="full-load"]');
+            
             const loadMoreBtn = document.getElementById('load-more-btn');
             const showAllBtn = document.getElementById('show-all-btn');
-            let allProjects = []; // To store all projects after fetching
 
-            // Function to fetch and display projects
-            async function loadProjects() {
-                try {
-                    const response = await fetch('projects.html');
-                    const text = await response.text();
-                    
-                    // Create a temporary div to parse the fetched HTML
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = text;
-                    
-                    // Get all project items from the fetched HTML
-                    allProjects = Array.from(tempDiv.querySelectorAll('.project-item'));
+            // Hide the projects that are not part of the initial load
+            firstLoadProjects.forEach(p => p.classList.add('hidden'));
+            fullLoadProjects.forEach(p => p.classList.add('hidden'));
 
-                    // Initially display the first 3 projects (or fewer if less than 3)
-                    displayProjects(allProjects.slice(0, 3));
-
-                    // If there are more than 3 projects, show the "See More" button
-                    if (allProjects.length > 3) {
-                        loadMoreBtn.style.display = 'block'; // Or 'flex' depending on your layout
-                    } else {
-                        loadMoreBtn.style.display = 'none';
-                    }
-
-                } catch (error) {
-                    console.error('Error loading projects:', error);
-                    projectsContainer.innerHTML = '<p class="text-red-500 text-center">Failed to load projects. Please try again later.</p>';
-                }
-            }
-
-            // Function to append projects to the container with transition
-            const displayProjects = (projectsToDisplay) => {
-                projectsToDisplay.forEach(project => {
-                    projectsContainer.appendChild(project);
-                    // Force reflow for transition
-                    void project.offsetWidth; 
+            const showProjects = (projectsToShow) => {
+                projectsToShow.forEach(project => {
+                    project.classList.remove('hidden');
+                    // Force a reflow before applying the visible class for the transition to work
+                    void project.offsetWidth;
                     project.classList.add('visible');
                 });
             };
 
-            // "See More" button functionality
             if (loadMoreBtn) {
                 loadMoreBtn.addEventListener('click', function() {
-                    // Display the next 2 projects (from index 3 to 4)
-                    displayProjects(allProjects.slice(3, 5)); 
-                    loadMoreBtn.style.display = 'none';
-                    if (showAllBtn && allProjects.length > 5) { // Only show "See All" if there are more projects
+                    showProjects(firstLoadProjects);
+                    loadMoreBtn.style.display = 'none'; 
+                    if (showAllBtn) {
                         showAllBtn.classList.remove('hidden');
                     }
                 });
             }
 
-            // "See All" button functionality
             if (showAllBtn) {
                 showAllBtn.addEventListener('click', function() {
-                    // Display all remaining projects (from index 5 onwards)
-                    displayProjects(allProjects.slice(5)); 
+                    showProjects(fullLoadProjects);
                     showAllBtn.style.display = 'none';
                 });
             }
-
-            // Load projects when the page loads
-            loadProjects();
+            
+            // Show the "See More" button if there are projects to load
+            if (firstLoadProjects.length > 0) {
+                loadMoreBtn.style.display = 'block';
+            }
         });
     </script>
 </body>
