@@ -280,7 +280,8 @@
                     </div>
                     
                     <div class="flex flex-col space-y-16 max-w-6xl mx-auto" id="projects-container">
-                        </div>
+                        <!-- Projects will be dynamically inserted here by the JavaScript -->
+                    </div>
 
                     <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mt-12">
                         <button id="load-more-btn" class="bg-dark-text text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-subtle-gray transition-colors duration-300">
@@ -288,6 +289,9 @@
                         </button>
                         <button id="show-all-btn" class="bg-white text-dark-text font-semibold py-3 px-8 rounded-full shadow-lg border border-gray-300 hidden hover:bg-light-secondary transition-colors duration-300">
                             See All Projects
+                        </button>
+                        <button id="hide-projects-btn" class="bg-gray-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg hidden hover:bg-gray-600 transition-colors duration-300">
+                            Hide Projects
                         </button>
                     </div>
                 </div>
@@ -325,7 +329,8 @@
                         </p>
                     </div>
                     <div id="blog-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                        </div>
+                        <!-- Blog posts will be dynamically inserted here by the JavaScript -->
+                    </div>
                 </div>
             </section>
             <section class="py-12 md:py-24 bg-white" id="contact">
@@ -564,11 +569,9 @@
             
             const loadMoreBtn = document.getElementById('load-more-btn');
             const showAllBtn = document.getElementById('show-all-btn');
+            const hideProjectsBtn = document.getElementById('hide-projects-btn');
 
-            // Hide the projects that are not part of the initial load
-            firstLoadProjects.forEach(p => p.classList.add('hidden'));
-            fullLoadProjects.forEach(p => p.classList.add('hidden'));
-
+            // Function to show projects with a transition
             const showProjects = (projectsToShow) => {
                 projectsToShow.forEach(project => {
                     project.classList.remove('hidden');
@@ -578,26 +581,79 @@
                 });
             };
 
+            // Function to hide projects with a transition
+            const hideProjects = (projectsToHide) => {
+                projectsToHide.forEach(project => {
+                    project.classList.remove('visible');
+                    // Listen for the end of the transition to hide the element completely
+                    const onTransitionEnd = () => {
+                        project.classList.add('hidden');
+                        project.removeEventListener('transitionend', onTransitionEnd);
+                    };
+                    project.addEventListener('transitionend', onTransitionEnd);
+                });
+            };
+
+            // Initially hide the projects that are not part of the first load
+            firstLoadProjects.forEach(p => p.classList.add('hidden'));
+            fullLoadProjects.forEach(p => p.classList.add('hidden'));
+
             if (loadMoreBtn) {
                 loadMoreBtn.addEventListener('click', function() {
+                    // Show the 'first-load' projects
                     showProjects(firstLoadProjects);
-                    loadMoreBtn.style.display = 'none'; 
+                    // Hide the 'See More' button
+                    loadMoreBtn.classList.add('hidden');
+                    // Show the 'See All' and 'Hide' buttons
                     if (showAllBtn) {
                         showAllBtn.classList.remove('hidden');
+                    }
+                    if (hideProjectsBtn) {
+                        hideProjectsBtn.classList.remove('hidden');
                     }
                 });
             }
 
             if (showAllBtn) {
                 showAllBtn.addEventListener('click', function() {
+                    // Show all remaining projects
                     showProjects(fullLoadProjects);
-                    showAllBtn.style.display = 'none';
+                    // Hide the 'See All' button
+                    showAllBtn.classList.add('hidden');
+                    // Ensure the 'Hide' button is visible
+                    if (hideProjectsBtn) {
+                        hideProjectsBtn.classList.remove('hidden');
+                    }
+                });
+            }
+
+            if (hideProjectsBtn) {
+                hideProjectsBtn.addEventListener('click', function() {
+                    // We need to determine if we're hiding projects from 'See More' or 'See All'
+                    // The 'showAllBtn' being hidden means 'See All' was clicked.
+                    if (showAllBtn.classList.contains('hidden')) {
+                        // User clicked 'See All' then 'Hide'
+                        hideProjects(fullLoadProjects);
+                        hideProjects(firstLoadProjects);
+                    } else {
+                        // User clicked 'See More' then 'Hide'
+                        hideProjects(firstLoadProjects);
+                    }
+
+                    // Always restore the 'See More' button
+                    loadMoreBtn.classList.remove('hidden'); 
+                    // Always hide the 'See All' and 'Hide' buttons after a hide action
+                    showAllBtn.classList.add('hidden');
+                    hideProjectsBtn.classList.add('hidden');
                 });
             }
             
-            // Show the "See More" button if there are projects to load
+            // On initial page load, check if the 'See More' button should be shown
+            // It should be visible only if there are projects in the 'first-load' stage
             if (firstLoadProjects.length > 0) {
-                loadMoreBtn.style.display = 'block';
+                loadMoreBtn.classList.remove('hidden');
+            } else {
+                loadMoreBtn.classList.add('hidden');
             }
         });
     </script>
