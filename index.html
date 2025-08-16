@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome for social and contact icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Custom Tailwind configuration for the new color palette -->
     <script>
@@ -57,9 +57,20 @@
 
     <!-- ============================ START: HEADER SECTION ============================ -->
     <header class="sticky top-0 z-50 w-full bg-white bg-opacity-90 backdrop-blur-sm shadow-md border-b border-gray-200">
-        <div class="container mx-auto flex justify-between items-center py-4">
+        <div class="container mx-auto flex justify-between items-center py-4 px-4">
             <a href="#" class="font-bold text-2xl text-dark-text">Labib</a>
             
+            <!-- Desktop Navigation Links (Visible on medium screens and up) -->
+            <nav class="hidden md:flex flex-row space-x-6">
+                <a href="#about-me" class="text-subtle-gray font-medium hover:text-accent-blue transition-colors">About</a>
+                <a href="#services" class="text-subtle-gray font-medium hover:text-accent-blue transition-colors">Services</a>
+                <a href="#work" class="text-subtle-gray font-medium hover:text-accent-blue transition-colors">Work</a>
+                <a href="#experience" class="text-subtle-gray font-medium hover:text-accent-blue transition-colors">Experience</a>
+                <a href="#testimonials" class="text-subtle-gray font-medium hover:text-accent-blue transition-colors">Testimonials</a>
+                <a href="#blog" class="text-subtle-gray font-medium hover:text-accent-blue transition-colors">Blog</a>
+                <a href="#contact" class="text-subtle-gray font-medium hover:text-accent-blue transition-colors">Contact</a>
+            </nav>
+
             <!-- Mobile Menu Button (Hamburger) -->
             <button id="hamburger-menu" class="md:hidden p-2 text-dark-text">
                 <div class="space-y-1.5">
@@ -68,15 +79,18 @@
                     <span class="block w-6 h-0.5 bg-dark-text rounded-full bar bar3"></span>
                 </div>
             </button>
-
-            <!-- Desktop Navigation -->
-            <nav id="nav-menu" class="hidden md:flex flex-col md:flex-row absolute md:relative top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out py-4 md:py-0 px-2 md:px-0 rounded-b-lg md:rounded-none">
-                <a href="#about" class="block py-2 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">About</a>
-                <a href="#work" class="block py-2 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Work</a>
-                <a href="#testimonials" class="block py-2 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Testimonials</a>
-                <a href="#contact" class="block py-2 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Contact</a>
-            </nav>
         </div>
+
+        <!-- Mobile Menu (Hidden on medium screens and up) -->
+        <nav id="nav-menu-mobile" class="hidden md:hidden flex-col bg-white shadow-lg transition-all duration-300 ease-in-out">
+            <a href="#about-me" class="block py-3 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">About</a>
+            <a href="#services" class="block py-3 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Services</a>
+            <a href="#work" class="block py-3 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Work</a>
+            <a href="#experience" class="block py-3 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Experience</a>
+            <a href="#testimonials" class="block py-3 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Testimonials</a>
+            <a href="#blog" class="block py-3 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Blog</a>
+            <a href="#contact" class="block py-3 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Contact</a>
+        </nav>
     </header>
     <!-- ============================ END: HEADER SECTION ============================ -->
     
@@ -106,8 +120,24 @@
         </section>
         <!-- ============================ END: HERO SECTION ============================ -->
 
+        <!-- ============================ START: ABOUT ME SECTION ============================ -->
+        <section class="py-12 md:py-24 bg-light-primary" id="about-me">
+            <div class="container mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-accent-blue text-3xl md:text-4xl font-bold mb-4">About Me</h2>
+                    <p class="text-subtle-gray text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+                        I am a dedicated graphic designer with a strong background in visual communication and a passion for crafting impactful designs. My journey in design began with a fascination for how visuals can convey complex messages simply and beautifully.
+                    </p>
+                    <p class="text-subtle-gray text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mt-4">
+                        Over the years, I've had the privilege of working with diverse clients, from startups to established agencies, helping them achieve their marketing and branding goals through creative design solutions. I believe in continuous learning and staying updated with the latest design trends and technologies to deliver cutting-edge results. When I'm not designing, you can find me exploring new art forms, reading about design history, or enjoying nature.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- ============================ END: ABOUT ME SECTION ============================ -->
+
         <!-- ============================ START: SKILLS SECTION ============================ -->
-        <section class="py-12 md:py-24 bg-light-primary" id="skills">
+        <section class="py-12 md:py-24 bg-white" id="skills">
             <div class="container mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold">The skills, tools and technologies I am really good at:</h2>
@@ -158,8 +188,59 @@
         </section>
         <!-- ============================ END: SKILLS SECTION ============================ -->
 
+        <!-- ============================ START: SERVICES SECTION ============================ -->
+        <section class="py-12 md:py-24 bg-light-primary" id="services">
+            <div class="container mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-accent-blue text-3xl md:text-4xl font-bold mb-4">My Services</h2>
+                    <p class="text-subtle-gray text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+                        I offer a wide range of graphic design services tailored to meet your unique needs. My goal is to help you communicate your message effectively and beautifully.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    <!-- Service 1 -->
+                    <div class="bg-white rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105">
+                        <i class="fas fa-palette text-accent-blue text-5xl mb-4"></i>
+                        <h3 class="text-dark-text text-xl font-semibold mb-2">Brand Identity & Logo Design</h3>
+                        <p class="text-subtle-gray text-base leading-relaxed">Crafting unique and memorable brand identities that resonate with your audience and leave a lasting impression.</p>
+                    </div>
+                    <!-- Service 2 -->
+                    <div class="bg-white rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105">
+                        <i class="fas fa-brush text-accent-blue text-5xl mb-4"></i>
+                        <h3 class="text-dark-text text-xl font-semibold mb-2">Digital Illustration</h3>
+                        <p class="text-subtle-gray text-base leading-relaxed">Creating custom digital illustrations for various applications, including websites, apps, and marketing materials.</p>
+                    </div>
+                    <!-- Service 3 -->
+                    <div class="bg-white rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105">
+                        <i class="fas fa-film text-accent-blue text-5xl mb-4"></i>
+                        <h3 class="text-dark-text text-xl font-semibold mb-2">Motion Graphics</h3>
+                        <p class="text-subtle-gray text-base leading-relaxed">Bringing static designs to life with dynamic motion graphics for explainer videos, social media, and presentations.</p>
+                    </div>
+                    <!-- Service 4 -->
+                    <div class="bg-white rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105">
+                        <i class="fas fa-mobile-alt text-accent-blue text-5xl mb-4"></i>
+                        <h3 class="text-dark-text text-xl font-semibold mb-2">UI/UX Design</h3>
+                        <p class="text-subtle-gray text-base leading-relaxed">Designing intuitive and engaging user interfaces and experiences for web and mobile applications.</p>
+                    </div>
+                    <!-- Service 5 -->
+                    <div class="bg-white rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105">
+                        <i class="fas fa-print text-accent-blue text-5xl mb-4"></i>
+                        <h3 class="text-dark-text text-xl font-semibold mb-2">Print Design</h3>
+                        <p class="text-subtle-gray text-base leading-relaxed">Developing high-quality print materials such as brochures, flyers, posters, and business cards.</p>
+                    </div>
+                    <!-- Service 6 -->
+                    <div class="bg-white rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105">
+                        <i class="fas fa-chart-line text-accent-blue text-5xl mb-4"></i>
+                        <h3 class="text-dark-text text-xl font-semibold mb-2">Marketing Collateral</h3>
+                        <p class="text-subtle-gray text-base leading-relaxed">Creating compelling visual assets for digital marketing campaigns, social media, and advertising.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================ END: SERVICES SECTION ============================ -->
+
         <!-- ============================ START: EXPERIENCE SECTION ============================ -->
-        <section class="py-12 md:py-24 bg-white text-dark-text" id="about">
+        <section class="py-12 md:py-24 bg-white text-dark-text" id="experience">
             <div class="container mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold">Here is a quick summary of my most recent experiences:</h2>
@@ -283,8 +364,50 @@
             </section>
             <!-- ============================ END: TESTIMONIALS SECTION ============================ -->
 
+            <!-- ============================ START: BLOG SECTION ============================ -->
+            <section class="py-12 md:py-24 bg-light-primary" id="blog">
+                <div class="container mx-auto">
+                    <div class="text-center mb-12">
+                        <h2 class="text-accent-blue text-3xl md:text-4xl font-bold mb-4">My Blog</h2>
+                        <p class="text-subtle-gray text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+                            Here you'll find my thoughts, insights, and latest articles on design, creativity, and industry trends.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                        <!-- Blog Post 1 -->
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105">
+                            <img src="https://via.placeholder.com/400x250/E2E8F0/1A202C?text=Blog+Image+1" alt="Blog Post Image" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-dark-text text-xl font-semibold mb-2">The Power of Minimalism in Design</h3>
+                                <p class="text-subtle-gray text-base mb-4">Explore how less can truly be more in graphic design and its impact on user experience.</p>
+                                <a href="#" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
+                            </div>
+                        </div>
+                        <!-- Blog Post 2 -->
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105">
+                            <img src="https://via.placeholder.com/400x250/E2E8F0/1A202C?text=Blog+Image+2" alt="Blog Post Image" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-dark-text text-xl font-semibold mb-2">Trends in Motion Graphics for 2025</h3>
+                                <p class="text-subtle-gray text-base mb-4">A look into the exciting new directions motion graphics are taking this year.</p>
+                                <a href="#" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
+                            </div>
+                        </div>
+                        <!-- Blog Post 3 -->
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105">
+                            <img src="https://via.placeholder.com/400x250/E2E8F0/1A202C?text=Blog+Image+3" alt="Blog Post Image" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-dark-text text-xl font-semibold mb-2">Developing a Strong Brand Narrative</h3>
+                                <p class="text-subtle-gray text-base mb-4">Tips and tricks for building a compelling story around your brand through design.</p>
+                                <a href="#" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ============================ END: BLOG SECTION ============================ -->
+
             <!-- ============================ START: CONTACT SECTION ============================ -->
-            <section class="py-12 md:py-24 bg-light-primary" id="contact">
+            <section class="py-12 md:py-24 bg-white" id="contact">
                 <div class="container mx-auto">
                     <div class="text-center mb-12 max-w-2xl mx-auto">
                         <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold">What’s next? Feel free to reach out to me if you're looking for a designer, have a query, or simply want to connect.</h2>
@@ -316,31 +439,22 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const hamburger = document.getElementById('hamburger-menu');
-            const navMenu = document.getElementById('nav-menu');
-            const menuLinks = navMenu.querySelectorAll('a');
+            const mobileNav = document.getElementById('nav-menu-mobile');
+            const mobileLinks = mobileNav.querySelectorAll('a');
 
-            function toggleMenu() {
-                hamburger.classList.toggle('active');
-                if (navMenu.classList.contains('hidden')) {
-                    navMenu.classList.remove('hidden');
-                    navMenu.classList.add('flex', 'flex-col');
-                } else {
-                    navMenu.classList.add('hidden');
-                    navMenu.classList.remove('flex', 'flex-col');
-                }
-            }
-
-            // Toggle menu when hamburger icon is clicked
             if (hamburger) {
-                hamburger.addEventListener('click', toggleMenu);
+                hamburger.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    mobileNav.classList.toggle('hidden');
+                });
             }
-            
-            // Close menu when a link is clicked
-            menuLinks.forEach(link => {
-                link.addEventListener('click', function(event) {
-                    // Check if it's a mobile view before closing the menu
-                    if (window.innerWidth < 768) {
-                        toggleMenu();
+
+            // Close mobile menu when a link is clicked
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (!mobileNav.classList.contains('hidden')) {
+                        hamburger.classList.remove('active');
+                        mobileNav.classList.add('hidden');
                     }
                 });
             });
@@ -348,5 +462,3 @@
     </script>
 </body>
 </html>
-
-
