@@ -148,14 +148,19 @@
         }
 
         .hero-image-wrapper {
-            position: absolute; /* float it */
-                top: 0; /* stick to the top */
-                right: 0; /* stick to the right */
-                width: 350px; /* control size */
-                height: auto;
+            width: 100%;
+            max-width: 350px; /* Control max size on mobile */
+            height: auto;
+            order: 1; /* Image first on mobile */
         }
         
-        
+        .hero-image-wrapper img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            object-fit: cover;
+            float: right;
+        }
 
         .hero-text {
             margin-top: 30px;
