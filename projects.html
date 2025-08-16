@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects</title>
+    <title>Portfolio</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter for a clean, modern look -->
@@ -78,6 +78,28 @@
                 imageRight: false
             }
         ];
+        
+        // Data for the blog posts
+        const blogPosts = [
+            {
+                imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png',
+                title: 'The Power of Minimalism in Design',
+                description: 'Explore how less can truly be more in graphic design and its impact on user experience.',
+                link: '#'
+            },
+            {
+                imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png',
+                title: 'Trends in Motion Graphics for 2025',
+                description: 'A look into the exciting new directions motion graphics are taking this year.',
+                link: '#'
+            },
+            {
+                imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png',
+                title: 'Developing a Strong Brand Narrative',
+                description: 'Tips and tricks for building a compelling story around your brand through design.',
+                link: '#'
+            }
+        ];
 
         // Function to create the HTML for a single project
         const createProjectHtml = (project) => {
@@ -100,6 +122,20 @@
                 </div>
             `;
         };
+        
+        // Function to create the HTML for a single blog post
+        const createBlogHtml = (post) => {
+            return `
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105">
+                    <img src="${post.imageSrc}" alt="Blog Post Image" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-dark-text text-xl font-semibold mb-2">${post.title}</h3>
+                        <p class="text-subtle-gray text-base mb-4">${post.description}</p>
+                        <a href="${post.link}" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
+                    </div>
+                </div>
+            `;
+        };
 
         // Function to render the projects
         const renderProjects = () => {
@@ -107,10 +143,15 @@
             projectsContainer.innerHTML = projects.map(createProjectHtml).join('');
         };
         
-        // This is a simplified script for a single file. 
-        // In the full portfolio, this logic would be in main_index.html to manage multiple sections.
+        // Function to render the blog posts
+        const renderBlogPosts = () => {
+            const blogContainer = document.getElementById('blog-container');
+            blogContainer.innerHTML = blogPosts.map(createBlogHtml).join('');
+        };
+        
         document.addEventListener('DOMContentLoaded', () => {
             renderProjects();
+            renderBlogPosts();
             
             // Now that all projects are rendered, we can manage their visibility
             const firstLoadProjects = document.querySelectorAll('[data-load-stage="first-load"]');
@@ -156,15 +197,39 @@
         });
     </script>
     
-    <div id="projects-container" class="space-y-12">
-        <!-- Projects will be dynamically inserted here by the JavaScript -->
-    </div>
-    
-    <!-- Buttons to control project visibility -->
-    <div class="flex justify-center mt-8 space-x-4">
-        <button id="load-more-btn" class="bg-accent-blue hover:bg-opacity-80 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hidden">See More</button>
-        <button id="show-all-btn" class="bg-dark-text hover:bg-opacity-80 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hidden">See All</button>
-    </div>
+    <!-- Projects Section -->
+    <section class="py-12 md:py-24" id="work">
+        <div class="container mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold">Some of the noteworthy projects I have built:</h2>
+            </div>
+            <div id="projects-container" class="space-y-12">
+                <!-- Projects will be dynamically inserted here by the JavaScript -->
+            </div>
+            
+            <!-- Buttons to control project visibility -->
+            <div class="flex justify-center mt-8 space-x-4">
+                <button id="load-more-btn" class="bg-accent-blue hover:bg-opacity-80 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hidden">See More</button>
+                <button id="show-all-btn" class="bg-dark-text hover:bg-opacity-80 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hidden">See All</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="py-12 md:py-24" id="blog">
+        <div class="container mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-dark-text text-3xl md:text-4xl font-bold mb-4">My Blog</h2>
+                <p class="text-subtle-gray text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+                    Here you'll find my thoughts, insights, and latest articles on design, creativity, and industry trends.
+                </p>
+            </div>
+            <div id="blog-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <!-- Blog posts will be dynamically inserted here by the JavaScript -->
+            </div>
+        </div>
+    </section>
 
 </body>
 </html>
+
