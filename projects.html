@@ -83,10 +83,10 @@
         const createProjectHtml = (project) => {
             const imageOrder = project.imageRight ? 'order-2 md:order-2' : 'order-1 md:order-1';
             const textOrder = project.imageRight ? 'order-1 md:order-1' : 'order-2 md:order-2';
-            const loadClass = project.loadStage ? ` ${project.loadStage} hidden` : '';
+            const loadAttribute = project.loadStage ? `data-load-stage="${project.loadStage}"` : '';
 
             return `
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center project-item relative${loadClass}">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center project-item relative" ${loadAttribute}>
                     <div class="p-8 md:w-1/2 ${textOrder}">
                         <h3 class="text-dark-text text-lg font-semibold mb-4">${project.title}</h3>
                         <p class="text-subtle-gray text-base leading-relaxed">${project.description}</p>
@@ -112,10 +112,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderProjects();
             
+            // Now that all projects are rendered, we can manage their visibility
+            const firstLoadProjects = document.querySelectorAll('[data-load-stage="first-load"]');
+            const fullLoadProjects = document.querySelectorAll('[data-load-stage="full-load"]');
+            
             const loadMoreBtn = document.getElementById('load-more-btn');
             const showAllBtn = document.getElementById('show-all-btn');
-            const firstLoadProjects = document.querySelectorAll('.more-projects-first-load');
-            const fullLoadProjects = document.querySelectorAll('.more-projects-full-load');
+
+            // Hide the projects that are not part of the initial load
+            firstLoadProjects.forEach(p => p.classList.add('hidden'));
+            fullLoadProjects.forEach(p => p.classList.add('hidden'));
 
             const showProjects = (projects) => {
                 projects.forEach(project => {
@@ -142,6 +148,11 @@
                     showAllBtn.style.display = 'none';
                 });
             }
+            
+            // Show the "See More" button if there are projects to load
+            if (firstLoadProjects.length > 0) {
+                loadMoreBtn.style.display = 'block';
+            }
         });
     </script>
     
@@ -151,7 +162,7 @@
     
     <!-- Buttons to control project visibility -->
     <div class="flex justify-center mt-8 space-x-4">
-        <button id="load-more-btn" class="bg-accent-blue hover:bg-opacity-80 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hidden" style="display: block;">See More</button>
+        <button id="load-more-btn" class="bg-accent-blue hover:bg-opacity-80 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hidden">See More</button>
         <button id="show-all-btn" class="bg-dark-text hover:bg-opacity-80 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hidden">See All</button>
     </div>
 
