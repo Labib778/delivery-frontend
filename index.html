@@ -83,7 +83,7 @@
 </head>
 <body class="bg-white text-dark-text">
 
-    <header class="w-full bg-white shadow-md border-b border-gray-200 relative z-50">
+    <header class="fixed top-0 left-0 w-full bg-white shadow-md border-b border-gray-200 z-50">
         <div class="container mx-auto flex justify-between items-center py-4 px-4">
             <a href="#" class="font-bold text-2xl text-dark-text">Labib</a>
             
@@ -118,7 +118,7 @@
             </div>
         </nav>
     </header>
-    <main>
+    <main class="pt-16">
         <section id="hero" class="py-1 md:py-1 bg-white text-dark-text relative overflow-hidden">
             <div class="max-w-screen-2xl mx-auto">
                 <div class="flex flex-col-reverse md:flex-row items-center md:justify-center gap-12">
@@ -128,6 +128,9 @@
                         <p class="text-subtle-gray text-base md:text-lg leading-relaxed max-w-lg mx-auto md:mx-0">
                             Hello! I'm Labib, a passionate graphic designer with a keen eye for creating stunning visuals that tell a story. I specialize in branding, digital illustration, and motion graphics, and I thrive on bringing ideas to life with creativity and precision. My goal is to craft designs that are not only beautiful but also effective and memorable.
                         </p>
+                        <a href="#work" class="mt-8 inline-block bg-accent-gold text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-accent-yellow transition-colors duration-300">
+                            Projects
+                        </a>
                     </div>
                     <div class="w-full md:w-3/5 mx-auto mt-12 md:mt-0 transform transition-transform duration-500 hover:scale-105">
                         <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/Profile_image.png"
@@ -274,12 +277,12 @@
                 </div>
             </section>
             <section class="py-12 md:py-24 bg-light-primary" id="work">
-                <div class="container mx-auto">
+                <div class="container mx-auto px-4">
                     <div class="text-center mb-12">
                         <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold">Some of the noteworthy projects I have built:</h2>
                     </div>
                     
-                    <div class="flex flex-col space-y-16 max-w-6xl mx-auto" id="projects-container">
+                    <div class="flex flex-col space-y-16 md:max-w-6xl mx-auto" id="projects-container">
                         <!-- Projects will be dynamically inserted here by the JavaScript -->
                     </div>
 
@@ -566,6 +569,7 @@
             // Now that all projects are rendered, we can manage their visibility
             const firstLoadProjects = document.querySelectorAll('[data-load-stage="first-load"]');
             const fullLoadProjects = document.querySelectorAll('[data-load-stage="full-load"]');
+            const projectsSection = document.getElementById('work'); // Get the projects section for scrolling
             
             const loadMoreBtn = document.getElementById('load-more-btn');
             const showAllBtn = document.getElementById('show-all-btn');
@@ -645,6 +649,11 @@
                     // Always hide the 'See All' and 'Hide' buttons after a hide action
                     showAllBtn.classList.add('hidden');
                     hideProjectsBtn.classList.add('hidden');
+                    
+                    // NEW: Scroll to the projects section smoothly
+                    if (projectsSection) {
+                        projectsSection.scrollIntoView({ behavior: 'smooth' });
+                    }
                 });
             }
             
