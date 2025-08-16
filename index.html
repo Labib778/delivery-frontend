@@ -1,474 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Labib's Portfolio</title>
+    <title>Labib's Portfolio | Redesigned</title>
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Font Awesome for social icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter for a clean, modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for social and contact icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Custom Tailwind configuration for the new color palette -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'light-primary': '#F1F5F9', // A light gray for backgrounds
+                        'light-secondary': '#E2E8F0', // A slightly darker gray
+                        'dark-text': '#1A202C', // Dark charcoal/navy for text
+                        'accent-blue': '#4299E1', // A modern blue for accents
+                        'accent-teal': '#6EE7B7', // A vibrant teal for highlights
+                        'subtle-gray': '#718096', // A neutral gray for secondary text
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* 
-        ========================================
-        BASE & RESET STYLES
-        ========================================
-        */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-size: 14px;
             font-family: 'Inter', sans-serif;
-            background-color: #FFF;
+            background-color: #F1F5F9;
         }
-        
-        /* 
-        ========================================
-        MOBILE-FIRST STYLES (Default)
-        ========================================
-        */
-        
-        /* Mobile Header */
-        .mobile-header {
-            width: 100%;
-            height: 60px;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(5px);
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            border-bottom: 1px solid #eee;
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-weight: bold;
-            font-size: 22px;
-            text-decoration: none;
-            color: #111827;
-        }
-        
-        .hamburger-menu {
-            width: 24px;
-            height: 17px;
-            position: relative;
-            cursor: pointer;
-        }
-
         .hamburger-menu .bar {
-            width: 24px;
-            height: 3px;
-            background: #000;
-            position: absolute;
-            transition: all 0.3s;
-            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
         }
-
-        .hamburger-menu .bar1 { top: 0; }
-        .hamburger-menu .bar2 { top: 7px; }
-        .hamburger-menu .bar3 { top: 14px; }
-        
-        /* Mobile Menu Panel */
-        .mobile-menu-panel {
-            position: fixed;
-            top: 0;
-            left: -100%; /* Start off-screen */
-            width: 80%;
-            max-width: 300px;
-            height: 100%;
-            background: white;
-            z-index: 1001;
-            overflow-y: auto;
-            transition: left 0.3s ease-in-out;
-            padding: 20px;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        .hamburger-menu.active .bar1 {
+            transform: translateY(8px) rotate(45deg);
         }
-
-        .mobile-menu-panel.active {
-            left: 0; /* Slide in */
+        .hamburger-menu.active .bar2 {
+            opacity: 0;
         }
-        
-        .mobile-menu-links {
-            list-style: none;
-            margin-top: 40px;
-        }
-        .mobile-menu-links li {
-            margin-bottom: 15px;
-        }
-        .mobile-menu-links a {
-            text-decoration: none;
-            color: #333;
-            font-size: 18px;
-            padding: 10px 0;
-            display: block;
-            font-weight: 500;
-        }
-        
-        .close-btn {
-            font-size: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            text-align: right;
-            color: #333;
-        }
-        
-        .main-container {
-            padding-top: 60px; /* Offset for fixed header */
-        }
-        
-        /* Hero Section (Mobile) */
-        .hero-section {
-            background: rgba(249,250,251,1);
-            padding: 40px 20px;
-            text-align: center;
-        }
-        
-        .hero-content {
-             display: flex;
-             flex-direction: column;
-             align-items: center;
-        }
-
-        .hero-image-wrapper {
-            width: 100%;
-            max-width: 350px; /* Control max size on mobile */
-            height: auto;
-            order: 1; /* Image first on mobile */
-        }
-        
-        .hero-image-wrapper img {
-            width: 100%;
-            height: auto;
-            max-width: 100%;
-            object-fit: cover;
-        }
-
-        .hero-text {
-            margin-top: 30px;
-            order: 2; /* Text second on mobile */
-        }
-
-
-        .hero-text .title {
-            color: rgba(253,196,53,1);
-            font-family: 'Nunito', sans-serif;
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .hero-text .name {
-            color: rgba(51,51,51,1);
-            font-family: 'Inter', sans-serif;
-            font-weight: bold;
-            font-size: 40px;
-            margin: 10px 0;
-        }
-
-        .hero-text .description {
-            color: rgba(130,130,130,1);
-            font-family: 'Nunito', sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            max-width: 344px;
-            margin: 0 auto;
-        }
-        
-        /* General Section Styling */
-        .section { padding: 64px 20px; }
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
-        .section-title-container { text-align: center; margin-bottom: 48px; }
-        .section-title { color: rgba(75,85,99,1); font-size: 20px; line-height: 1.4; }
-        
-        /* Skills Section */
-        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 20px; justify-items: center; }
-        .skill-item { text-align: center; }
-        .skill-icon { width: 74px; height: 74px; margin: 0 auto 12px auto; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-radius: 8px; }
-        .skill-name { color: rgba(75,85,99,1); font-size: 18px; }
-        
-        /* Experience Section */
-        .experience-section { background: rgba(249,250,251,1); }
-        .experience-card { background: #fff; border-radius: 12px; box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.06); padding: 32px; margin-bottom: 24px; }
-        .experience-title { color: rgba(17,24,39,1); font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-        .experience-date { color: rgba(55,65,81,1); font-size: 16px; margin-bottom: 16px; }
-        .experience-description { color: rgba(75,85,99,1); font-size: 16px; line-height: 1.6; }
-        .experience-description span { display: block; margin-bottom: 8px; }
-        
-        /* Projects Section */
-        .project-card { background: #fff; border-radius: 12px; box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.06); margin-bottom: 40px; overflow: hidden; }
-        .project-image img { width: 100%; height: auto; display: block; }
-        .project-info { padding: 32px; }
-        .project-title { color: rgba(17,24,39,1); font-size: 18px; font-weight: 600; margin-bottom: 16px; }
-        .project-description { color: rgba(75,85,99,1); font-size: 16px; line-height: 1.6; }
-        
-        /* Testimonials Section */
-        .testimonials-section { background: rgba(249,250,251,1); }
-        .testimonial-card { background: #fff; border-radius: 12px; box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.06); padding: 32px; margin-bottom: 24px; text-align: center; }
-        .testimonial-quote { color: rgba(75,85,99,1); font-size: 16px; line-height: 1.6; margin: 24px 0; }
-        .testimonial-author { color: rgba(17,24,39,1); font-size: 18px; font-weight: 600; }
-        .testimonial-author-title { color: rgba(75,85,99,1); font-size: 14px; }
-        
-        /* Contact Section */
-        .contact-info { text-align: center; }
-        .contact-email, .contact-phone { color: rgba(17,24,39,1); text-decoration: none; font-size: 18px; font-weight: 600; display: block; margin-bottom: 10px; word-break: break-all; }
-        .social-platforms-text { color: rgba(75,85,99,1); font-size: 16px; margin-top: 40px; margin-bottom: 20px; }
-        .social-icons a { color: rgba(75,85,99,1); font-size: 24px; margin: 0 10px; text-decoration: none; transition: color 0.3s; }
-        .social-icons a:hover { color: #fca311; }
-        
-        /* Footer */
-        .footer { background: rgba(249,250,251,1); padding: 20px; text-align: center; }
-        .footer-text { color: rgba(75,85,99,1); font-size: 14px; }
-
-        /* Hiding desktop elements on mobile */
-        .desktop-header { display: none; }
-
-
-        /* 
-        ========================================
-        DESKTOP STYLES (min-width: 769px)
-        ========================================
-        */
-        @media (min-width: 769px) {
-            .mobile-header, .mobile-menu-panel { display: none; }
-            .main-container { padding-top: 68px; }
-            .container { padding: 0 80px; }
-
-            .desktop-header {
-                display: flex;
-                width: 100%;
-                height: 68px;
-                background: rgba(255,255,255,0.9);
-                backdrop-filter: blur(5px);
-                justify-content: space-between;
-                align-items: center;
-                padding: 0 80px;
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 1000;
-                border-bottom: 1px solid #eee;
-            }
-            .desktop-nav { display: flex; gap: 32px; }
-            .desktop-nav a { text-decoration: none; color: #4B5563; font-size: 16px; font-weight: 500; transition: color 0.3s; }
-            .desktop-nav a:hover { color: #fca311; }
-
-            /* Desktop Hero Section */
-            .hero-section {
-                padding: 0;
-                height: 704px;
-                display: flex;
-                align-items: center;
-                position: relative; /* allow absolute positioning inside */
-            }
-
-            .hero-content {
-                flex-direction: row;
-                justify-content: space-between;
-                width: 100%;
-            }
-
-            .hero-text {
-                order: 1; /* Text first on desktop */
-                width: 500px;
-                text-align: left;
-                margin-top: 0;
-            }
-
-            .hero-text .name { 
-                font-size: 64px; 
-                line-height: 1.1; 
-                margin: 16px 0 24px 0; 
-            }
-
-            .hero-text .description { 
-                font-size: 24px; 
-                line-height: 1.5; 
-                max-width: none; 
-                margin: 0; 
-            }
-
-            .hero-image-wrapper {
-                position: absolute; /* float it */
-                top: 0; /* stick to the top */
-                right: 0; /* stick to the right */
-                width: 680px; /* control size */
-                height: auto;
-            }
-
-            
-            /* General Section Adjustments for Desktop */
-            .section { padding: 96px 80px; }
-            .section-title { font-size: 20px; max-width: 576px; margin: 0 auto; }
-            
-            /* Skills Section Desktop */
-            .skills-grid { display: flex; justify-content: center; gap: 80px; max-width: 930px; margin: 48px auto 0 auto; }
-            
-            /* Experience Section Desktop */
-            .experience-container { max-width: 896px; margin: 48px auto 0 auto; }
-            .experience-card { display: flex; align-items: flex-start; justify-content: space-between; gap: 48px; padding: 32px; }
-            .experience-details { flex-grow: 1; }
-            .experience-date { flex-shrink: 0; width: 161px; text-align: right; margin-bottom: 0; }
-            
-            /* Projects Section Desktop */
-            .projects-container { max-width: 1044px; margin: 48px auto 0 auto; }
-            .project-card { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 48px; }
-            .project-card:nth-child(even) .project-image { order: 2; }
-            .project-card:nth-child(even) .project-info { order: 1; }
-            
-            /* Testimonials Section Desktop */
-            .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1216px; margin: 48px auto 0 auto; }
-
-            /* Contact Section Desktop */
-            .contact-section-content { max-width: 576px; margin: 0 auto; }
-            .contact-info a { display: block; }
-            .contact-email, .contact-phone { font-size: 36px; }
+        .hamburger-menu.active .bar3 {
+            transform: translateY(-8px) rotate(-45deg);
         }
     </style>
 </head>
-<body>
+<body class="bg-white text-dark-text">
 
     <!-- ============================ START: HEADER SECTION ============================ -->
-    <header class="mobile-header">
-        <a href="#" class="logo">Labib</a>
-        <div class="hamburger-menu" id="hamburger-menu">
-            <div class="bar bar1"></div>
-            <div class="bar bar2"></div>
-            <div class="bar bar3"></div>
+    <header class="sticky top-0 z-50 w-full bg-white bg-opacity-90 backdrop-blur-sm shadow-md border-b border-gray-200">
+        <div class="container mx-auto flex justify-between items-center py-4 px-4 md:px-20">
+            <a href="#" class="font-bold text-2xl text-dark-text">Labib</a>
+            
+            <!-- Mobile Menu Button (Hamburger) -->
+            <button id="hamburger-menu" class="md:hidden p-2 text-dark-text">
+                <div class="space-y-1.5">
+                    <span class="block w-6 h-0.5 bg-dark-text rounded-full bar bar1"></span>
+                    <span class="block w-6 h-0.5 bg-dark-text rounded-full bar bar2"></span>
+                    <span class="block w-6 h-0.5 bg-dark-text rounded-full bar bar3"></span>
+                </div>
+            </button>
+
+            <!-- Desktop Navigation -->
+            <nav id="nav-menu" class="hidden md:flex flex-col md:flex-row absolute md:relative top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out py-4 md:py-0 px-4 md:px-0 rounded-b-lg md:rounded-none">
+                <a href="#about" class="block py-2 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">About</a>
+                <a href="#work" class="block py-2 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Work</a>
+                <a href="#testimonials" class="block py-2 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Testimonials</a>
+                <a href="#contact" class="block py-2 px-4 text-subtle-gray font-medium hover:text-accent-blue transition-colors">Contact</a>
+            </nav>
         </div>
     </header>
-    <header class="desktop-header">
-        <a href="#" class="logo">Labib</a>
-        <nav class="desktop-nav">
-            <a href="#about">About</a>
-            <a href="#work">Work</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
-    
-    <nav class="mobile-menu-panel" id="mobile-menu">
-        <div class="close-btn" id="close-menu-btn">&times;</div>
-        <ul class="mobile-menu-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#work">Work</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
     <!-- ============================ END: HEADER SECTION ============================ -->
     
-    <div class="main-container">
+    <main>
         <!-- ============================ START: HERO SECTION ============================ -->
-        <section class="hero-section">
-            <div class="container hero-content">
-                <div class="hero-text">
-                    <p class="title">Graphic Designer</p>
-                    <h1 class="name">Hi, I’m Labib👋</h1>
-                    <p class="description">Short text with details about you, what you do or your professional career. You can add more information on the about page.</p>
-                </div>
-                <div class="hero-image-wrapper">
-                    <img src="https://github.com/Labib778/delivery-frontend/blob/dd8af9ae97bc4834fe78bc84963d419d4dba7413/images/Profile_image.png?raw=true" alt="Profile picture of Labib">
+        <section id="hero" class="py-12 md:py-24 bg-white text-dark-text relative overflow-hidden">
+            <div class="container mx-auto px-4 md:px-20">
+                <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
+                    <!-- Text content container -->
+                    <div class="text-center md:text-left md:w-1/2">
+                        <p class="text-accent-blue font-bold text-lg md:text-xl mb-2">Graphic Designer</p>
+                        <h1 class="font-bold text-4xl md:text-6xl leading-tight mb-4">Hi, I’m Labib 👋</h1>
+                        <p class="text-subtle-gray text-base md:text-lg leading-relaxed max-w-lg mx-auto md:mx-0">
+                            Hello! I'm Labib, a passionate graphic designer with a keen eye for creating stunning visuals that tell a story. I specialize in branding, digital illustration, and motion graphics, and I thrive on bringing ideas to life with creativity and precision. My goal is to craft designs that are not only beautiful but also effective and memorable.
+                        </p>
+                    </div>
+                    <!-- Profile image container -->
+                    <div class="w-full max-w-sm md:w-1/2 mx-auto mt-12 md:mt-0 transform transition-transform duration-500 hover:scale-105">
+                        <img src="https://github.com/Labib778/delivery-frontend/blob/dd8af9ae97bc4834fe78bc84963d419d4dba7413/images/Profile_image.png?raw=true" alt="Profile picture of Labib" class="w-full h-auto rounded-3xl">
+                    </div>
                 </div>
             </div>
         </section>
         <!-- ============================ END: HERO SECTION ============================ -->
 
-        <main>
-            <!-- ============================ START: SKILLS SECTION ============================ -->
-            <section class="section" id="skills">
-                <div class="container">
-                    <div class="section-title-container">
-                        <h2 class="section-title">The skills, tools and technologies I am really good at:</h2>
+        <!-- ============================ START: SKILLS SECTION ============================ -->
+        <section class="py-12 md:py-24 bg-light-primary" id="skills">
+            <div class="container mx-auto px-4 md:px-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold">The skills, tools and technologies I am really good at:</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-20 items-center justify-items-center">
+                    <div class="text-center">
+                        <div class="flex items-center justify-center w-20 h-20 mx-auto mb-3 transform hover:scale-110 transition-transform">
+                             <!-- After Effects Icon - Scaled to fit the container and with shadow -->
+                            <img src="https://github.com/Labib778/delivery-frontend/blob/debc20d75c3df4145f4d01051ac8f716e74b4503/images/after-effects.png?raw=true" alt="After Effects Icon" class="w-16 h-16 object-contain shadow-xl rounded-lg">
+                        </div>
+                        <span class="text-dark-text font-medium text-lg">After Effect</span>
                     </div>
-                    <div class="skills-grid">
-                        <div class="skill-item"><div class="skill-icon"></div><span class="skill-name">After Effect</span></div>
-                        <div class="skill-item"><div class="skill-icon"></div><span class="skill-name">Photoshop</span></div>
-                        <div class="skill-item"><div class="skill-icon"></div><span class="skill-name">Illustrator</span></div>
-                        <div class="skill-item"><div class="skill-icon"></div><span class="skill-name">InDesign</span></div>
+                    <div class="text-center">
+                        <div class="flex items-center justify-center w-20 h-20 mx-auto mb-3 transform hover:scale-110 transition-transform">
+                            <!-- Photoshop Icon - Scaled to fit the container and with shadow -->
+                            <img src="https://github.com/Labib778/delivery-frontend/blob/debc20d75c3df4145f4d01051ac8f716e74b4503/images/photoshop.png?raw=true" alt="Photoshop Icon" class="w-16 h-16 object-contain shadow-xl rounded-lg">
+                        </div>
+                        <span class="text-dark-text font-medium text-lg">Photoshop</span>
+                    </div>
+                    <div class="text-center">
+                        <div class="flex items-center justify-center w-20 h-20 mx-auto mb-3 transform hover:scale-110 transition-transform">
+                            <!-- Illustrator Icon - Scaled to fit the container and with shadow -->
+                            <img src="https://github.com/Labib778/delivery-frontend/blob/debc20d75c3df4145f4d01051ac8f716e74b4503/images/illustrator.png?raw=true" alt="Illustrator Icon" class="w-16 h-16 object-contain shadow-xl rounded-lg">
+                        </div>
+                        <span class="text-dark-text font-medium text-lg">Illustrator</span>
+                    </div>
+                    <div class="text-center">
+                        <div class="flex items-center justify-center w-20 h-20 mx-auto mb-3 transform hover:scale-110 transition-transform">
+                            <!-- InDesign Icon - Scaled to fit the container and with shadow -->
+                            <img src="https://github.com/Labib778/delivery-frontend/blob/debc20d75c3df4145f4d01051ac8f716e74b4503/images/indesign.png?raw=true" alt="InDesign Icon" class="w-16 h-16 object-contain shadow-xl rounded-lg">
+                        </div>
+                        <span class="text-dark-text font-medium text-lg">InDesign</span>
                     </div>
                 </div>
-            </section>
-            <!-- ============================ END: SKILLS SECTION ============================ -->
+            </div>
+        </section>
+        <!-- ============================ END: SKILLS SECTION ============================ -->
 
-            <!-- ============================ START: EXPERIENCE SECTION ============================ -->
-            <section class="section experience-section" id="about">
-                <div class="container experience-container">
-                    <div class="section-title-container">
-                        <h2 class="section-title">Here is a quick summary of my most recent experiences:</h2>
-                    </div>
-                    <div class="experience-card">
-                        <div class="experience-details">
-                            <h3 class="experience-title">Sr. Frontend Developer</h3>
-                            <div class="experience-description">
-                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span><span>Ut pretium arcu et massa semper, id fringilla leo semper.</span><span>Sed quis justo ac magna.</span><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
-                            </div>
+        <!-- ============================ START: EXPERIENCE SECTION ============================ -->
+        <section class="py-12 md:py-24 bg-white text-dark-text" id="about">
+            <div class="container mx-auto px-4 md:px-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold">Here is a quick summary of my most recent experiences:</h2>
+                </div>
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-light-primary rounded-xl shadow-md p-8 mb-6 md:flex md:justify-between items-start">
+                        <div class="md:flex-grow">
+                            <h3 class="text-dark-text text-lg font-semibold mb-2">Lead Graphic Designer | Creative Agency XYZ</h3>
+                            <p class="text-subtle-gray text-base leading-relaxed">
+                                As the Lead Designer, I was responsible for overseeing all design projects from concept to completion. I led a team of three designers and worked directly with clients to understand their vision and deliver exceptional visual solutions. Key responsibilities included brand identity development, digital campaign creation, and print material design.
+                            </p>
                         </div>
-                        <p class="experience-date">Nov 2021 - Present</p>
+                        <p class="text-subtle-gray text-base md:text-right mt-4 md:mt-0 md:pl-8 flex-shrink-0">Jan 2022 - Present</p>
                     </div>
-                    <div class="experience-card">
-                        <div class="experience-details">
-                            <h3 class="experience-title">Team Lead</h3>
-                            <div class="experience-description">
-                                <span>Sed quis justo ac magna.</span><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span><span>Sed quis justo ac magna.</span><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
-                            </div>
+                    <div class="bg-light-primary rounded-xl shadow-md p-8 mb-6 md:flex md:justify-between items-start">
+                        <div class="md:flex-grow">
+                            <h3 class="text-dark-text text-lg font-semibold mb-2">Mid-Level Designer | Tech Startup ABC</h3>
+                            <p class="text-subtle-gray text-base leading-relaxed">
+                                At ABC, I was part of a dynamic team focused on creating user-friendly interfaces and compelling marketing materials. My work included designing app prototypes, building social media assets, and collaborating with the marketing team to ensure brand consistency across all platforms.
+                            </p>
                         </div>
-                        <p class="experience-date">Jul 2017 - Oct 2021</p>
+                        <p class="text-subtle-gray text-base md:text-right mt-4 md:mt-0 md:pl-8 flex-shrink-0">Jul 2019 - Dec 2021</p>
                     </div>
-                    <div class="experience-card">
-                        <div class="experience-details">
-                            <h3 class="experience-title">Full Stack Developer</h3>
-                            <div class="experience-description">
-                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
-                            </div>
+                    <div class="bg-light-primary rounded-xl shadow-md p-8 md:flex md:justify-between items-start">
+                        <div class="md:flex-grow">
+                            <h3 class="text-dark-text text-lg font-semibold mb-2">Junior Designer | Freelance</h3>
+                            <p class="text-subtle-gray text-base leading-relaxed">
+                                My journey began as a freelance designer, where I honed my skills by working on a variety of small-scale projects. This experience taught me the importance of clear communication, client management, and creative problem-solving.
+                            </p>
                         </div>
-                        <p class="experience-date">Dec 2015 - May 2017</p>
+                        <p class="text-subtle-gray text-base md:text-right mt-4 md:mt-0 md:pl-8 flex-shrink-0">Jan 2018 - Jun 2019</p>
                     </div>
                 </div>
             </section>
             <!-- ============================ END: EXPERIENCE SECTION ============================ -->
 
             <!-- ============================ START: PROJECTS SECTION ============================ -->
-            <section class="section" id="work">
-                <div class="container projects-container">
-                    <div class="section-title-container">
-                        <h2 class="section-title">Some of the noteworthy projects I have built:</h2>
+            <section class="py-12 md:py-24 bg-light-primary" id="work">
+                <div class="container mx-auto px-4 md:px-20">
+                    <div class="text-center mb-12">
+                        <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold">Some of the noteworthy projects I have built:</h2>
                     </div>
-                    <div class="project-card">
-                        <div class="project-image"><img src="https://github.com/Labib778/delivery-frontend/blob/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png?raw=true" alt="Project 1 Screenshot"></div>
-                        <div class="project-info">
-                            <h3 class="project-title">Fiskil</h3>
-                            <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nec urna ac tellus volutpat viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+                    
+                    <div class="flex flex-col space-y-16 max-w-6xl mx-auto">
+                        <!-- Project 1: Text Left, Image Right -->
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center">
+                            <div class="p-8 md:w-1/2 order-2 md:order-1">
+                                <h3 class="text-dark-text text-lg font-semibold mb-4">Fiskil: A Modern Banking App UI</h3>
+                                <p class="text-subtle-gray text-base leading-relaxed">Designed a clean and intuitive user interface for a fictional mobile banking application. The project focused on creating a seamless user experience for managing finances, making payments, and tracking savings.</p>
+                            </div>
+                            <div class="md:w-1/2 order-1 md:order-2">
+                                <img src="https://github.com/Labib778/delivery-frontend/blob/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png?raw=true" alt="Fiskil App UI" class="w-full h-auto object-cover">
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-image"><img src="https://github.com/Labib778/delivery-frontend/blob/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png?raw=true" alt="Project 2 Screenshot"></div>
-                        <div class="project-info">
-                            <h3 class="project-title">Fiskil</h3>
-                            <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nec urna ac tellus volutpat viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+
+                        <!-- Project 2: Image Left, Text Right -->
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center">
+                            <div class="md:w-1/2 order-1">
+                                <img src="https://github.com/Labib778/delivery-frontend/blob/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png?raw=true" alt="Aura Travel Website Redesign" class="w-full h-auto object-cover">
+                            </div>
+                            <div class="p-8 md:w-1/2 order-2">
+                                <h3 class="text-dark-text text-lg font-semibold mb-4">Aura: Travel Booking Website Redesign</h3>
+                                <p class="text-subtle-gray text-base leading-relaxed">Complete redesign of a travel booking website. The project aimed to improve user navigation, integrate stunning visual elements, and streamline the booking process to enhance user engagement and conversion rates.</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-image"><img src="https://github.com/Labib778/delivery-frontend/blob/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png?raw=true" alt="Project 3 Screenshot"></div>
-                        <div class="project-info">
-                            <h3 class="project-title">Fiskil</h3>
-                            <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nec urna ac tellus volutpat viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+
+                        <!-- Project 3: Text Left, Image Right -->
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center">
+                            <div class="p-8 md:w-1/2 order-2 md:order-1">
+                                <h3 class="text-dark-text text-lg font-semibold mb-4">Nexus: Branding for a Tech Conference</h3>
+                                <p class="text-subtle-gray text-base leading-relaxed">Developed a comprehensive brand identity for a new technology conference, including a logo, color palette, typography, and a suite of promotional materials. The branding captured the innovative and forward-thinking nature of the event.</p>
+                            </div>
+                            <div class="md:w-1/2 order-1 md:order-2">
+                                <img src="https://github.com/Labib778/delivery-frontend/blob/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png?raw=true" alt="Nexus Tech Conference Branding" class="w-full h-auto object-cover">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -476,26 +226,29 @@
             <!-- ============================ END: PROJECTS SECTION ============================ -->
             
             <!-- ============================ START: TESTIMONIALS SECTION ============================ -->
-            <section class="section testimonials-section" id="testimonials">
-                <div class="container">
-                    <div class="section-title-container">
-                        <h2 class="section-title">Nice things people have said about me:</h2>
+            <section class="py-12 md:py-24 bg-white text-dark-text" id="testimonials">
+                <div class="container mx-auto px-4 md:px-20">
+                    <div class="text-center mb-12">
+                        <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold">Nice things people have said about me:</h2>
                     </div>
-                    <div class="testimonials-grid">
-                        <div class="testimonial-card">
-                            <p class="testimonial-quote">“Job well done! I am really impressed. He is very very good at what he does:) I would recommend Sagar and will rehire in the future for Frontend development.”</p>
-                            <p class="testimonial-author">John Doe</p>
-                            <p class="testimonial-author-title">Founder - xyz.com</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                        <!-- Testimonial 1 -->
+                        <div class="bg-light-primary rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105">
+                            <p class="text-subtle-gray text-base leading-relaxed my-6">“Labib is a true professional. His designs are not only beautiful but also incredibly thoughtful and effective. He was a pleasure to work with and exceeded our expectations.”</p>
+                            <p class="text-dark-text text-lg font-semibold">Emily R.</p>
+                            <p class="text-subtle-gray text-sm">Founder - BrandFusion</p>
                         </div>
-                        <div class="testimonial-card">
-                            <p class="testimonial-quote">“Great guy, highly recommended for any COMPLEX front-end development job! His skills are top-notch and he will be an amazing addition to any team.”</p>
-                            <p class="testimonial-author">John Doe</p>
-                            <p class="testimonial-author-title">Founder - abc.com</p>
+                        <!-- Testimonial 2 -->
+                        <div class="bg-light-primary rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105">
+                            <p class="text-subtle-gray text-base leading-relaxed my-6">“Labib delivered a stunning brand identity for our startup. His creative process was collaborative and insightful, and the final result perfectly captured our vision. Highly recommended.”</p>
+                            <p class="text-dark-text text-lg font-semibold">Mark S.</p>
+                            <p class="text-subtle-gray text-sm">CEO - InnovateTech</p>
                         </div>
-                        <div class="testimonial-card">
-                            <p class="testimonial-quote">“Sagar was extremely easy and pleasant to work with and he truly cares about the project being a success. Sagar has a high level of knowledge and was able to work on my MERN stack application without any issues.”</p>
-                            <p class="testimonial-author">John Doe</p>
-                            <p class="testimonial-author-title">Freelancer</p>
+                        <!-- Testimonial 3 -->
+                        <div class="bg-light-primary rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105">
+                            <p class="text-subtle-gray text-base leading-relaxed my-6">“Working with Labib was a fantastic experience. He has an amazing talent for turning complex ideas into simple, elegant designs. He is a great communicator and a brilliant designer.”</p>
+                            <p class="text-dark-gray text-lg font-semibold">Jessica C.</p>
+                            <p class="text-subtle-gray text-sm">Marketing Lead</p>
                         </div>
                     </div>
                 </div>
@@ -503,19 +256,19 @@
             <!-- ============================ END: TESTIMONIALS SECTION ============================ -->
 
             <!-- ============================ START: CONTACT SECTION ============================ -->
-            <section class="section contact-section" id="contact">
-                <div class="container contact-section-content">
-                    <div class="section-title-container">
-                        <h2 class="section-title">What’s next? Feel free to reach out to me if you're looking for a developer, have a query, or simply want to connect.</h2>
+            <section class="py-12 md:py-24 bg-light-primary" id="contact">
+                <div class="container mx-auto px-4 md:px-20">
+                    <div class="text-center mb-12 max-w-2xl mx-auto">
+                        <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold">What’s next? Feel free to reach out to me if you're looking for a designer, have a query, or simply want to connect.</h2>
                     </div>
-                    <div class="contact-info">
-                        <a class="contact-email" href="mailto:labib78780@gmail.com"><i class="fas fa-envelope"></i> labib78780@gmail.com</a>
-                        <a class="contact-phone" href="tel:+8801301149994"><i class="fas fa-phone"></i> +880 1301149994</a>
-                        <p class="social-platforms-text">You may also find me on these platforms!</p>
-                        <div class="social-icons">
-                            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <div class="text-center">
+                        <a class="contact-email text-dark-text hover:text-accent-blue transition-colors font-semibold text-lg md:text-2xl block mb-2 break-all" href="mailto:labib78780@gmail.com"><i class="fas fa-envelope mr-2"></i> labib78780@gmail.com</a>
+                        <a class="contact-phone text-dark-text hover:text-accent-blue transition-colors font-semibold text-lg md:text-2xl block mb-2" href="tel:+8801301149994"><i class="fas fa-phone mr-2"></i> +880 1301149994</a>
+                        <p class="text-subtle-gray text-base mt-10 mb-5">You may also find me on these platforms!</p>
+                        <div class="flex justify-center space-x-4">
+                            <a href="#" target="_blank" class="text-dark-text hover:text-accent-blue transition-colors text-2xl"><i class="fab fa-github"></i></a>
+                            <a href="#" target="_blank" class="text-dark-text hover:text-accent-blue transition-colors text-2xl"><i class="fab fa-twitter"></i></a>
+                            <a href="#" target="_blank" class="text-dark-text hover:text-accent-blue transition-colors text-2xl"><i class="fab fa-linkedin-in"></i></a>
                         </div>
                     </div>
                 </div>
@@ -525,43 +278,45 @@
     </div>
 
     <!-- ============================ START: FOOTER SECTION ============================ -->
-    <footer class="footer">
-        <div class="container">
-            <p class="footer-text">2025 | Designed and coded with ❤️️ by Labib</p>
+    <footer class="bg-light-secondary py-5 text-center">
+        <div class="container mx-auto px-4 md:px-20">
+            <p class="text-subtle-gray text-sm">2025 | Designed and coded with ❤️️ by Labib</p>
         </div>
     </footer>
     <!-- ============================ END: FOOTER SECTION ============================ -->
     
     <script>
-        // JavaScript for mobile menu toggle
         document.addEventListener('DOMContentLoaded', function() {
             const hamburger = document.getElementById('hamburger-menu');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const closeBtn = document.getElementById('close-menu-btn');
-            const menuLinks = document.querySelectorAll('.mobile-menu-links a');
+            const navMenu = document.getElementById('nav-menu');
+            const menuLinks = navMenu.querySelectorAll('a');
 
-            function openMenu() {
-                mobileMenu.classList.add('active');
+            function toggleMenu() {
+                hamburger.classList.toggle('active');
+                if (navMenu.classList.contains('hidden')) {
+                    navMenu.classList.remove('hidden');
+                    navMenu.classList.add('flex', 'flex-col');
+                } else {
+                    navMenu.classList.add('hidden');
+                    navMenu.classList.remove('flex', 'flex-col');
+                }
             }
 
-            function closeMenu() {
-                mobileMenu.classList.remove('active');
-            }
-
+            // Toggle menu when hamburger icon is clicked
             if (hamburger) {
-                hamburger.addEventListener('click', openMenu);
-            }
-
-            if (closeBtn) {
-                closeBtn.addEventListener('click', closeMenu);
+                hamburger.addEventListener('click', toggleMenu);
             }
             
             // Close menu when a link is clicked
             menuLinks.forEach(link => {
-                link.addEventListener('click', closeMenu);
+                link.addEventListener('click', function(event) {
+                    // Check if it's a mobile view before closing the menu
+                    if (window.innerWidth < 768) {
+                        toggleMenu();
+                    }
+                });
             });
         });
     </script>
 </body>
 </html>
-
