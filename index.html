@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -24,9 +25,15 @@
                         'subtle-gray': '#718096', // A neutral gray for secondary text
                         'accent-gold': '#FFC107', // Keeping this for other accents
                         'slate-100': '#F1F5F9',
+                        'custom-yellow': '#FDC435', 
+                        'dark-gray': '#262626',      
+                        'medium-gray': '#828282',   
+                        'off-white': '#F9FAFB',
+                        'whatsapp-green': '#25D366'
                     },
                     fontFamily: {
                         inter: ['Inter', 'sans-serif'],
+                        nunito: ['Nunito', 'sans-serif'],
                     }
                 }
             }
@@ -119,28 +126,51 @@
         </nav>
     </header>
     <main class="pt-16">
-        <section id="hero" class="py-1 md:py-1 bg-white text-dark-text relative overflow-hidden">
-            <div class="max-w-screen-2xl mx-auto">
-                <div class="flex flex-col-reverse md:flex-row items-center md:justify-center gap-12">
-                    <div class="text-center md:text-left md:w-2/5 px-4">
-                        <p class="text-accent-yellow font-bold text-lg md:text-xl mb-2">Graphic Designer</p>
-                        <h1 class="font-bold text-4xl md:text-6xl leading-tight mb-4">Hi, I’m Labib</h1>
-                        <p class="text-subtle-gray text-base md:text-lg leading-relaxed max-w-lg mx-auto md:mx-0">
-                            Hello! I'm Labib, a passionate graphic designer with a keen eye for creating stunning visuals that tell a story. I specialize in branding, digital illustration, and motion graphics, and I thrive on bringing ideas to life with creativity and precision. My goal is to craft designs that are not only beautiful but also effective and memorable.
-                        </p>
-                        <a href="#work" class="mt-8 inline-block bg-accent-gold text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-accent-yellow transition-colors duration-300">
-                            Projects
-                        </a>
-                    </div>
-                    <div class="w-full md:w-3/5 mx-auto mt-0 md:mt-0 transform transition-transform duration-500 hover:scale-100">
-                        <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/9d89d0e2d152a7677962a1089c9607dcb44e70c9/images/Profile_Image.png"
-                             alt="Profile picture of Labib"
-                             class="w-full h-auto rounded-3xl"
-                             onerror="this.onerror=null; this.src='https://placehold.co/400x400/E2E8F0/1A202C?text=Image+Not+Found'">
-                    </div>
-                </div>
+        <!-- Hero Section -->
+<main class="w-full max-w-screen-2xl mx-auto px-4 sm:px-8 lg:px-16 pt-20 pb-48">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-16 lg:gap-24">
+
+        <!-- Image Section (Right on Desktop) -->
+        <div class="relative w-full max-w-sm sm:max-w-lg md:w-1/2 order-1 md:order-2 flex-shrink-0">
+            <!-- Main portfolio image -->
+            <img 
+                src="https://raw.githubusercontent.com/Labib778/delivery-frontend/52a1cf8f521e4bd18dcccbd873e2da0fcc14b8f1/images/portfolio.png" 
+                alt="Portfolio image for Labib, a graphic designer" 
+                class="w-full h-auto"
+            >
+            
+            <!-- Icons (Positioned over the image) -->
+            <a href="#" class="absolute top-4 right-4 w-11 h-11" aria-label="WhatsApp"></a>
+            <div class="absolute bottom-4 left-4 flex space-x-2">
+                <a href="#" class="w-11 h-11" aria-label="Email"></a>
+                <a href="#" class="w-11 h-11" aria-label="LinkedIn"></a>
+                <a href="#" class="w-11 h-11" aria-label="Figma"></a>
             </div>
-        </section>
+        </div>
+
+        <!-- Text Content Section (Left on Desktop, Right-aligned) -->
+        <div class="w-full md:w-1/2 flex flex-col items-start md:items-end text-left md:text-right order-2 md:order-1">
+            <span class="text-custom-yellow font-nunito font-bold text-xl lg:text-3xl">
+                Graphic Designer
+            </span>
+            <h1 class="text-dark-gray font-inter font-bold text-5xl lg:text-7xl xl:text-8xl my-3">
+                Hi, I’m Labib
+            </h1>
+            <p class="text-medium-gray font-nunito text-base lg:text-xl leading-relaxed max-w-lg mt-2">
+                A Graphic Designer passionate about Designing impactful visuals using creativity. I’m working as a Graphic Designer since 2023. I’m constantly growing my skill and knowledge
+            </p>
+            <div class="flex items-center space-x-4 mt-8">
+                <a href="#" class="bg-custom-yellow text-dark-gray font-bold py-4 px-10 rounded-lg transition hover:opacity-90 text-xl">
+                    Projects
+                </a>
+                <a href="#" class="border-2 border-dark-gray text-dark-gray font-bold py-4 px-10 rounded-lg transition hover:bg-gray-100 text-xl">
+                    LinkedIn
+                </a>
+            </div>
+        </div>
+
+    </div>
+</main>
         <section class="py-12 md:py-24 bg-light-primary" id="about-me">
             <div class="container mx-auto px-4 ">
                 <div class="text-center mb-12">
