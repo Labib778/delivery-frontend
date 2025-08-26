@@ -167,18 +167,31 @@
 
     <main class="pt-16">
         <!-- Organized content sections... -->
-        <!-- ============================================= -->
+                <!-- ============================================= -->
         <!-- Hero Section -->
         <!-- ============================================= -->
         <section class="w-full max-w-screen-2xl mx-auto px-4 sm:px-8 lg:px-16 pt-20 pb-48">
             <div class="flex flex-col md:flex-row items-center justify-between gap-5 lg:gap-24">
                 <div class="relative w-full max-w-sm sm:max-w-lg md:w-1/2 order-1 md:order-2 flex-shrink-0 mt-[-3.5rem] md:mt-0">
-                    <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/52a1cf8f521e4bd18dcccbd873e2da0fcc14b8f1/images/portfolio.png" alt="Portfolio image for Labib, a graphic designer" class="w-full h-auto">
-                    <a href="#" class="absolute top-[2px] right-[1.5px] w-[64px] h-[64px] rounded-full hover:bg-gray-800/20" aria-label="WhatsApp"></a>
-                    <div class="absolute bottom-[1px] left-[1px] rounded-full flex space-x-1.5">
-                        <a href="#" class="w-[64px] h-[64px] rounded-full hover:bg-gray-800/20" aria-label="Email"></a>
-                        <a href="#" class="w-[64px] h-[64px] rounded-full hover:bg-gray-800/20" aria-label="LinkedIn"></a>
-                        <a href="#" class="w-[64px] h-[64px] rounded-full hover:bg-gray-800/20" aria-label="Figma"></a>
+                    
+                    <!-- Light Mode Image (On top by default) -->
+                    <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/52a1cf8f521e4bd18dcccbd873e2da0fcc14b8f1/images/portfolio.png" 
+                         alt="Portfolio image for Labib, a graphic designer" 
+                         class="relative w-full h-auto z-20 dark:z-10">
+                    
+                    <!-- Dark Mode Image (Behind by default, comes to front in dark mode) -->
+                    <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/2be31d7719e4850cebfa7baf78c46fa9427aa74e/images/portfolio%20profile%20image%20Dark.png" 
+                         alt="Portfolio image for Labib in dark mode" 
+                         class="absolute top-0 left-0 w-full h-auto z-10 dark:z-20">
+
+                    <!-- Interactive Overlays (Highest z-index to stay on top) -->
+                    <div class="absolute top-0 left-0 w-full h-full z-30">
+                        <a href="#" class="absolute top-[2px] right-[1.5px] w-[64px] h-[64px] rounded-full hover:bg-gray-800/20" aria-label="WhatsApp"></a>
+                        <div class="absolute bottom-[1px] left-[1px] rounded-full flex space-x-1.5">
+                            <a href="#" class="w-[64px] h-[64px] rounded-full hover:bg-gray-800/20" aria-label="Email"></a>
+                            <a href="#" class="w-[64px] h-[64px] rounded-full hover:bg-gray-800/20" aria-label="LinkedIn"></a>
+                            <a href="#" class="w-[64px] h-[64px] rounded-full hover:bg-gray-800/20" aria-label="Figma"></a>
+                        </div>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 flex flex-col items-start md:items-end text-left md:text-right order-2 md:order-1">
