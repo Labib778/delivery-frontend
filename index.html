@@ -1,3 +1,6 @@
+import re
+
+html_content = """
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -187,7 +190,7 @@
                                         <!-- Interactive Overlays (Responsive Version) -->
                     <div class="absolute top-0 left-0 w-full h-full z-50">
                         <!-- WhatsApp Link (Top Right) -->
-                        <a href="https://wa.me/+8801301149994" class="absolute top-[0.2%] right-[0.2%] w-[12.6%] aspect-square rounded-full hover:bg-gray-800/20" aria-label="WhatsApp"></a>
+                        <a href="#" class="absolute top-[0.2%] right-[0.2%] w-[12.6%] aspect-square rounded-full hover:bg-gray-800/20" aria-label="WhatsApp"></a>
                         
                         <!-- Bottom Links Container -->
                         <div class="absolute bottom-[0.15%] left-[0%] w-[40.2%] flex space-x-[3.5%]">
@@ -741,4 +744,39 @@
 </div>
 </body>
 </html>
+"""
 
+# This is the new function that ensures the image is always on top on mobile devices.
+new_function_string = """
+            const createProjectHtml = (project) => {
+                // For desktop layout: if imageRight is true, text is on the left (order-1) and image is on the right (order-2).
+                // If imageRight is false, image is on the left (order-1) and text is on the right (order-2).
+                const imageDesktopOrder = project.imageRight ? 'md:order-2' : 'md:order-1';
+                const textDesktopOrder = project.imageRight ? 'md:order-1' : 'md:order-2';
+                const loadAttribute = project.loadStage ? `data-load-stage="${project.loadStage}"` : '';
+
+                // On mobile (flex-col), the natural DOM order is used. The image div is placed first to appear on top.
+                // On desktop (md:flex-row), the md:order-* classes will rearrange the items.
+                return `<div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center project-item relative dark:bg-gray-800" ${loadAttribute}>
+                    <div class="md:w-1/2 ${imageDesktopOrder}">
+                        <img src="${project.imageSrc}" alt="${project.title} image" class="w-full h-auto object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x400/E2E8F0/1A202C?text=Image+Not+Found'">
+                    </div>
+                    <div class="p-8 md:w-1/2 ${textDesktopOrder}">
+                        <h3 class="text-dark-text text-lg font-semibold mb-4 dark:text-off-white">${project.title}</h3>
+                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">${project.description}</p>
+                    </div>
+                </div>`;
+            };
+"""
+
+# Regex to find the original function definition (handles multi-line content)
+pattern = re.compile(r"const createProjectHtml = \(project\) => {.*?;", re.DOTALL)
+
+# Replace the found function with the new one
+updated_html_content = pattern.sub(new_function_string.strip(), html_content)
+
+# Save the updated content to a new file
+with open("updated_portfolio.html", "w", encoding='utf-8') as file:
+    file.write(updated_html_content)
+
+print("Success! The website code has been updated to handle project image layouts on mobile correctly. The new file is saved as 'updated_portfolio.html'.")
