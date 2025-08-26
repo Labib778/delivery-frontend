@@ -11,6 +11,8 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+
     <!-- Tailwind CSS Configuration -->
     <script>
         tailwind.config = {
@@ -30,7 +32,9 @@
                         'dark-gray': '#262626',      
                         'medium-gray': '#828282',   
                         'off-white': '#F9FAFB',
-                        'whatsapp-green': '#25D366'
+                        'whatsapp-green': '#25D366',
+                        'facebook-blue': '#1877F2',
+                        'linkedin-blue': '#0A66C2'
                     },
                     fontFamily: {
                         inter: ['Inter', 'sans-serif'],
@@ -70,10 +74,10 @@
             transition: max-height 0.3s ease-in-out;
             position: absolute;
             top: 100%;
-            right: 2.5%;
+            right: 1%;
             z-index: 40;
-            width: 95%;
-            max-width: 300px;
+            width: 40%; /* MODIFIED */
+            max-width: 180px; /* MODIFIED */
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
@@ -100,7 +104,7 @@
     <!-- Header Section -->
     <!-- ============================================= -->
     <header class="fixed top-0 left-0 w-full bg-white shadow-md border-b border-gray-200 z-50 dark:bg-dark-gray dark:shadow-none dark:border-b dark:border-gray-700">
-        <div class="container mx-auto flex justify-between items-center py-4 px-4">
+        <div class="container mx-auto flex justify-between items-center py-2 md:py-4 px-4"> <!-- MODIFIED -->
             <!-- Labib Logo for Desktop -->
             <a href="#" class="hidden md:block font-bold text-2xl text-dark-text dark:text-off-white">Labib</a>
             
@@ -150,13 +154,13 @@
         <!-- Mobile Navigation Menu -->
         <nav id="nav-menu-mobile" class="mobile-menu-container overflow-hidden md:hidden">
             <div class="bg-light-primary w-full py-4 px-4 flex flex-col items-center space-y-4 rounded-xl dark:bg-gray-800">
-                <a href="#about-me" class="w-full text-center py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">About</a>
-                <a href="#services" class="w-full text-center py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Services</a>
-                <a href="#work" class="w-full text-center py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Work</a>
-                <a href="#experience" class="w-full text-center py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Experience</a>
-                <a href="#testimonials" class="w-full text-center py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Testimonials</a>
-                <a href="#blog" class="w-full text-center py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Blog</a>
-                <a href="#contact" class="w-full text-center py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Contact</a>
+                <a href="#about-me" class="w-full text-left py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">About</a>
+                <a href="#services" class="w-full text-left py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Services</a>
+                <a href="#work" class="w-full text-left py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Work</a>
+                <a href="#experience" class="w-full text-left py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Experience</a>
+                <a href="#testimonials" class="w-full text-left py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Testimonials</a>
+                <a href="#blog" class="w-full text-left py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Blog</a>
+                <a href="#contact" class="w-full text-left py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">Contact</a>
             </div>
         </nav>
     </header>
@@ -389,11 +393,26 @@
                             <li class="flex items-center space-x-3"><i class="fas fa-phone-alt text-accent-blue"></i><span>+880 1301149994</span></li>
                             <li class="flex items-center space-x-3"><i class="fas fa-map-marker-alt text-accent-blue"></i><span>Dhaka, Bangladesh</span></li>
                         </ul>
-                        <div class="flex space-x-4 mt-6">
-                            <a href="#" class="text-dark-text hover:text-accent-blue text-2xl dark:text-off-white dark:hover:text-accent-blue"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" class="text-dark-text hover:text-accent-blue text-2xl dark:text-off-white dark:hover:text-accent-blue"><i class="fab fa-github"></i></a>
-                            <a href="#" class="text-dark-text hover:text-accent-blue text-2xl dark:text-off-white dark:hover:text-accent-blue"><i class="fab fa-behance"></i></a>
-                            <a href="#" class="text-dark-text hover:text-accent-blue text-2xl dark:text-off-white dark:hover:text-accent-blue"><i class="fab fa-dribbble"></i></a>
+                        <div class="flex space-x-4 mt-6 items-center">
+                            <!-- Facebook Icon -->
+                            <a href="#" class="text-dark-text hover:text-facebook-blue text-2xl dark:text-off-white dark:hover:text-facebook-blue" aria-label="Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+
+                            <!-- WhatsApp Icon -->
+                            <a href="#" class="text-dark-text hover:text-whatsapp-green text-2xl dark:text-off-white dark:hover:text-whatsapp-green" aria-label="WhatsApp">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+
+                            <!-- LinkedIn Icon -->
+                            <a href="#" class="text-dark-text hover:text-linkedin-blue text-2xl dark:text-off-white dark:hover:text-linkedin-blue" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+
+                            <!-- Fiverr Icon (Image that works in Light and Dark Mode) -->
+                            <a href="#" class="hover:opacity-80" aria-label="Fiverr">
+                                <img src="https://cdn.simpleicons.org/fiverr/FFFFFF" alt="Fiverr Logo" class="w-10 h-10 invert dark:invert-0">
+                            </a>
                         </div>
                     </div>
                     <div class="bg-light-primary p-8 rounded-xl shadow-md w-full md:w-1/2 dark:bg-gray-800">
@@ -415,7 +434,7 @@
     <!-- ============================================= -->
     <footer class="bg-light-secondary py-5 text-center dark:bg-dark-gray dark:border-t dark:border-gray-700">
         <div class="container mx-auto">
-            <p class="text-subtle-gray text-sm dark:text-gray-400">2025 | Designed and coded with ❤️️ by Labib</p>
+            <p class="text-subtle-gray text-sm dark:text-gray-400"> Copyright © 2012 - 2025 Labib. All rights reserved.</p>
         </div>
     </footer>
 
