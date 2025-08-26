@@ -457,7 +457,7 @@ html_content = """
         </div>
     </footer>
 
-    <!-- ============================================= -->
+        <!-- ============================================= -->
     <!-- Scripts -->
     <!-- ============================================= -->
     <script>
@@ -545,7 +545,7 @@ html_content = """
                     title: 'Website Landing Page for a New Startup',
                     description: 'Designed a visually striking and highly converting landing page for a new tech startup. The design focused on a strong hero section, clear calls-to-action, and a clean layout that guided users through the product\'s benefits.',
                     loadStage: 'full-load',
-                    imageRight: false
+                    imageRight: true
                 },
                 {
                     imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/3f66bbb32195c2a9045f2f7495d3581060962e37/images/W9.png',
@@ -577,11 +577,32 @@ html_content = """
                 }
             ];
 
+            // VVVV THIS IS THE UPDATED FUNCTION VVVV
             const createProjectHtml = (project) => {
-                const imageOrder = project.imageRight ? 'order-2 md:order-2' : 'order-1 md:order-1';
-                const textOrder = project.imageRight ? 'order-1 md:order-1' : 'order-2 md:order-2';
+                // Determine the order for desktop screens (md and larger)
+                const imageDesktopOrder = project.imageRight ? 'md:order-2' : 'md:order-1';
+                const textDesktopOrder = project.imageRight ? 'md:order-1' : 'md:order-2';
                 const loadAttribute = project.loadStage ? `data-load-stage="${project.loadStage}"` : '';
-                return `<div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center project-item relative dark:bg-gray-800" ${loadAttribute}><div class="p-8 md:w-1/2 ${textOrder}"><h3 class="text-dark-text text-lg font-semibold mb-4 dark:text-off-white">${project.title}</h3><p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">${project.description}</p></div><div class="md:w-1/2 ${imageOrder}"><img src="${project.imageSrc}" alt="${project.title} image" class="w-full h-auto object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x400/E2E8F0/1A202C?text=Image+Not+Found'"></div></div>`;
+
+                // HTML Structure:
+                // - The parent div uses `flex-col` on mobile and `md:flex-row` on desktop.
+                // - On mobile, the natural order (image first, then text) is used, so the image is on top.
+                // - On desktop, `md:order-*` classes activate to rearrange the items as needed.
+                return `
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center project-item relative dark:bg-gray-800" ${loadAttribute}>
+                    
+                    <!-- Image container -->
+                    <div class="w-full md:w-1/2 ${imageDesktopOrder}">
+                        <img src="${project.imageSrc}" alt="${project.title} image" class="w-full h-auto object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x400/E2E8F0/1A202C?text=Image+Not+Found'">
+                    </div>
+
+                    <!-- Text container -->
+                    <div class="p-8 w-full md:w-1/2 ${textDesktopOrder}">
+                        <h3 class="text-dark-text text-lg font-semibold mb-4 dark:text-off-white">${project.title}</h3>
+                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">${project.description}</p>
+                    </div>
+
+                </div>`;
             };
             
             const createBlogHtml = (post) => {
@@ -624,7 +645,6 @@ html_content = """
 
             if (isDarkMode) htmlElement.classList.add('dark');
 
-            // VVVV REPLACE THE OLD FUNCTION WITH THIS NEW ONE VVVV
             function updateIcon() {
                 const isDark = htmlElement.classList.contains('dark');
                 themeToggleBtns.forEach(btn => {
@@ -642,9 +662,8 @@ html_content = """
                     }
                 });
             }
-            // ^^^^ END OF REPLACEMENT ^^^^
 
-            updateIcon(); // This line calls the function on page load
+            updateIcon();
 
             themeToggleBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -653,9 +672,7 @@ html_content = """
                     updateIcon();
                 });
             });
-                        // =============================================
             // Contact Form Logic
-            // =============================================
             const contactForm = document.getElementById('contact-form');
             const modal = document.getElementById('popup-modal');
             const modalContent = modal.querySelector('div');
@@ -663,7 +680,7 @@ html_content = """
 
             function showModal() {
                 modal.classList.remove('hidden');
-                setTimeout(() => { // Allows for the transition to apply
+                setTimeout(() => { 
                     modal.style.opacity = '1';
                     modalContent.style.transform = 'scale(1)';
                     modalContent.style.opacity = '1';
@@ -674,14 +691,14 @@ html_content = """
                 modal.style.opacity = '0';
                 modalContent.style.transform = 'scale(0.95)';
                 modalContent.style.opacity = '0';
-                setTimeout(() => { // Waits for the transition to finish
+                setTimeout(() => { 
                     modal.classList.add('hidden');
                 }, 300);
             }
 
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault(); // Prevent default page redirect
+                    e.preventDefault(); 
                     
                     const formData = new FormData(contactForm);
                     const submitButton = contactForm.querySelector('button[type="submit"]');
@@ -698,14 +715,12 @@ html_content = """
                         }
                     }).then(response => {
                         if (response.ok) {
-                            contactForm.reset(); // Clear the form fields
-                            showModal(); // Show the success pop-up
+                            contactForm.reset(); 
+                            showModal(); 
                         } else {
-                            // Handle server errors
                             alert('Oops! There was a problem submitting your form. Please try again.');
                         }
                     }).catch(error => {
-                        // Handle network errors
                         console.error('Error:', error);
                         alert('Oops! There was a network error. Please try again.');
                     }).finally(() => {
@@ -715,7 +730,6 @@ html_content = """
                 });
             }
 
-            // Close modal when the close button or background is clicked
             if (closeModalBtn) closeModalBtn.addEventListener('click', hideModal);
             if (modal) modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
@@ -744,39 +758,3 @@ html_content = """
 </div>
 </body>
 </html>
-"""
-
-# This is the new function that ensures the image is always on top on mobile devices.
-new_function_string = """
-            const createProjectHtml = (project) => {
-                // For desktop layout: if imageRight is true, text is on the left (order-1) and image is on the right (order-2).
-                // If imageRight is false, image is on the left (order-1) and text is on the right (order-2).
-                const imageDesktopOrder = project.imageRight ? 'md:order-2' : 'md:order-1';
-                const textDesktopOrder = project.imageRight ? 'md:order-1' : 'md:order-2';
-                const loadAttribute = project.loadStage ? `data-load-stage="${project.loadStage}"` : '';
-
-                // On mobile (flex-col), the natural DOM order is used. The image div is placed first to appear on top.
-                // On desktop (md:flex-row), the md:order-* classes will rearrange the items.
-                return `<div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center project-item relative dark:bg-gray-800" ${loadAttribute}>
-                    <div class="md:w-1/2 ${imageDesktopOrder}">
-                        <img src="${project.imageSrc}" alt="${project.title} image" class="w-full h-auto object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x400/E2E8F0/1A202C?text=Image+Not+Found'">
-                    </div>
-                    <div class="p-8 md:w-1/2 ${textDesktopOrder}">
-                        <h3 class="text-dark-text text-lg font-semibold mb-4 dark:text-off-white">${project.title}</h3>
-                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">${project.description}</p>
-                    </div>
-                </div>`;
-            };
-"""
-
-# Regex to find the original function definition (handles multi-line content)
-pattern = re.compile(r"const createProjectHtml = \(project\) => {.*?;", re.DOTALL)
-
-# Replace the found function with the new one
-updated_html_content = pattern.sub(new_function_string.strip(), html_content)
-
-# Save the updated content to a new file
-with open("updated_portfolio.html", "w", encoding='utf-8') as file:
-    file.write(updated_html_content)
-
-print("Success! The website code has been updated to handle project image layouts on mobile correctly. The new file is saved as 'updated_portfolio.html'.")
