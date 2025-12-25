@@ -4,33 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Labib's Portfolio</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
-
-    <!-- Tailwind CSS Configuration -->
+    <link rel="stylesheet" href="style.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        'light-primary': '#F1F5F9', // A light gray for backgrounds
-                        'light-secondary': '#E2E8F0', // A slightly darker gray
-                        'dark-text': '#1A202C', // Dark charcoal/navy for text
-                        'accent-blue': '#4299E1', // A modern blue for accents
-                        'accent-yellow': '#DAA520', // A darker, more visible gold
-                        'subtle-gray': '#718096', // A neutral gray for secondary text
-                        'accent-gold': '#FFC107', // Keeping this for other accents
+                        'light-primary': '#F1F5F9',
+                        'light-secondary': '#E2E8F0',
+                        'dark-text': '#1A202C',
+                        'accent-blue': '#4299E1',
+                        'accent-yellow': '#DAA520',
+                        'subtle-gray': '#718096',
+                        'accent-gold': '#FFC107',
                         'slate-100': '#F1F5F9',
-                        'custom-yellow': '#FDC435', 
-                        'dark-gray': '#262626',      
-                        'medium-gray': '#3B3B41',   
+                        'custom-yellow': '#FDC435',
+                        'dark-gray': '#262626',
+                        'medium-gray': '#3B3B41',
                         'off-white': '#F9FAFB',
                         'whatsapp-green': '#25D366',
                         'facebook-blue': '#1877F2',
@@ -44,77 +39,14 @@
             }
         }
     </script>
-
-    <!-- Custom CSS Styles -->
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F1F5F9;
-        }
-        /* Smooth theme transition */
-        body, header, main, footer, div, section, a, p, h1, h2, h3, button, input, textarea, span, i {
-            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
-        }
-        /* Hamburger menu animation styles */
-        .hamburger-menu .bar {
-            transition: all 0.3s ease-in-out;
-        }
-        .hamburger-menu.active .bar1 {
-            transform: translateY(8px) rotate(45deg);
-        }
-        .hamburger-menu.active .bar2 {
-            opacity: 0;
-        }
-        .hamburger-menu.active .bar3 {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-        /* Mobile menu slide-in/out */
-        .mobile-menu-container {
-            max-height: 0;
-            transition: max-height 0.3s ease-in-out;
-            position: absolute;
-            top: 100%;
-            right: 1%;
-            z-index: 40;
-            width: 40%; /* MODIFIED */
-            max-width: 180px; /* MODIFIED */
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .mobile-menu-container.open {
-            max-height: 500px;
-        }
-        /* Project visibility transition */
-        .project-item.hidden {
-            display: none;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-        }
-        .project-item.visible {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
 </head>
 <body class="bg-white text-dark-text dark:bg-dark-gray dark:text-off-white">
-
-    <!-- ============================================= -->
-    <!-- Header Section -->
-    <!-- ============================================= -->
     <header class="fixed top-0 left-0 w-full bg-white shadow-md border-b border-gray-200 z-50 dark:bg-dark-gray dark:shadow-none dark:border-b dark:border-gray-700">
-        <div class="container mx-auto flex justify-between items-center py-2 md:py-4 px-4"> <!-- MODIFIED -->
-            <!-- Labib Logo for Desktop -->
+        <div class="container mx-auto flex justify-between items-center py-2 md:py-4 px-4">
             <a href="#" class="hidden md:block font-bold text-2xl text-dark-text dark:text-off-white">Labib</a>
-            
-            <!-- Download CV Button for Mobile -->
             <a href="cv.pdf" download="Labib_CV.pdf" class="md:hidden text-dark-text border-2 border-dark-text px-4 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors dark:text-off-white dark:border-off-white dark:hover:bg-gray-700 flex items-center space-x-2">
-                <i class="fas fa-download"></i>
-                <span>CV</span>
+                <i class="fas fa-download"></i> <span>CV</span>
             </a>
-            
-            <!-- Desktop Navigation -->
             <nav class="hidden md:flex flex-row items-center space-x-6">
                 <a href="#about-me" class="text-subtle-gray font-medium hover:text-accent-yellow dark:text-gray-300 dark:hover:text-accent-yellow">About</a>
                 <a href="#services" class="text-subtle-gray font-medium hover:text-accent-yellow dark:text-gray-300 dark:hover:text-accent-yellow">Services</a>
@@ -123,23 +55,16 @@
                 <a href="#testimonials" class="text-subtle-gray font-medium hover:text-accent-yellow dark:text-gray-300 dark:hover:text-accent-yellow">Testimonials</a>
                 <a href="#blog" class="text-subtle-gray font-medium hover:text-accent-yellow dark:text-gray-300 dark:hover:text-accent-yellow">Blog</a>
                 <a href="cv.pdf" download="Labib_CV.pdf" class="text-dark-text border-2 border-dark-text px-4 py-2 rounded-full font-medium hover:bg-gray-100 dark:text-off-white dark:border-off-white dark:hover:bg-gray-700 flex items-center space-x-2">
-                    <i class="fas fa-download"></i>
-                    <span>CV</span>
+                    <i class="fas fa-download"></i> <span>CV</span>
                 </a>
                 <a href="#contact" class="bg-dark-text text-white px-4 py-2 rounded-full font-medium hover:bg-subtle-gray dark:bg-custom-yellow dark:text-dark-gray dark:hover:bg-accent-yellow">Contact</a>
-                <!-- Desktop Theme Toggle Button -->
                 <button type="button" class="theme-toggle-btn text-subtle-gray hover:text-accent-yellow dark:text-gray-300 dark:hover:text-accent-yellow flex items-center space-x-2">
-                    <i class="fas fa-moon"></i>
-                    <span class="theme-toggle-text">Dark</span>
+                    <i class="fas fa-moon"></i> <span class="theme-toggle-text">Dark</span>
                 </button>
             </nav>
-
-            <!-- Mobile Right-Side Controls -->
             <div class="md:hidden flex items-center space-x-4">
-                <!-- Mobile Theme Toggle Button -->
                 <button type="button" class="theme-toggle-btn text-subtle-gray hover:text-accent-yellow dark:text-off-white dark:hover:text-accent-yellow flex items-center space-x-2">
-                    <i class="fas fa-moon"></i>
-                    <span class="theme-toggle-text">Dark</span>
+                    <i class="fas fa-moon"></i> <span class="theme-toggle-text">Dark</span>
                 </button>
                 <button id="hamburger-menu" class="p-2 text-dark-text z-50 dark:text-off-white">
                     <div class="space-y-1.5">
@@ -150,8 +75,6 @@
                 </button>
             </div>
         </div>
-
-        <!-- Mobile Navigation Menu -->
         <nav id="nav-menu-mobile" class="mobile-menu-container overflow-hidden md:hidden">
             <div class="bg-light-primary w-full py-4 px-4 flex flex-col items-center space-y-4 rounded-xl dark:bg-gray-800">
                 <a href="#about-me" class="w-full text-left py-2 text-dark-text font-medium hover:text-accent-gold dark:text-off-white dark:hover:text-accent-gold">About</a>
@@ -166,45 +89,25 @@
     </header>
 
     <main class="pt-16">
-        <!-- Organized content sections... -->
-                <!-- ============================================= -->
-        <!-- Hero Section -->
-        <!-- ============================================= -->
-        <section class="w-full max-w-screen-2xl mx-auto px-4 sm:px-8 lg:px-16 pt-20 pb-48">
+        <section class="max-w-screen-2xl mx-auto pb-96 pt-20 px-4 w-full sm:px-8 lg:px-16">
             <div class="flex flex-col md:flex-row items-center justify-between gap-5 lg:gap-24">
                 <div class="relative w-full max-w-sm sm:max-w-lg md:w-1/2 order-1 md:order-2 flex-shrink-0 mt-[-3.5rem] md:mt-0">
-                    
-                    <!-- Light Mode Image (On top by default) -->
-                    <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/52a1cf8f521e4bd18dcccbd873e2da0fcc14b8f1/images/portfolio.png" 
-                         alt="Portfolio image for Labib, a graphic designer" 
-                         class="relative w-full h-auto z-20 dark:z-10">
-                    
-                    <!-- Dark Mode Image (Behind by default, comes to front in dark mode) -->
-                    <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/2be31d7719e4850cebfa7baf78c46fa9427aa74e/images/portfolio%20profile%20image%20Dark.png" 
-                         alt="Portfolio image for Labib in dark mode" 
-                         class="absolute top-0 left-0 w-full h-auto z-10 dark:z-20">
-
-                                        <!-- Interactive Overlays (Responsive Version) -->
+                    <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/52a1cf8f521e4bd18dcccbd873e2da0fcc14b8f1/images/portfolio.png" alt="Light Mode" class="relative w-full h-auto z-20 dark:z-10">
+                    <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/2be31d7719e4850cebfa7baf78c46fa9427aa74e/images/portfolio%20profile%20image%20Dark.png" alt="Dark Mode" class="absolute top-0 left-0 w-full h-auto z-10 dark:z-20">
                     <div class="absolute top-0 left-0 w-full h-full z-50">
-                        <!-- WhatsApp Link (Top Right) -->
                         <a href="#" class="absolute top-[0.2%] right-[0.2%] w-[12.6%] aspect-square rounded-full hover:bg-gray-800/20" aria-label="WhatsApp"></a>
-                        
-                        <!-- Bottom Links Container -->
                         <div class="absolute bottom-[0.15%] left-[0%] w-[40.2%] flex space-x-[3.5%]">
-                            <!-- Email Link -->
                             <a href="#contact" class="w-1/3 aspect-square rounded-full hover:bg-gray-800/20" aria-label="Email"></a>
-                            <!-- LinkedIn Link -->
                             <a href="https://www.linkedin.com/in/labib-s" class="w-1/3 aspect-square rounded-full hover:bg-gray-800/20" aria-label="LinkedIn"></a>
-                            <!-- Fiverr Link -->
                             <a href="https://www.fiverr.com/s/1qpra94" class="w-1/3 aspect-square rounded-full hover:bg-gray-800/20" aria-label="Fiverr"></a>
                         </div>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 flex flex-col items-start md:items-end text-left md:text-right order-2 md:order-1">
                     <span class="text-custom-yellow font-nunito font-bold text-xl lg:text-3xl">Graphic Designer</span>
-                    <h1 class="text-dark-gray font-inter font-bold text-5xl lg:text-7xl xl:text-8xl my-3 dark:text-off-white">Hi, I’m Labib</h1>
+                    <h1 class="text-dark-gray font-inter font-bold text-5xl lg:text-7xl xl:text-8xl my-3 dark:text-off-white">Hi, I&rsquo;m Labib</h1>
                     <p class="text-medium-gray font-nunito text-base lg:text-xl leading-relaxed max-w-lg mt-2 dark:text-gray-300">
-                        A Graphic Designer passionate about Designing impactful visuals using creativity. I’m working as a Graphic Designer since 2023. I’m constantly growing my skill and knowledge
+                    A Graphic Designer passionate about Designing impactful visuals using creativity.
                     </p>
                     <div class="flex items-center space-x-4 mt-8">
                         <a href="#work" class="bg-custom-yellow text-dark-gray font-bold py-4 px-10 rounded-lg transition hover:opacity-90 text-xl">Projects</a>
@@ -214,136 +117,19 @@
             </div>
         </section>
 
-        <!-- ============================================= -->
-        <!-- About Me Section -->
-        <!-- ============================================= -->
         <section class="py-12 md:py-24 bg-light-primary dark:bg-medium-gray" id="about-me">
-            <div class="container mx-auto px-4 ">
+            <div class="container mx-auto px-4">
                 <div class="text-center mb-12">
                     <h2 class="text-dark-text text-3xl md:text-4xl font-bold mb-4 dark:text-off-white">About Me</h2>
-                    <p class="text-subtle-gray text-lg md:text-xl leading-relaxed max-w-3xl mx-auto dark:text-gray-300">
-                        I am a dedicated graphic designer with a strong background in visual communication and a passion for crafting impactful designs. My journey in design began with a fascination for how visuals can convey complex messages simply and beautifully.
-                    </p>
-                    <p class="text-subtle-gray text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mt-4 dark:text-gray-300">
-                        Over the years, I've had the privilege of working with diverse clients, from startups to established agencies, helping them achieve their marketing and branding goals through creative design solutions. I believe in continuous learning and staying updated with the latest design trends and technologies to deliver cutting-edge results. When I'm not designing, you can find me exploring new art forms, reading about design history, or enjoying nature.
-                    </p>
+                    <p class="text-subtle-gray text-lg md:text-xl leading-relaxed max-w-3xl mx-auto dark:text-gray-300">I am a dedicated graphic designer with a strong background in visual communication...</p>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================= -->
-        <!-- Skills Section -->
-        <!-- ============================================= -->
-        <section class="py-12 md:py-24 bg-white dark:bg-dark-gray" id="skills">
-            <div class="container mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold dark:text-gray-300">The skills, tools and technologies I am really good at:</h2>
-                </div>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-20 items-center justify-items-center">
-                    <div class="text-center">
-                        <div class="flex items-center justify-center w-20 h-20 mx-auto mb-3 transform hover:scale-110 transition-transform">
-                             <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/after-effects.png" alt="After Effects Icon" class="w-16 h-16 object-contain shadow-xl rounded-lg" onerror="this.onerror=null; this.src='https://placehold.co/64x64/E2E8F0/1A202C?text=AE'">
-                        </div>
-                        <span class="text-dark-text font-medium text-lg dark:text-off-white">After Effect</span>
-                    </div>
-                    <div class="text-center">
-                        <div class="flex items-center justify-center w-20 h-20 mx-auto mb-3 transform hover:scale-110 transition-transform">
-                            <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/photoshop.png" alt="Photoshop Icon" class="w-16 h-16 object-contain shadow-xl rounded-lg" onerror="this.onerror=null; this.src='https://placehold.co/64x64/E2E8F0/1A202C?text=PS'">
-                        </div>
-                        <span class="text-dark-text font-medium text-lg dark:text-off-white">Photoshop</span>
-                    </div>
-                    <div class="text-center">
-                        <div class="flex items-center justify-center w-20 h-20 mx-auto mb-3 transform hover:scale-110 transition-transform">
-                            <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/illustrator.png" alt="Illustrator Icon" class="w-16 h-16 object-contain shadow-xl rounded-lg" onerror="this.onerror=null; this.src='https://placehold.co/64x64/E2E8F0/1A202C?text=AI'">
-                        </div>
-                        <span class="text-dark-text font-medium text-lg dark:text-off-white">Illustrator</span>
-                    </div>
-                    <div class="text-center">
-                        <div class="flex items-center justify-center w-20 h-20 mx-auto mb-3 transform hover:scale-110 transition-transform">
-                            <img src="https://raw.githubusercontent.com/Labib778/delivery-frontend/main/images/indesign.png" alt="InDesign Icon" class="w-16 h-16 object-contain shadow-xl rounded-lg" onerror="this.onerror=null; this.src='https://placehold.co/64x64/E2E8F0/1A202C?text=ID'">
-                        </div>
-                        <span class="text-dark-text font-medium text-lg dark:text-off-white">InDesign</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================= -->
-        <!-- Services Section -->
-        <!-- ============================================= -->
-        <section class="py-12 md:py-24 bg-light-primary dark:bg-medium-gray" id="services">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-dark-text text-3xl md:text-4xl font-bold mb-4 dark:text-off-white">My Services</h2>
-                    <p class="text-subtle-gray text-lg md:text-xl leading-relaxed max-w-3xl mx-auto dark:text-gray-300">
-                        I offer a wide range of graphic design services tailored to meet your unique needs. My goal is to help you communicate your message effectively and beautifully.
-                    </p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                    <div class="bg-white rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800">
-                        <i class="fas fa-palette text-accent-blue text-5xl mb-4"></i>
-                        <h3 class="text-dark-text text-xl font-semibold mb-2 dark:text-off-white">Brand Identity & Logo Design</h3>
-                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">Crafting unique and memorable brand identities that resonate with your audience and leave a lasting impression.</p>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800">
-                        <i class="fas fa-brush text-accent-blue text-5xl mb-4"></i>
-                        <h3 class="text-dark-text text-xl font-semibold mb-2 dark:text-off-white">Digital Illustration</h3>
-                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">Creating custom digital illustrations for various applications, including websites, apps, and marketing materials.</p>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800">
-                        <i class="fas fa-print text-accent-blue text-5xl mb-4"></i>
-                        <h3 class="text-dark-text text-xl font-semibold mb-2 dark:text-off-white">Print Design</h3>
-                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">Developing high-quality print materials such as brochures, flyers, posters, and business cards.</p>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800">
-                        <i class="fas fa-chart-line text-accent-blue text-5xl mb-4"></i>
-                        <h3 class="text-dark-text text-xl font-semibold mb-2 dark:text-off-white">Marketing Collateral</h3>
-                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">Creating compelling visual assets for digital marketing campaigns, social media, and advertising.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================= -->
-        <!-- Experience Section -->
-        <!-- ============================================= -->
-        <section class="py-12 md:py-24 bg-white text-dark-text dark:bg-dark-gray" id="experience">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold dark:text-gray-300">Here is a quick summary of my most recent experiences:</h2>
-                </div>
-                <div class="max-w-4xl mx-auto px-4">
-                    <div class="bg-light-primary rounded-xl shadow-md p-8 mb-6 md:flex md:justify-between items-start dark:bg-gray-800">
-                        <div class="md:flex-grow">
-                            <h3 class="text-dark-text text-lg font-semibold mb-2 dark:text-off-white">Lead Graphic Designer | Creative Agency XYZ</h3>
-                            <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">As the Lead Designer, I was responsible for overseeing all design projects from concept to completion. I led a team of three designers and worked directly with clients to understand their vision and deliver exceptional visual solutions. Key responsibilities included brand identity development, digital campaign creation, and print material design.</p>
-                        </div>
-                        <p class="text-subtle-gray text-base md:text-right mt-4 md:mt-0 md:pl-8 flex-shrink-0 dark:text-gray-400">Jan 2022 - Present</p>
-                    </div>
-                    <div class="bg-light-primary rounded-xl shadow-md p-8 mb-6 md:flex md:justify-between items-start dark:bg-gray-800">
-                        <div class="md:flex-grow">
-                            <h3 class="text-dark-text text-lg font-semibold mb-2 dark:text-off-white">Mid-Level Designer | Tech Startup ABC</h3>
-                            <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">At ABC, I was part of a dynamic team focused on creating user-friendly interfaces and compelling marketing materials. My work included designing app prototypes, building social media assets, and collaborating with the marketing team to ensure brand consistency across all platforms.</p>
-                        </div>
-                        <p class="text-subtle-gray text-base md:text-right mt-4 md:mt-0 md:pl-8 flex-shrink-0 dark:text-gray-400">Jul 2019 - Dec 2021</p>
-                    </div>
-                    <div class="bg-light-primary rounded-xl shadow-md p-8 md:flex md:justify-between items-start dark:bg-gray-800">
-                        <div class="md:flex-grow">
-                            <h3 class="text-dark-text text-lg font-semibold mb-2 dark:text-off-white">Junior Designer | Freelance</h3>
-                            <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">My journey began as a freelance designer, where I honed my skills by working on a variety of small-scale projects. This experience taught me the importance of clear communication, client management, and creative problem-solving.</p>
-                        </div>
-                        <p class="text-subtle-gray text-base md:text-right mt-4 md:mt-0 md:pl-8 flex-shrink-0 dark:text-gray-400">Jan 2018 - Jun 2019</p>
-                    </div>
-                </div>
-            </section>
-        
-        <!-- ============================================= -->
-        <!-- Work (Projects) Section -->
-        <!-- ============================================= -->
         <section class="py-12 md:py-24 bg-light-primary dark:bg-medium-gray" id="work">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-12">
-                    <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold dark:text-gray-300">Some of the noteworthy projects I have built:</h2>
+                    <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold dark:text-gray-300">Some of my projects:</h2>
                 </div>
                 <div class="flex flex-col space-y-16 md:max-w-6xl mx-auto" id="projects-container"></div>
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mt-12">
@@ -354,406 +140,40 @@
             </div>
         </section>
 
-        <!-- ============================================= -->
-        <!-- Testimonials Section -->
-        <!-- ============================================= -->
-        <section class="py-12 md:py-24 bg-white text-dark-text dark:bg-dark-gray" id="testimonials">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-subtle-gray text-xl md:text-2xl font-semibold dark:text-gray-300">Nice things people have said about me:</h2>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                    <div class="bg-light-primary rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800">
-                        <p class="text-subtle-gray text-base leading-relaxed my-6 dark:text-gray-300">“Labib is a true professional. His designs are not only beautiful but also incredibly thoughtful and effective. He was a pleasure to work with and exceeded our expectations.”</p>
-                        <p class="text-dark-text text-lg font-semibold dark:text-off-white">Emily R.</p>
-                        <p class="text-subtle-gray text-sm dark:text-gray-400">Founder - BrandFusion</p>
-                    </div>
-                    <div class="bg-light-primary rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800">
-                        <p class="text-subtle-gray text-base leading-relaxed my-6 dark:text-gray-300">“Labib delivered a stunning brand identity for our startup. His creative process was collaborative and insightful, and the final result perfectly captured our vision. Highly recommended.”</p>
-                        <p class="text-dark-text text-lg font-semibold dark:text-off-white">Mark S.</p>
-                        <p class="text-subtle-gray text-sm dark:text-gray-400">CEO - InnovateTech</p>
-                    </div>
-                    <div class="bg-light-primary rounded-xl shadow-md p-8 text-center transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800">
-                        <p class="text-subtle-gray text-base leading-relaxed my-6 dark:text-gray-300">“Working with Labib was a fantastic experience. He has an amazing talent for turning complex ideas into simple, elegant designs. He is a great communicator and a brilliant designer.”</p>
-                        <p class="text-dark-gray text-lg font-semibold dark:text-off-white">Jessica C.</p>
-                        <p class="text-subtle-gray text-sm dark:text-gray-400">Marketing Lead</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================= -->
-        <!-- Blog Section -->
-        <!-- ============================================= -->
-        <section class="py-12 md:py-24 bg-light-primary dark:bg-medium-gray" id="blog">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-dark-text text-3xl md:text-4xl font-bold mb-4 dark:text-off-white">My Blog</h2>
-                    <p class="text-subtle-gray text-lg md:text-xl leading-relaxed max-w-3xl mx-auto dark:text-gray-300">Here you'll find my thoughts, insights, and latest articles on design, creativity, and industry trends.</p>
-                </div>
-                <div id="blog-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
-            </div>
-        </section>
-        
-        <!-- ============================================= -->
-        <!-- Contact Section -->
-        <!-- ============================================= -->
         <section class="py-12 md:py-24 bg-white dark:bg-dark-gray" id="contact">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-12">
                     <h2 class="text-dark-text text-3xl md:text-4xl font-bold mb-4 dark:text-off-white">Get In Touch</h2>
-                    <p class="text-subtle-gray text-lg md:text-xl max-w-2xl mx-auto dark:text-gray-300">Ready to start a project? I'd love to hear from you!</p>
                 </div>
                 <div class="flex flex-col md:flex-row items-center justify-center gap-12 max-w-4xl mx-auto">
                     <div class="bg-light-primary p-8 rounded-xl shadow-md w-full md:w-1/2 dark:bg-gray-800">
                         <h3 class="font-bold text-2xl mb-4 dark:text-off-white">Contact Info</h3>
                         <ul class="space-y-4 text-subtle-gray dark:text-gray-300">
-                            <li class="flex items-center space-x-3"><i class="fas fa-envelope text-accent-blue"></i><span>labib78780@gmail.com</span></li>
-                            <li class="flex items-center space-x-3"><i class="fas fa-phone-alt text-accent-blue"></i><span>+880 1301149994</span></li>
-                            <li class="flex items-center space-x-3"><i class="fas fa-map-marker-alt text-accent-blue"></i><span>Dhaka, Bangladesh</span></li>
+                            <li><i class="fas fa-envelope text-accent-blue mr-2"></i> labib78780@gmail.com</li>
+                            <li><i class="fas fa-phone-alt text-accent-blue mr-2"></i> +880 1301149994</li>
                         </ul>
-                        <div class="flex space-x-4 mt-6 items-center">
-                            <!-- Facebook Icon -->
-                            <a href="#" class="text-dark-text hover:text-facebook-blue text-2xl dark:text-off-white dark:hover:text-facebook-blue" aria-label="Facebook">
-                                <i class="fab fa-facebook"></i>
-                            </a>
-
-                            <!-- WhatsApp Icon -->
-                            <a href="#" class="text-dark-text hover:text-whatsapp-green text-2xl dark:text-off-white dark:hover:text-whatsapp-green" aria-label="WhatsApp">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
-
-                            <!-- LinkedIn Icon -->
-                            <a href="#" class="text-dark-text hover:text-linkedin-blue text-2xl dark:text-off-white dark:hover:text-linkedin-blue" aria-label="LinkedIn">
-                                <i class="fab fa-linkedin"></i>
-                            </a>
-
-                            <!-- Fiverr Icon (Image that works in Light and Dark Mode) -->
-                            <a href="#" class="hover:opacity-80" aria-label="Fiverr">
-                                <img src="https://cdn.simpleicons.org/fiverr/FFFFFF" alt="Fiverr Logo" class="w-10 h-10 invert dark:invert-0">
-                            </a>
-                        </div>
                     </div>
-                            <form id="contact-form" action="https://formspree.io/f/mqadkqyz" method="POST" class="space-y-4">
-                            <input type="text" name="name" placeholder="Your Name" required class="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent-blue dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <input type="email" name="email" placeholder="Your Email" required class="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent-blue dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <textarea rows="4" name="message" placeholder="Your Message" required class="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent-blue dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
-                            <button type="submit" class="w-full bg-dark-text text-white font-semibold py-3 px-6 rounded-full hover:bg-subtle-gray dark:bg-custom-yellow dark:text-dark-gray dark:hover:bg-accent-yellow">Send Message</button>
-                        </form>
+                    <form id="contact-form" action="https://formspree.io/f/mqadkqyz" method="POST" class="space-y-4 w-full md:w-1/2">
+                        <input type="text" name="name" placeholder="Your Name" required class="w-full p-3 rounded-md border border-gray-300 dark:bg-gray-700 dark:text-white">
+                        <textarea rows="4" name="message" placeholder="Your Message" required class="w-full p-3 rounded-md border border-gray-300 dark:bg-gray-700 dark:text-white"></textarea>
+                        <button type="submit" class="w-full bg-dark-text text-white font-semibold py-3 px-6 rounded-full dark:bg-custom-yellow dark:text-dark-gray">Send Message</button>
+                    </form>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- ============================================= -->
-    <!-- Footer Section -->
-    <!-- ============================================= -->
-    <footer class="bg-light-secondary py-5 text-center dark:bg-dark-gray dark:border-t dark:border-gray-700">
-        <div class="container mx-auto">
-            <p class="text-subtle-gray text-sm dark:text-gray-400"> Copyright © 2012 - 2025 Labib. All rights reserved.</p>
-        </div>
+    <footer class="bg-light-secondary py-5 text-center dark:bg-dark-gray">
+        <p class="text-subtle-gray text-sm dark:text-gray-400">Copyright © 2012 - 2025 Labib. All rights reserved.</p>
     </footer>
 
-        <!-- ============================================= -->
-    <!-- Scripts -->
-    <!-- ============================================= -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburger = document.getElementById('hamburger-menu');
-            const mobileNav = document.getElementById('nav-menu-mobile');
-            const mobileLinks = mobileNav.querySelectorAll('a');
-
-            function toggleMenu() {
-                hamburger.classList.toggle('active');
-                mobileNav.classList.toggle('open');
-            }
-
-            // Open/close menu when hamburger is clicked
-            if (hamburger) {
-                hamburger.addEventListener('click', toggleMenu);
-            }
-
-            // Close menu when a link is clicked
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (mobileNav.classList.contains('open')) {
-                        toggleMenu();
-                    }
-                });
-            });
-
-            // Handle window resize to ensure correct state on desktop
-            window.addEventListener('resize', function() {
-                if (window.innerWidth >= 768) {
-                    mobileNav.classList.remove('open');
-                    hamburger.classList.remove('active');
-                }
-            });
-
-            const projects = [
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png',
-                    title: 'Loom Apparel: A Classy Minimalistic Post Design',
-                    description: 'Designed a clean and classy poster that grabs viewers attention. The minimal style makes it even more eye catching, simple but effective.',
-                    imageRight: false
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png',
-                    title: 'COSMIC NOVA: Speeker Design, Dont Miss A Single Beat',
-                    description: 'I truly enjoy designing this poster, the red color feel energetic and contrasting white fading font matches the vibe, with the base and beat of the speeker.',
-                    imageRight: true
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png',
-                    title: 'NEBULA CORE: Watch Poster For Black Fryday Sale',
-                    description: 'A simple and clean design. When it comes to style, we can not forget watches. A perfect fit for classy men. The color plate was difficult to choose, because the industry was new for me, but i manage to research and find the best one.',
-                    imageRight: false
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/e6f3da969ed4f48543615d1025da95a624116610/images/W4.png',
-                    title: 'Digital Campaign for a Local Cafe',
-                    description: 'Created a full-suite digital marketing campaign for a local cafe, including social media graphics, a loyalty app UI, and email templates. The design focused on creating a warm and inviting brand presence that boosted customer engagement.',
-                    loadStage: 'first-load',
-                    imageRight: true
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend//89db7e1a4c822ca7e9a4320fe2e87a27812fddbb/images/W5.png',
-                    title: 'Book Cover Design for a Sci-Fi Novel',
-                    description: 'Designed a compelling book cover for a new sci-fi novel. The project required capturing the futuristic and mysterious tone of the story through typography, color, and visual elements, resulting in a design that stands out on the shelf.',
-                    loadStage: 'first-load',
-                    imageRight: false
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/43faabbfcaa087ce754daa452073c8d4392e004f/images/W6.png',
-                    title: 'Infographic Series for a Health Campaign',
-                    description: 'Developed a series of clear and concise infographics to communicate complex health data. The project utilized vibrant colors and simple icons to make the information accessible and engaging for a wide audience.',
-                    loadStage: 'full-load',
-                    imageRight: true
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/d21849542d0250222a43134470500fe58fd08f7c/images/W7.png',
-                    title: 'Website Landing Page for a New Startup',
-                    description: 'Designed a visually striking and highly converting landing page for a new tech startup. The design focused on a strong hero section, clear calls-to-action, and a clean layout that guided users through the product\'s benefits.',
-                    loadStage: 'full-load',
-                    imageRight: false
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/5d1e986c5217cf53979173425fe05688cb27f8fc/images/W8.png',
-                    title: 'Website Landing Page for a New Startup',
-                    description: 'Designed a visually striking and highly converting landing page for a new tech startup. The design focused on a strong hero section, clear calls-to-action, and a clean layout that guided users through the product\'s benefits.',
-                    loadStage: 'full-load',
-                    imageRight: true
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/3f66bbb32195c2a9045f2f7495d3581060962e37/images/W9.png',
-                    title: 'Website Landing Page for a New Startup',
-                    description: 'Designed a visually striking and highly converting landing page for a new tech startup. The design focused on a strong hero section, clear calls-to-action, and a clean layout that guided users through the product\'s benefits.',
-                    loadStage: 'full-load',
-                    imageRight: false
-                }
-            ];
-            
-            const blogPosts = [
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png',
-                    title: 'The Power of Minimalism in Design',
-                    description: 'Explore how less can truly be more in graphic design and its impact on user experience.',
-                    link: '#'
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png',
-                    title: 'Trends in Motion Graphics for 2025',
-                    description: 'A look into the exciting new directions motion graphics are taking this year.',
-                    link: '#'
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png',
-                    title: 'Developing a Strong Brand Narrative',
-                    description: 'Tips and tricks for building a compelling story around your brand through design.',
-                    link: '#'
-                }
-            ];
-
-            // VVVV THIS IS THE UPDATED FUNCTION VVVV
-            const createProjectHtml = (project) => {
-                // Determine the order for desktop screens (md and larger)
-                const imageDesktopOrder = project.imageRight ? 'md:order-2' : 'md:order-1';
-                const textDesktopOrder = project.imageRight ? 'md:order-1' : 'md:order-2';
-                const loadAttribute = project.loadStage ? `data-load-stage="${project.loadStage}"` : '';
-
-                // HTML Structure:
-                // - The parent div uses `flex-col` on mobile and `md:flex-row` on desktop.
-                // - On mobile, the natural order (image first, then text) is used, so the image is on top.
-                // - On desktop, `md:order-*` classes activate to rearrange the items as needed.
-                return `
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center project-item relative dark:bg-gray-800" ${loadAttribute}>
-                    
-                    <!-- Image container -->
-                    <div class="w-full md:w-1/2 ${imageDesktopOrder}">
-                        <img src="${project.imageSrc}" alt="${project.title} image" class="w-full h-auto object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x400/E2E8F0/1A202C?text=Image+Not+Found'">
-                    </div>
-
-                    <!-- Text container -->
-                    <div class="p-8 w-full md:w-1/2 ${textDesktopOrder}">
-                        <h3 class="text-dark-text text-lg font-semibold mb-4 dark:text-off-white">${project.title}</h3>
-                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">${project.description}</p>
-                    </div>
-
-                </div>`;
-            };
-            
-            const createBlogHtml = (post) => {
-                return `<div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800"><img src="${post.imageSrc}" alt="Blog Post Image" class="w-full h-48 object-cover"><div class="p-6"><h3 class="text-dark-text text-xl font-semibold mb-2 dark:text-off-white">${post.title}</h3><p class="text-subtle-gray text-base mb-4 dark:text-gray-300">${post.description}</p><a href="${post.link}" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a></div></div>`;
-            };
-
-            const renderProjects = () => {
-                document.getElementById('projects-container').innerHTML = projects.map(createProjectHtml).join('');
-            };
-            
-            const renderBlogPosts = () => {
-                document.getElementById('blog-container').innerHTML = blogPosts.map(createBlogHtml).join('');
-            };
-            
-            renderProjects();
-            renderBlogPosts();
-            
-            const firstLoadProjects = document.querySelectorAll('[data-load-stage="first-load"]');
-            const fullLoadProjects = document.querySelectorAll('[data-load-stage="full-load"]');
-            const projectsSection = document.getElementById('work');
-            const loadMoreBtn = document.getElementById('load-more-btn');
-            const showAllBtn = document.getElementById('show-all-btn');
-            const hideProjectsBtn = document.getElementById('hide-projects-btn');
-
-            const showProjects = (projectsToShow) => projectsToShow.forEach(project => { project.classList.remove('hidden'); void project.offsetWidth; project.classList.add('visible'); });
-            const hideProjects = (projectsToHide) => projectsToHide.forEach(project => { project.classList.remove('visible'); const onTransitionEnd = () => { project.classList.add('hidden'); project.removeEventListener('transitionend', onTransitionEnd); }; project.addEventListener('transitionend', onTransitionEnd); });
-
-            firstLoadProjects.forEach(p => p.classList.add('hidden'));
-            fullLoadProjects.forEach(p => p.classList.add('hidden'));
-
-            if (loadMoreBtn) loadMoreBtn.addEventListener('click', function() { showProjects(firstLoadProjects); loadMoreBtn.classList.add('hidden'); if (showAllBtn) showAllBtn.classList.remove('hidden'); if (hideProjectsBtn) hideProjectsBtn.classList.remove('hidden'); });
-            if (showAllBtn) showAllBtn.addEventListener('click', function() { showProjects(fullLoadProjects); showAllBtn.classList.add('hidden'); if (hideProjectsBtn) hideProjectsBtn.classList.remove('hidden'); });
-            if (hideProjectsBtn) hideProjectsBtn.addEventListener('click', function() { if (showAllBtn.classList.contains('hidden')) { hideProjects(fullLoadProjects); hideProjects(firstLoadProjects); } else { hideProjects(firstLoadProjects); } loadMoreBtn.classList.remove('hidden'); showAllBtn.classList.add('hidden'); hideProjectsBtn.classList.add('hidden'); if (projectsSection) projectsSection.scrollIntoView({ behavior: 'smooth' }); });
-            if (firstLoadProjects.length > 0) { loadMoreBtn.classList.remove('hidden'); } else { loadMoreBtn.classList.add('hidden'); }
-
-            // Dark Mode Toggle Logic
-            const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
-            const htmlElement = document.documentElement;
-            const isDarkMode = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
-            if (isDarkMode) htmlElement.classList.add('dark');
-
-            function updateIcon() {
-                const isDark = htmlElement.classList.contains('dark');
-                themeToggleBtns.forEach(btn => {
-                    const icon = btn.querySelector('i');
-                    const text = btn.querySelector('.theme-toggle-text');
-                    
-                    if (isDark) {
-                        icon.classList.remove('fa-moon');
-                        icon.classList.add('fa-sun');
-                        text.textContent = 'Light';
-                    } else {
-                        icon.classList.remove('fa-sun');
-                        icon.classList.add('fa-moon');
-                        text.textContent = 'Dark';
-                    }
-                });
-            }
-
-            updateIcon();
-
-            themeToggleBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    htmlElement.classList.toggle('dark');
-                    localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
-                    updateIcon();
-                });
-            });
-            // Contact Form Logic
-            const contactForm = document.getElementById('contact-form');
-            const modal = document.getElementById('popup-modal');
-            const modalContent = modal.querySelector('div');
-            const closeModalBtn = document.getElementById('close-modal-btn');
-
-            function showModal() {
-                modal.classList.remove('hidden');
-                setTimeout(() => { 
-                    modal.style.opacity = '1';
-                    modalContent.style.transform = 'scale(1)';
-                    modalContent.style.opacity = '1';
-                }, 10);
-            }
-
-            function hideModal() {
-                modal.style.opacity = '0';
-                modalContent.style.transform = 'scale(0.95)';
-                modalContent.style.opacity = '0';
-                setTimeout(() => { 
-                    modal.classList.add('hidden');
-                }, 300);
-            }
-
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault(); 
-                    
-                    const formData = new FormData(contactForm);
-                    const submitButton = contactForm.querySelector('button[type="submit"]');
-                    const originalButtonText = submitButton.textContent;
-                    
-                    submitButton.disabled = true;
-                    submitButton.textContent = 'Sending...';
-
-                    fetch(contactForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    }).then(response => {
-                        if (response.ok) {
-                            contactForm.reset(); 
-                            showModal(); 
-                        } else {
-                            alert('Oops! There was a problem submitting your form. Please try again.');
-                        }
-                    }).catch(error => {
-                        console.error('Error:', error);
-                        alert('Oops! There was a network error. Please try again.');
-                    }).finally(() => {
-                        submitButton.disabled = false;
-                        submitButton.textContent = originalButtonText;
-                    });
-                });
-            }
-
-            if (closeModalBtn) closeModalBtn.addEventListener('click', hideModal);
-            if (modal) modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    hideModal();
-                }
-            });
-        });
-    </script>
-    <!-- ============================================= -->
-<!-- Pop-up Modal -->
-<!-- ============================================= -->
-<div id="popup-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 transition-opacity duration-300">
-    <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 text-center dark:bg-gray-800 transform transition-all duration-300 scale-95 opacity-0">
-        <!-- Close Button -->
-        <button id="close-modal-btn" type="button" class="absolute top-3 right-3 text-gray-400 hover:text-gray-900 rounded-lg text-sm p-1.5 dark:hover:text-white">
-            <i class="fas fa-times text-2xl"></i>
-            <span class="sr-only">Close modal</span>
-        </button>
-        <!-- Modal Content -->
-        <div class="mb-4">
-            <i class="fas fa-check-circle text-6xl text-green-500"></i>
+    <div id="popup-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+        <div class="bg-white rounded-lg p-8 text-center dark:bg-gray-800">
+            <h3 class="text-2xl font-bold dark:text-off-white">Thank You!</h3>
+            <button id="close-modal-btn" class="mt-4 text-accent-blue">Close</button>
         </div>
-        <h3 class="mb-5 text-2xl font-bold text-dark-text dark:text-off-white">Thank You!</h3>
-        <p class="text-subtle-gray dark:text-gray-300">Your message has been sent successfully. I will get back to you shortly.</p>
     </div>
-</div>
+
+    <script src="script.js"></script>
 </body>
 </html>
-
-
