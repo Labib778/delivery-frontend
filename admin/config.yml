@@ -1,8 +1,7 @@
 backend:
-  name: auth0
-  auth0_domain: "dev-akzfdebi17lb3u37.us.auth0.com"
-  auth0_client_id: "DzAZ7ErgUQ0eSf18Y5is1QvNvwO7hJyE"
-  branch: main
+  name: git-gateway
+  branch: main  # your main branch
+  repo: Labib778/delivery-frontend  # your GitHub repo
 
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
