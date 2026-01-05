@@ -1,5 +1,7 @@
 backend:
-  name: git-gateway
+  name: auth0
+  auth0_domain: "dev-akzfdebi17lb3u37.us.auth0.com"
+  auth0_client_id: "DzAZ7ErgUQ0eSf18Y5is1QvNvwO7hJyE"
   branch: main
 
 media_folder: "assets/uploads"
