@@ -332,299 +332,223 @@
         <!-- ============================================= -->         
         <script>
         document.addEventListener('DOMContentLoaded', function() {
+        // 1. CONFIGURATION - Pointing to your SiteChai Application URL
+        const API_URL = "https://labibsharker.web.app"; 
+        
+        const container = document.getElementById('projects-container');
+        const blogContainer = document.getElementById('blog-container');
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        const showAllBtn = document.getElementById('show-all-btn');
+        const hideProjectsBtn = document.getElementById('hide-projects-btn');
+
+        // 2. PROJECT RENDERING LOGIC
+        const createProjectHtml = (project, index) => {
+            const isRight = index % 2 !== 0;
+            const imageDesktopOrder = isRight ? 'md:order-2' : 'md:order-1';
+            const textDesktopOrder = isRight ? 'md:order-1' : 'md:order-2';
+            
+            let loadStage = '';
+            let hiddenClass = '';
+            if (index >= 3 && index < 6) {
+                loadStage = 'first-load';
+                hiddenClass = 'hidden opacity-0 translate-y-4';
+            } else if (index >= 6) {
+                loadStage = 'full-load';
+                hiddenClass = 'hidden opacity-0 translate-y-4';
+            }
+
+            // Handle Image URL: Appends API_URL if it's a relative path from the server
+            const fullImageSrc = project.image.startsWith('http') 
+                ? project.image 
+                : `${API_URL}${project.image}`;
+
+            return `
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-500 hover:scale-105 flex flex-col md:flex-row items-center project-item relative dark:bg-gray-800 ${hiddenClass}" data-load-stage="${loadStage}">
+                <div class="w-full md:w-1/2 ${imageDesktopOrder}">
+                    <img src="${fullImageSrc}" alt="${project.title}" class="w-full h-auto object-cover" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
+                </div>
+                <div class="p-8 w-full md:w-1/2 ${textDesktopOrder}">
+                    <h3 class="text-dark-text text-lg font-semibold mb-4 dark:text-off-white">${project.title}</h3>
+                    <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">${project.description}</p>
+                </div>
+            </div>`;
+        };
+
+        const renderProjects = async () => {
+            try {
+                const response = await fetch(`${API_URL}/projects?t=${Date.now()}`);
+                const projects = await response.json();
+                
+                if (projects.length === 0) {
+                    container.innerHTML = `<p class="text-center py-10 dark:text-gray-400">No projects found.</p>`;
+                    loadMoreBtn?.classList.add('hidden');
+                    return;
+                }
+
+                container.innerHTML = projects.map((p, i) => createProjectHtml(p, i)).join('');
+
+                if (projects.length > 3) {
+                    loadMoreBtn?.classList.remove('hidden');
+                } else {
+                    loadMoreBtn?.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+                container.innerHTML = `<p class="text-center text-red-500 py-10">Error connecting to SiteChai server.</p>`;
+            }
+        };
+
+        // 3. BLOG RENDERING LOGIC (Now Fetching from SiteChai)
+        const renderBlog = async () => {
+            try {
+                const response = await fetch(`${API_URL}/blog?t=${Date.now()}`);
+                const blogs = await response.json();
+                
+                if (blogs.length === 0) {
+                    blogContainer.innerHTML = `<p class="text-center col-span-full py-10 dark:text-gray-400">No blog posts yet.</p>`;
+                    return;
+                }
+
+                blogContainer.innerHTML = blogs.map(post => {
+                    const fullImg = post.image.startsWith('http') ? post.image : `${API_URL}${post.image}`;
+                    return `
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800">
+                        <img src="${fullImg}" alt="Blog" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400?text=Blog+Image'">
+                        <div class="p-6">
+                            <h3 class="text-dark-text text-xl font-semibold mb-2 dark:text-off-white">${post.title}</h3>
+                            <p class="text-subtle-gray text-base mb-4 dark:text-gray-300">${post.description}</p>
+                            <a href="#" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
+                        </div>
+                    </div>`;
+                }).join('');
+            } catch (error) {
+                console.error("Blog Fetch Error:", error);
+            }
+        };
+
+        // 4. UI ANIMATION HELPERS
+        const showProjects = (stage) => {
+            const targets = document.querySelectorAll(`[data-load-stage="${stage}"]`);
+            targets.forEach(el => {
+                el.classList.remove('hidden');
+                setTimeout(() => {
+                    el.classList.add('visible');
+                    el.classList.remove('opacity-0', 'translate-y-4');
+                }, 10);
+            });
+        };
+
+        const hideExtraProjects = () => {
+            const extras = document.querySelectorAll('[data-load-stage="first-load"], [data-load-stage="full-load"]');
+            extras.forEach(el => {
+                el.classList.add('hidden', 'opacity-0', 'translate-y-4');
+                el.classList.remove('visible');
+            });
+            document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        // 5. BUTTON EVENT LISTENERS
+        loadMoreBtn?.addEventListener('click', () => {
+            showProjects('first-load');
+            loadMoreBtn.classList.add('hidden');
+            const hasFullLoad = document.querySelector('[data-load-stage="full-load"]');
+            if (hasFullLoad) showAllBtn?.classList.remove('hidden');
+            hideProjectsBtn?.classList.remove('hidden');
+        });
+
+        showAllBtn?.addEventListener('click', () => {
+            showProjects('full-load');
+            showAllBtn.classList.add('hidden');
+            hideProjectsBtn?.classList.remove('hidden');
+        });
+
+        hideProjectsBtn?.addEventListener('click', () => {
+            hideExtraProjects();
+            hideProjectsBtn.classList.add('hidden');
+            showAllBtn.classList.add('hidden');
+            loadMoreBtn?.classList.remove('hidden');
+        });
+
+        // 6. OTHER UI LOGIC (HAMBURGER & THEME)
+        const setupOtherUI = () => {
             const hamburger = document.getElementById('hamburger-menu');
             const mobileNav = document.getElementById('nav-menu-mobile');
-            const mobileLinks = mobileNav.querySelectorAll('a');
-
-            function toggleMenu() {
+            hamburger?.addEventListener('click', () => {
                 hamburger.classList.toggle('active');
-                mobileNav.classList.toggle('open');
-            }
-
-            // Open/close menu when hamburger is clicked
-            if (hamburger) {
-                hamburger.addEventListener('click', toggleMenu);
-            }
-
-            // Close menu when a link is clicked
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (mobileNav.classList.contains('open')) {
-                        toggleMenu();
-                    }
-                });
+                mobileNav?.classList.toggle('open');
             });
 
-            // Handle window resize to ensure correct state on desktop
-            window.addEventListener('resize', function() {
-                if (window.innerWidth >= 768) {
-                    mobileNav.classList.remove('open');
-                    hamburger.classList.remove('active');
-                }
-            });
-
-            const projects = [
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png',
-                    title: 'Loom Apparel: A Classy Minimalistic Post Design',
-                    description: 'Designed a clean and classy poster that grabs viewers attention. The minimal style makes it even more eye catching, simple but effective.',
-                    imageRight: false
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png',
-                    title: 'COSMIC NOVA: Speeker Design, Dont Miss A Single Beat',
-                    description: 'I truly enjoy designing this poster, the red color feel energetic and contrasting white fading font matches the vibe, with the base and beat of the speeker.',
-                    imageRight: true
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png',
-                    title: 'NEBULA CORE: Watch Poster For Black Fryday Sale',
-                    description: 'A simple and clean design. When it comes to style, we can not forget watches. A perfect fit for classy men. The color plate was difficult to choose, because the industry was new for me, but i manage to research and find the best one.',
-                    imageRight: false
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/e6f3da969ed4f48543615d1025da95a624116610/images/W4.png',
-                    title: 'Digital Campaign for a Local Cafe',
-                    description: 'Created a full-suite digital marketing campaign for a local cafe, including social media graphics, a loyalty app UI, and email templates. The design focused on creating a warm and inviting brand presence that boosted customer engagement.',
-                    loadStage: 'first-load',
-                    imageRight: true
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend//89db7e1a4c822ca7e9a4320fe2e87a27812fddbb/images/W5.png',
-                    title: 'Book Cover Design for a Sci-Fi Novel',
-                    description: 'Designed a compelling book cover for a new sci-fi novel. The project required capturing the futuristic and mysterious tone of the story through typography, color, and visual elements, resulting in a design that stands out on the shelf.',
-                    loadStage: 'first-load',
-                    imageRight: false
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/43faabbfcaa087ce754daa452073c8d4392e004f/images/W6.png',
-                    title: 'Infographic Series for a Health Campaign',
-                    description: 'Developed a series of clear and concise infographics to communicate complex health data. The project utilized vibrant colors and simple icons to make the information accessible and engaging for a wide audience.',
-                    loadStage: 'full-load',
-                    imageRight: true
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/d21849542d0250222a43134470500fe58fd08f7c/images/W7.png',
-                    title: 'Website Landing Page for a New Startup',
-                    description: 'Designed a visually striking and highly converting landing page for a new tech startup. The design focused on a strong hero section, clear calls-to-action, and a clean layout that guided users through the product\'s benefits.',
-                    loadStage: 'full-load',
-                    imageRight: false
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/5d1e986c5217cf53979173425fe05688cb27f8fc/images/W8.png',
-                    title: 'Website Landing Page for a New Startup',
-                    description: 'Designed a visually striking and highly converting landing page for a new tech startup. The design focused on a strong hero section, clear calls-to-action, and a clean layout that guided users through the product\'s benefits.',
-                    loadStage: 'full-load',
-                    imageRight: true
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/3f66bbb32195c2a9045f2f7495d3581060962e37/images/W9.png',
-                    title: 'Website Landing Page for a New Startup',
-                    description: 'Designed a visually striking and highly converting landing page for a new tech startup. The design focused on a strong hero section, clear calls-to-action, and a clean layout that guided users through the product\'s benefits.',
-                    loadStage: 'full-load',
-                    imageRight: false
-                }
-            ];
-            
-            const blogPosts = [
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W1.png',
-                    title: 'The Power of Minimalism in Design',
-                    description: 'Explore how less can truly be more in graphic design and its impact on user experience.',
-                    link: '#'
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W2.png',
-                    title: 'Trends in Motion Graphics for 2025',
-                    description: 'A look into the exciting new directions motion graphics are taking this year.',
-                    link: '#'
-                },
-                {
-                    imageSrc: 'https://raw.githubusercontent.com/Labib778/delivery-frontend/106ccd7187097882f4cbf89d10257a4819269971/images/W3.png',
-                    title: 'Developing a Strong Brand Narrative',
-                    description: 'Tips and tricks for building a compelling story around your brand through design.',
-                    link: '#'
-                }
-            ];
-
-            // VVVV THIS IS THE UPDATED FUNCTION VVVV
-            const createProjectHtml = (project) => {
-                // Determine the order for desktop screens (md and larger)
-                const imageDesktopOrder = project.imageRight ? 'md:order-2' : 'md:order-1';
-                const textDesktopOrder = project.imageRight ? 'md:order-1' : 'md:order-2';
-                const loadAttribute = project.loadStage ? `data-load-stage="${project.loadStage}"` : '';
-
-                // HTML Structure:
-                // - The parent div uses `flex-col` on mobile and `md:flex-row` on desktop.
-                // - On mobile, the natural order (image first, then text) is used, so the image is on top.
-                // - On desktop, `md:order-*` classes activate to rearrange the items as needed.
-                return `
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 flex flex-col md:flex-row items-center project-item relative dark:bg-gray-800" ${loadAttribute}>
-                    
-                    <!-- Image container -->
-                    <div class="w-full md:w-1/2 ${imageDesktopOrder}">
-                        <img src="${project.imageSrc}" alt="${project.title} image" class="w-full h-auto object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x400/E2E8F0/1A202C?text=Image+Not+Found'">
-                    </div>
-
-                    <!-- Text container -->
-                    <div class="p-8 w-full md:w-1/2 ${textDesktopOrder}">
-                        <h3 class="text-dark-text text-lg font-semibold mb-4 dark:text-off-white">${project.title}</h3>
-                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">${project.description}</p>
-                    </div>
-
-                </div>`;
-            };
-            
-            const createBlogHtml = (post) => {
-                return `<div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800"><img src="${post.imageSrc}" alt="Blog Post Image" class="w-full h-48 object-cover"><div class="p-6"><h3 class="text-dark-text text-xl font-semibold mb-2 dark:text-off-white">${post.title}</h3><p class="text-subtle-gray text-base mb-4 dark:text-gray-300">${post.description}</p><a href="${post.link}" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a></div></div>`;
-            };
-
-            const renderProjects = () => {
-                document.getElementById('projects-container').innerHTML = projects.map(createProjectHtml).join('');
-            };
-            
-            const renderBlogPosts = () => {
-                document.getElementById('blog-container').innerHTML = blogPosts.map(createBlogHtml).join('');
-            };
-            
-            renderProjects();
-            renderBlogPosts();
-            
-            const firstLoadProjects = document.querySelectorAll('[data-load-stage="first-load"]');
-            const fullLoadProjects = document.querySelectorAll('[data-load-stage="full-load"]');
-            const projectsSection = document.getElementById('work');
-            const loadMoreBtn = document.getElementById('load-more-btn');
-            const showAllBtn = document.getElementById('show-all-btn');
-            const hideProjectsBtn = document.getElementById('hide-projects-btn');
-
-            const showProjects = (projectsToShow) => projectsToShow.forEach(project => { project.classList.remove('hidden'); void project.offsetWidth; project.classList.add('visible'); });
-            const hideProjects = (projectsToHide) => projectsToHide.forEach(project => { project.classList.remove('visible'); const onTransitionEnd = () => { project.classList.add('hidden'); project.removeEventListener('transitionend', onTransitionEnd); }; project.addEventListener('transitionend', onTransitionEnd); });
-
-            firstLoadProjects.forEach(p => p.classList.add('hidden'));
-            fullLoadProjects.forEach(p => p.classList.add('hidden'));
-
-            if (loadMoreBtn) loadMoreBtn.addEventListener('click', function() { showProjects(firstLoadProjects); loadMoreBtn.classList.add('hidden'); if (showAllBtn) showAllBtn.classList.remove('hidden'); if (hideProjectsBtn) hideProjectsBtn.classList.remove('hidden'); });
-            if (showAllBtn) showAllBtn.addEventListener('click', function() { showProjects(fullLoadProjects); showAllBtn.classList.add('hidden'); if (hideProjectsBtn) hideProjectsBtn.classList.remove('hidden'); });
-            if (hideProjectsBtn) hideProjectsBtn.addEventListener('click', function() { if (showAllBtn.classList.contains('hidden')) { hideProjects(fullLoadProjects); hideProjects(firstLoadProjects); } else { hideProjects(firstLoadProjects); } loadMoreBtn.classList.remove('hidden'); showAllBtn.classList.add('hidden'); hideProjectsBtn.classList.add('hidden'); if (projectsSection) projectsSection.scrollIntoView({ behavior: 'smooth' }); });
-            if (firstLoadProjects.length > 0) { loadMoreBtn.classList.remove('hidden'); } else { loadMoreBtn.classList.add('hidden'); }
-
-            // Dark Mode Toggle Logic
             const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
             const htmlElement = document.documentElement;
-            const isDarkMode = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
-            if (isDarkMode) htmlElement.classList.add('dark');
-
-            function updateIcon() {
+            
+            const updateThemeIcons = () => {
                 const isDark = htmlElement.classList.contains('dark');
                 themeToggleBtns.forEach(btn => {
                     const icon = btn.querySelector('i');
                     const text = btn.querySelector('.theme-toggle-text');
-                    
-                    if (isDark) {
-                        icon.classList.remove('fa-moon');
-                        icon.classList.add('fa-sun');
-                        text.textContent = 'Light';
-                    } else {
-                        icon.classList.remove('fa-sun');
-                        icon.classList.add('fa-moon');
-                        text.textContent = 'Dark';
-                    }
+                    if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+                    if (text) text.textContent = isDark ? 'Light' : 'Dark';
                 });
-            }
-
-            updateIcon();
+            };
 
             themeToggleBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     htmlElement.classList.toggle('dark');
                     localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
-                    updateIcon();
+                    updateThemeIcons();
                 });
             });
-            // Contact Form Logic
-            const contactForm = document.getElementById('contact-form');
-            const modal = document.getElementById('popup-modal');
-            const modalContent = modal.querySelector('div');
-            const closeModalBtn = document.getElementById('close-modal-btn');
 
-            function showModal() {
-                modal.classList.remove('hidden');
-                setTimeout(() => { 
-                    modal.style.opacity = '1';
-                    modalContent.style.transform = 'scale(1)';
-                    modalContent.style.opacity = '1';
-                }, 10);
+            if (localStorage.getItem('theme') === 'dark') {
+                htmlElement.classList.add('dark');
+                updateThemeIcons();
             }
+        };
 
-            function hideModal() {
-                modal.style.opacity = '0';
-                modalContent.style.transform = 'scale(0.95)';
-                modalContent.style.opacity = '0';
-                setTimeout(() => { 
-                    modal.classList.add('hidden');
-                }, 300);
-            }
+        // 7. INITIALIZE EVERYTHING
+        renderProjects();
+        renderBlog();
+        setupOtherUI();
 
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault(); 
-                    
-                    const formData = new FormData(contactForm);
-                    const submitButton = contactForm.querySelector('button[type="submit"]');
-                    const originalButtonText = submitButton.textContent;
-                    
-                    submitButton.disabled = true;
-                    submitButton.textContent = 'Sending...';
-
-                    fetch(contactForm.action, {
+        // Contact Form
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = contactForm.querySelector('button');
+                btn.disabled = true;
+                btn.textContent = 'Sending...';
+                try {
+                    const res = await fetch(contactForm.action, {
                         method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    }).then(response => {
-                        if (response.ok) {
-                            contactForm.reset(); 
-                            showModal(); 
-                        } else {
-                            alert('Oops! There was a problem submitting your form. Please try again.');
-                        }
-                    }).catch(error => {
-                        console.error('Error:', error);
-                        alert('Oops! There was a network error. Please try again.');
-                    }).finally(() => {
-                        submitButton.disabled = false;
-                        submitButton.textContent = originalButtonText;
+                        body: new FormData(contactForm),
+                        headers: { 'Accept': 'application/json' }
                     });
-                });
-            }
-
-            if (closeModalBtn) closeModalBtn.addEventListener('click', hideModal);
-            if (modal) modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    hideModal();
-                }
+                    if (res.ok) {
+                        const modal = document.getElementById('popup-modal');
+                        modal.classList.remove('hidden');
+                        modal.style.opacity = '1';
+                        contactForm.reset();
+                    }
+                } catch (err) { alert("Failed to send message."); }
+                btn.disabled = false;
+                btn.textContent = 'Send Message';
             });
+        }
+        
+        document.getElementById('close-modal-btn')?.addEventListener('click', () => {
+            document.getElementById('popup-modal').classList.add('hidden');
         });
-    </script>         
-        <!-- ============================================= -->         
-        <!-- Pop-up Modal -->         
-        <!-- ============================================= -->         
-        <div id="popup-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 transition-opacity duration-300"> 
-            <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 text-center dark:bg-gray-800 transform transition-all duration-300 scale-95 opacity-0"> 
-                <!-- Close Button -->                 
-                <button id="close-modal-btn" type="button" class="absolute top-3 right-3 text-gray-400 hover:text-gray-900 rounded-lg text-sm p-1.5 dark:hover:text-white"> <i class="fas fa-times text-2xl"></i> <span class="sr-only">Close modal</span> 
-                </button>                 
-                <!-- Modal Content -->                 
-                <div class="mb-4"> <i class="fas fa-check-circle text-6xl text-green-500"></i> 
-                </div>                 
-                <h3 class="mb-5 text-2xl font-bold text-dark-text dark:text-off-white">Thank You!</h3> 
-                <p class="text-subtle-gray dark:text-gray-300">Your message has been sent successfully. I will get back to you shortly.</p> 
-            </div>             
-        </div>         
-    </body>     
+    });
+</script>         
+
+    <div id="popup-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 transition-opacity duration-300"> 
+        <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 text-center dark:bg-gray-800"> 
+            <button id="close-modal-btn" type="button" class="absolute top-3 right-3 text-gray-400 hover:text-gray-900"><i class="fas fa-times text-2xl"></i></button>                 
+            <div class="mb-4"> <i class="fas fa-check-circle text-6xl text-green-500"></i></div>                 
+            <h3 class="mb-5 text-2xl font-bold text-dark-text dark:text-off-white">Thank You!</h3> 
+            <p class="text-subtle-gray dark:text-gray-300">Your message has been sent successfully.</p> 
+        </div>             
+    </div>         
+</body>     
 </html>
-
-
-
