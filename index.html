@@ -297,6 +297,49 @@ async function renderTestimonials() {
     }
 }
 
+async function applySiteSettings() {
+    try {
+        // Fetch settings with a cache-buster
+        const res = await fetch('data/settings.json?v=' + Date.now());
+        const settings = await res.json();
+
+        if (settings.customCursor) {
+            enableCustomCursor();
+        } else {
+            disableCustomCursor();
+        }
+    } catch (e) {
+        console.warn("Settings not found, using defaults.");
+    }
+}
+
+function enableCustomCursor() {
+    // 1. Create cursor element if it doesn't exist
+    let cursor = document.getElementById('custom-cursor');
+    if (!cursor) {
+        cursor = document.createElement('div');
+        cursor.id = 'custom-cursor';
+        cursor.className = 'fixed top-0 left-0 w-8 h-8 bg-accent-yellow/50 rounded-full pointer-events-none z-[9999] transition-transform duration-100 ease-out';
+        document.body.appendChild(cursor);
+    }
+    
+    // 2. Add movement logic
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.transform = `translate3d(${e.clientX - 16}px, ${e.clientY - 16}px, 0)`;
+    });
+    
+    // 3. Show it
+    cursor.style.display = 'block';
+}
+
+function disableCustomCursor() {
+    const cursor = document.getElementById('custom-cursor');
+    if (cursor) cursor.style.display = 'none';
+}
+
+// Call this on page load
+document.addEventListener('DOMContentLoaded', applySiteSettings);
+
     </script>
 </body>     
 </html>
