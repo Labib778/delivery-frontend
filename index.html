@@ -330,243 +330,216 @@
         <!-- ============================================= -->         
         <!-- Scripts -->         
         <!-- ============================================= -->         
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        // 1. CONFIGURATION - Pointing to your SiteChai Application URL
-        const API_URL = "http://116.202.222.251";
-        
-        const container = document.getElementById('projects-container');
-        const blogContainer = document.getElementById('blog-container');
-        const loadMoreBtn = document.getElementById('load-more-btn');
-        const showAllBtn = document.getElementById('show-all-btn');
-        const hideProjectsBtn = document.getElementById('hide-projects-btn');
+         <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. CONFIGURATION - Pointing to your GitHub Repository
+    const GITHUB_RAW = "https://raw.githubusercontent.com/labib778/delivery-frontend/main";
+    
+    // Selecting correct IDs from your HTML
+    const container = document.getElementById('projects-container'); 
+    const blogContainer = document.getElementById('blog-container');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const showAllBtn = document.getElementById('show-all-btn');
+    const hideProjectsBtn = document.getElementById('hide-projects-btn');
 
-        // 2. PROJECT RENDERING LOGIC
-        const createProjectHtml = (project, index) => {
-            const isRight = index % 2 !== 0;
-            const imageDesktopOrder = isRight ? 'md:order-2' : 'md:order-1';
-            const textDesktopOrder = isRight ? 'md:order-1' : 'md:order-2';
+    // 2. PROJECT RENDERING LOGIC
+    const renderProjects = async () => {
+        if (!container) return;
+        try {
+            // Fetching from your GitHub JSON file
+            const response = await fetch(`${GITHUB_RAW}/data/projects.json?t=${Date.now()}`);
+            const projects = await response.json();
             
-            let loadStage = '';
-            let hiddenClass = '';
-            if (index >= 3 && index < 6) {
-                loadStage = 'first-load';
-                hiddenClass = 'hidden opacity-0 translate-y-4';
-            } else if (index >= 6) {
-                loadStage = 'full-load';
-                hiddenClass = 'hidden opacity-0 translate-y-4';
+            if (projects.length === 0) {
+                container.innerHTML = `<p class="text-center py-10 dark:text-gray-400">No projects found.</p>`;
+                return;
             }
 
-            // Handle Image URL: Appends API_URL if it's a relative path from the server
-            const fullImageSrc = project.image.startsWith('http') 
-                ? project.image 
-                : `${API_URL}${project.image}`;
+            container.innerHTML = projects.map((project, index) => {
+                const isRight = index % 2 !== 0;
+                const imageDesktopOrder = isRight ? 'md:order-2' : 'md:order-1';
+                const textDesktopOrder = isRight ? 'md:order-1' : 'md:order-2';
+                
+                // Logic for "See More" functionality
+                let loadStage = '';
+                let hiddenClass = '';
+                if (index >= 3 && index < 6) {
+                    loadStage = 'first-load';
+                    hiddenClass = 'hidden opacity-0 translate-y-4';
+                } else if (index >= 6) {
+                    loadStage = 'full-load';
+                    hiddenClass = 'hidden opacity-0 translate-y-4';
+                }
 
-            return `
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-500 hover:scale-105 flex flex-col md:flex-row items-center project-item relative dark:bg-gray-800 ${hiddenClass}" data-load-stage="${loadStage}">
-                <div class="w-full md:w-1/2 ${imageDesktopOrder}">
-                    <img src="${fullImageSrc}" alt="${project.title}" class="w-full h-auto object-cover" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
-                </div>
-                <div class="p-8 w-full md:w-1/2 ${textDesktopOrder}">
-                    <h3 class="text-dark-text text-lg font-semibold mb-4 dark:text-off-white">${project.title}</h3>
-                    <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">${project.description}</p>
-                </div>
-            </div>`;
-        };
+                // Correctly path images to the /uploads folder on GitHub
+                const fullImageSrc = project.image.startsWith('http') 
+                    ? project.image 
+                    : `${GITHUB_RAW}${project.image}`;
 
-        // --- CONFIGURATION ---
-// Replace with your actual GitHub username and repository name
-const GITHUB_RAW = "https://raw.githubusercontent.com/labib778/delivery-frontend/main";
+                return `
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-500 hover:scale-105 flex flex-col md:flex-row items-center project-item relative dark:bg-gray-800 ${hiddenClass}" data-load-stage="${loadStage}">
+                    <div class="w-full md:w-1/2 ${imageDesktopOrder}">
+                        <img src="${fullImageSrc}" alt="${project.title}" class="w-full h-auto object-cover" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
+                    </div>
+                    <div class="p-8 w-full md:w-1/2 ${textDesktopOrder}">
+                        <h3 class="text-dark-text text-lg font-semibold mb-4 dark:text-off-white">${project.title}</h3>
+                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">${project.description}</p>
+                    </div>
+                </div>`;
+            }).join('');
 
-// 2. PROJECT RENDERING LOGIC
-const renderProjects = async () => {
-    const container = document.getElementById('projects-grid'); // Ensure this ID matches your HTML
-    if (!container) return;
+            // Show "See More" button if there are more than 3 projects
+            if (projects.length > 3) loadMoreBtn?.classList.remove('hidden');
 
-    try {
-        // Fetching from GitHub Raw (HTTPS) avoids the Mixed Content error
-        const response = await fetch(`${GITHUB_RAW}/data/projects.json?t=${Date.now()}`);
-        const projects = await response.json();
-        
-        if (projects.length === 0) {
-            container.innerHTML = `<p class="text-center py-10 dark:text-gray-400">No projects found.</p>`;
-            return;
+        } catch (error) {
+            console.error("Project Load Error:", error);
+            container.innerHTML = `<p class="text-center text-red-500 py-10">Error loading projects from GitHub.</p>`;
         }
+    };
 
-        container.innerHTML = projects.map((p, i) => {
-            // FIX: Ensure image uses GitHub URL if it's a relative path (/uploads/...)
-            const fullImg = p.image.startsWith('http') ? p.image : `${GITHUB_RAW}${p.image}`;
+    // 3. BLOG RENDERING LOGIC
+    const renderBlog = async () => {
+        if (!blogContainer) return;
+        try {
+            const response = await fetch(`${GITHUB_RAW}/data/blog.json?t=${Date.now()}`);
+            const blogs = await response.json();
             
-            return `
-            <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700 hover:border-blue-500 transition-all duration-300">
-                <div class="relative h-48 overflow-hidden">
-                    <img src="${fullImg}" alt="${p.title}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Project'">
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">${p.title}</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">${p.description}</p>
-                </div>
-            </div>`;
-        }).join('');
-
-    } catch (error) {
-        console.error("Backend Error:", error);
-        container.innerHTML = `<p class="text-center text-red-500 py-10">Error loading projects from GitHub.</p>`;
-    }
-};
-
-// 3. BLOG RENDERING LOGIC
-const renderBlog = async () => {
-    const blogContainer = document.getElementById('blog-posts'); // Ensure this ID matches your HTML
-    if (!blogContainer) return;
-
-    try {
-        const response = await fetch(`${GITHUB_RAW}/data/blog.json?t=${Date.now()}`);
-        const blogs = await response.json();
-        
-        if (blogs.length === 0) {
-            blogContainer.innerHTML = `<p class="text-center col-span-full py-10 dark:text-gray-400">No blog posts yet.</p>`;
-            return;
-        }
-
-        blogContainer.innerHTML = blogs.map(post => {
-            // FIX: Ensure image uses GitHub URL if it's a relative path (/uploads/...)
-            const fullImg = post.image.startsWith('http') ? post.image : `${GITHUB_RAW}${post.image}`;
-            
-            return `
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800">
-                <img src="${fullImg}" alt="Blog" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400?text=Blog+Image'">
-                <div class="p-6">
-                    <h3 class="text-dark-text text-xl font-semibold mb-2 dark:text-off-white">${post.title}</h3>
-                    <p class="text-subtle-gray text-base mb-4 dark:text-gray-300">${post.description}</p>
-                    <a href="#" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
-                </div>
-            </div>`;
-        }).join('');
-    } catch (error) {
-        console.error("Blog Fetch Error:", error);
-    }
-};
-
-// Call the functions
-renderProjects();
-renderBlog();
-
-        // 4. UI ANIMATION HELPERS
-        const showProjects = (stage) => {
-            const targets = document.querySelectorAll(`[data-load-stage="${stage}"]`);
-            targets.forEach(el => {
-                el.classList.remove('hidden');
-                setTimeout(() => {
-                    el.classList.add('visible');
-                    el.classList.remove('opacity-0', 'translate-y-4');
-                }, 10);
-            });
-        };
-
-        const hideExtraProjects = () => {
-            const extras = document.querySelectorAll('[data-load-stage="first-load"], [data-load-stage="full-load"]');
-            extras.forEach(el => {
-                el.classList.add('hidden', 'opacity-0', 'translate-y-4');
-                el.classList.remove('visible');
-            });
-            document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
-        };
-
-        // 5. BUTTON EVENT LISTENERS
-        loadMoreBtn?.addEventListener('click', () => {
-            showProjects('first-load');
-            loadMoreBtn.classList.add('hidden');
-            const hasFullLoad = document.querySelector('[data-load-stage="full-load"]');
-            if (hasFullLoad) showAllBtn?.classList.remove('hidden');
-            hideProjectsBtn?.classList.remove('hidden');
-        });
-
-        showAllBtn?.addEventListener('click', () => {
-            showProjects('full-load');
-            showAllBtn.classList.add('hidden');
-            hideProjectsBtn?.classList.remove('hidden');
-        });
-
-        hideProjectsBtn?.addEventListener('click', () => {
-            hideExtraProjects();
-            hideProjectsBtn.classList.add('hidden');
-            showAllBtn.classList.add('hidden');
-            loadMoreBtn?.classList.remove('hidden');
-        });
-
-        // 6. OTHER UI LOGIC (HAMBURGER & THEME)
-        const setupOtherUI = () => {
-            const hamburger = document.getElementById('hamburger-menu');
-            const mobileNav = document.getElementById('nav-menu-mobile');
-            hamburger?.addEventListener('click', () => {
-                hamburger.classList.toggle('active');
-                mobileNav?.classList.toggle('open');
-            });
-
-            const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
-            const htmlElement = document.documentElement;
-            
-            const updateThemeIcons = () => {
-                const isDark = htmlElement.classList.contains('dark');
-                themeToggleBtns.forEach(btn => {
-                    const icon = btn.querySelector('i');
-                    const text = btn.querySelector('.theme-toggle-text');
-                    if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-                    if (text) text.textContent = isDark ? 'Light' : 'Dark';
-                });
-            };
-
-            themeToggleBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    htmlElement.classList.toggle('dark');
-                    localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
-                    updateThemeIcons();
-                });
-            });
-
-            if (localStorage.getItem('theme') === 'dark') {
-                htmlElement.classList.add('dark');
-                updateThemeIcons();
+            if (blogs.length === 0) {
+                blogContainer.innerHTML = `<p class="text-center col-span-full py-10 dark:text-gray-400">No blog posts yet.</p>`;
+                return;
             }
-        };
 
-        // 7. INITIALIZE EVERYTHING
-        renderProjects();
-        renderBlog();
-        setupOtherUI();
-
-        // Contact Form
-        const contactForm = document.getElementById('contact-form');
-        if (contactForm) {
-            contactForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const btn = contactForm.querySelector('button');
-                btn.disabled = true;
-                btn.textContent = 'Sending...';
-                try {
-                    const res = await fetch(contactForm.action, {
-                        method: 'POST',
-                        body: new FormData(contactForm),
-                        headers: { 'Accept': 'application/json' }
-                    });
-                    if (res.ok) {
-                        const modal = document.getElementById('popup-modal');
-                        modal.classList.remove('hidden');
-                        modal.style.opacity = '1';
-                        contactForm.reset();
-                    }
-                } catch (err) { alert("Failed to send message."); }
-                btn.disabled = false;
-                btn.textContent = 'Send Message';
-            });
+            blogContainer.innerHTML = blogs.map(post => {
+                const fullImg = post.image.startsWith('http') ? post.image : `${GITHUB_RAW}${post.image}`;
+                return `
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 dark:bg-gray-800">
+                    <img src="${fullImg}" alt="Blog" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400?text=Blog+Image'">
+                    <div class="p-6">
+                        <h3 class="text-dark-text text-xl font-semibold mb-2 dark:text-off-white">${post.title}</h3>
+                        <p class="text-subtle-gray text-base mb-4 dark:text-gray-300">${post.description}</p>
+                        <a href="#" class="text-accent-blue hover:underline font-medium">Read More &rarr;</a>
+                    </div>
+                </div>`;
+            }).join('');
+        } catch (error) {
+            console.error("Blog Fetch Error:", error);
         }
-        
-        document.getElementById('close-modal-btn')?.addEventListener('click', () => {
-            document.getElementById('popup-modal').classList.add('hidden');
+    };
+
+    // 4. UI ANIMATION HELPERS (Load More/Show All)
+    const showProjects = (stage) => {
+        const targets = document.querySelectorAll(`[data-load-stage="${stage}"]`);
+        targets.forEach(el => {
+            el.classList.remove('hidden');
+            setTimeout(() => {
+                el.classList.add('visible');
+                el.classList.remove('opacity-0', 'translate-y-4');
+            }, 10);
         });
+    };
+
+    const hideExtraProjects = () => {
+        const extras = document.querySelectorAll('[data-load-stage="first-load"], [data-load-stage="full-load"]');
+        extras.forEach(el => {
+            el.classList.add('hidden', 'opacity-0', 'translate-y-4');
+            el.classList.remove('visible');
+        });
+        document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // 5. BUTTON EVENT LISTENERS
+    loadMoreBtn?.addEventListener('click', () => {
+        showProjects('first-load');
+        loadMoreBtn.classList.add('hidden');
+        const hasFullLoad = document.querySelector('[data-load-stage="full-load"]');
+        if (hasFullLoad) showAllBtn?.classList.remove('hidden');
+        hideProjectsBtn?.classList.remove('hidden');
     });
-</script>         
+
+    showAllBtn?.addEventListener('click', () => {
+        showProjects('full-load');
+        showAllBtn.classList.add('hidden');
+        hideProjectsBtn?.classList.remove('hidden');
+    });
+
+    hideProjectsBtn?.addEventListener('click', () => {
+        hideExtraProjects();
+        hideProjectsBtn.classList.add('hidden');
+        showAllBtn.classList.add('hidden');
+        loadMoreBtn?.classList.remove('hidden');
+    });
+
+    // 6. HAMBURGER & THEME LOGIC
+    const setupOtherUI = () => {
+        const hamburger = document.getElementById('hamburger-menu');
+        const mobileNav = document.getElementById('nav-menu-mobile');
+        hamburger?.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileNav?.classList.toggle('open');
+        });
+
+        const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
+        const htmlElement = document.documentElement;
+        
+        const updateThemeIcons = () => {
+            const isDark = htmlElement.classList.contains('dark');
+            themeToggleBtns.forEach(btn => {
+                const icon = btn.querySelector('i');
+                const text = btn.querySelector('.theme-toggle-text');
+                if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+                if (text) text.textContent = isDark ? 'Light' : 'Dark';
+            });
+        };
+
+        themeToggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                htmlElement.classList.toggle('dark');
+                localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
+                updateThemeIcons();
+            });
+        });
+
+        if (localStorage.getItem('theme') === 'dark') {
+            htmlElement.classList.add('dark');
+            updateThemeIcons();
+        }
+    };
+
+    // 7. INITIALIZE
+    renderProjects();
+    renderBlog();
+    setupOtherUI();
+
+    // Contact Form Logic
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = contactForm.querySelector('button');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            try {
+                const res = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: new FormData(contactForm),
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (res.ok) {
+                    const modal = document.getElementById('popup-modal');
+                    modal.classList.remove('hidden');
+                    contactForm.reset();
+                }
+            } catch (err) { alert("Failed to send message."); }
+            btn.disabled = false;
+            btn.textContent = 'Send Message';
+        });
+    }
+    
+    document.getElementById('close-modal-btn')?.addEventListener('click', () => {
+        document.getElementById('popup-modal').classList.add('hidden');
+    });
+});
+</script>    
 
     <div id="popup-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 transition-opacity duration-300"> 
         <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 text-center dark:bg-gray-800"> 
