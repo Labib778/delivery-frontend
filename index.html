@@ -343,59 +343,53 @@ document.addEventListener('DOMContentLoaded', function() {
     const hideProjectsBtn = document.getElementById('hide-projects-btn');
 
     // 2. PROJECT RENDERING LOGIC
+
     const renderProjects = async () => {
-        if (!container) return;
-        try {
-            // Fetching from your GitHub JSON file
-            const response = await fetch(`${GITHUB_RAW}/data/projects.json?t=${Date.now()}`);
-            const projects = await response.json();
-            
-            if (projects.length === 0) {
-                container.innerHTML = `<p class="text-center py-10 dark:text-gray-400">No projects found.</p>`;
-                return;
-            }
+        
+    // 1. Define your GitHub base (IMPORTANT: No trailing slash)
+    const GITHUB_BASE = "https://raw.githubusercontent.com/labib778/delivery-frontend/main";
+    const container = document.getElementById('projects-container');
 
-            container.innerHTML = projects.map((project, index) => {
-                const isRight = index % 2 !== 0;
-                const imageDesktopOrder = isRight ? 'md:order-2' : 'md:order-1';
-                const textDesktopOrder = isRight ? 'md:order-1' : 'md:order-2';
-                
-                // Logic for "See More" functionality
-                let loadStage = '';
-                let hiddenClass = '';
-                if (index >= 3 && index < 6) {
-                    loadStage = 'first-load';
-                    hiddenClass = 'hidden opacity-0 translate-y-4';
-                } else if (index >= 6) {
-                    loadStage = 'full-load';
-                    hiddenClass = 'hidden opacity-0 translate-y-4';
-                }
-
-                // Correctly path images to the /uploads folder on GitHub
-                const fullImageSrc = project.image.startsWith('http') 
-                    ? project.image 
-                    : `${GITHUB_RAW}${project.image}`;
-
-                return `
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-500 hover:scale-105 flex flex-col md:flex-row items-center project-item relative dark:bg-gray-800 ${hiddenClass}" data-load-stage="${loadStage}">
-                    <div class="w-full md:w-1/2 ${imageDesktopOrder}">
-                        <img src="${fullImageSrc}" alt="${project.title}" class="w-full h-auto object-cover" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
-                    </div>
-                    <div class="p-8 w-full md:w-1/2 ${textDesktopOrder}">
-                        <h3 class="text-dark-text text-lg font-semibold mb-4 dark:text-off-white">${project.title}</h3>
-                        <p class="text-subtle-gray text-base leading-relaxed dark:text-gray-300">${project.description}</p>
-                    </div>
-                </div>`;
-            }).join('');
-
-            // Show "See More" button if there are more than 3 projects
-            if (projects.length > 3) loadMoreBtn?.classList.remove('hidden');
-
-        } catch (error) {
-            console.error("Project Load Error:", error);
-            container.innerHTML = `<p class="text-center text-red-500 py-10">Error loading projects from GitHub.</p>`;
+    try {
+        // 2. Fetch the JSON from GitHub
+        const response = await fetch(`${GITHUB_BASE}/data/projects.json?t=${Date.now()}`);
+        const projects = await response.json();
+        
+        if (!projects || projects.length === 0) {
+            container.innerHTML = `<p class="text-center py-10">No projects found.</p>`;
+            return;
         }
-    };
+
+        container.innerHTML = projects.map((p, i) => {
+            // 3. IMAGE PATH FIX:
+            // If p.image is "/uploads/image.jpg", this makes it 
+            // "https://raw.githubusercontent.com/.../main/uploads/image.jpg"
+            const fullImg = p.image.startsWith('http') 
+                ? p.image 
+                : `${GITHUB_BASE}${p.image}`;
+
+            return `
+            <div class="project-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg mb-6">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2">
+                        <img src="${fullImg}" 
+                             alt="${p.title}" 
+                             class="w-full h-64 object-cover"
+                             onerror="this.src='https://placehold.co/600x400?text=Image+Missing'">
+                    </div>
+                    <div class="p-8 md:w-1/2">
+                        <h3 class="text-2xl font-bold mb-4 dark:text-white">${p.title}</h3>
+                        <p class="text-gray-600 dark:text-gray-300">${p.description}</p>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+
+    } catch (error) {
+        console.error("Rendering Error:", error);
+        container.innerHTML = `<p class="text-center text-red-500">Error loading projects from GitHub.</p>`;
+    }
+};
 
     // 3. BLOG RENDERING LOGIC
     const renderBlog = async () => {
