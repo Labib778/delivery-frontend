@@ -198,21 +198,34 @@
 
         // --- 3. DATA RENDERERS ---
         async function renderWorkSection() {
-            const container = document.getElementById('projects-container');
-            if (!container) return;
-            try {
-                const res = await fetch('data/projects.json');
-                const projects = await res.json();
-                container.innerHTML = projects.map((p, i) => `
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col ${i % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'} items-center w-full mb-12">
-                        <div class="w-full md:w-1/2"><img src="${p.image}" class="w-full h-64 object-cover" onerror="this.src='https://placehold.co/600x400'"></div>
-                        <div class="p-8 w-full md:w-1/2">
-                            <h3 class="text-2xl font-bold mb-4 dark:text-white">${p.title}</h3>
-                            <p class="text-gray-500 dark:text-gray-300 text-sm leading-relaxed">${p.description}</p>
-                        </div>
-                    </div>`).join('');
-            } catch (e) { console.error("Work Error", e); }
-        }
+    const container = document.getElementById('projects-container');
+    if (!container) return;
+    try {
+        const res = await fetch('data/projects.json');
+        const projects = await res.json();
+        container.innerHTML = projects.map((p, i) => `
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col ${i % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'} items-stretch w-full mb-12 border border-gray-100 dark:border-gray-700">
+                <div class="w-full md:w-1/2 relative overflow-hidden">
+                    <img src="${p.image}" 
+                         class="w-full h-full min-h-[300px] object-cover transition-transform duration-500 hover:scale-105" 
+                         alt="${p.title}"
+                         onerror="this.src='https://placehold.co/600x400?text=Project+Image'">
+                </div>
+                
+                <div class="p-8 w-full md:w-1/2 flex flex-col justify-center">
+                    <div class="mb-2">
+                        <span class="text-accent-yellow text-xs font-bold uppercase tracking-widest">Featured Project</span>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4 dark:text-white">${p.title}</h3>
+                    <p class="text-gray-500 dark:text-gray-300 text-lg leading-relaxed">${p.description}</p>
+                    
+                    <div class="mt-6 flex gap-4">
+                         <button class="px-6 py-2 bg-black text-white dark:bg-white dark:text-black rounded-lg text-sm font-bold hover:bg-accent-yellow hover:text-black transition-colors">View Details</button>
+                    </div>
+                </div>
+            </div>`).join('');
+    } catch (e) { console.error("Work Error", e); }
+}
 
         async function renderAboutSection() {
             const el = document.getElementById('about-description');
