@@ -24,71 +24,68 @@
     </script>
     <style>
         body {
-        background-color: #ffffff; /* Base color */
-        background-image: 
-            radial-gradient(at 0% 0%, hsla(210,100%,95%,1) 0, transparent 50%), 
-            radial-gradient(at 100% 100%, hsla(250,100%,95%,1) 0, transparent 50%);
+            background-color: #ffffff;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(210,100%,95%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, hsla(250,100%,95%,1) 0, transparent 50%);
+            font-family: 'Inter', sans-serif;
         }
-
-        /* Dark mode version */
         .dark body {
             background-color: #121212;
             background-image: 
                 radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0, transparent 40%), 
                 radial-gradient(at 100% 100%, rgba(147, 51, 234, 0.05) 0, transparent 40%);
         }
-        body { font-family: 'Inter', sans-serif; }
-        .mobile-menu-container { max-height: 0; transition: max-height 0.3s ease-in-out; }
-        .mobile-menu-container.open { max-height: 500px; }
+        
+        /* Custom Cursor Styles */
+        #custom-pointer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            will-change: transform;
+        }
+        .cursor-glass {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 40px;
+            height: 40px;
+            background: rgba(253, 196, 53, 0.1);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            border: 1px solid rgba(253, 196, 53, 0.2);
+        }
     </style>
 </head>     
-<body class="bg-white text-dark-text dark:bg-dark-gray dark:text-off-white bg-grid"> 
+<body class="bg-white text-dark-text dark:bg-dark-gray dark:text-off-white"> 
+    
     <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
     </div>
 
-    <div id="custom-pointer">
-    <div class="cursor-glass"></div>
-    
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 3L21 12L12 14L9 21L3 3Z" 
-              fill="none" 
-              stroke="#fde047" 
-              stroke-width="2.5" 
-              stroke-linejoin="round"/>
-    </svg>
-</div>
-
-
-
-<header class="fixed top-4 left-0 right-0 w-[95%] max-w-7xl mx-auto z-50 transition-all duration-300 border border-white/20 bg-white/80 backdrop-blur-xl dark:bg-dark-gray/70 dark:border-gray-800 rounded-xl shadow-md">
-    <div class="container mx-auto flex justify-between items-center py-2.5 px-6">
-        
-        <a href="#" class="font-bold text-xl tracking-tighter hover:text-accent-yellow transition-colors dark:text-white group">
-            LABIB<span class="text-accent-yellow">.</span>
-        </a>
-
-        <nav class="hidden lg:flex items-center space-x-6">
-            <a href="#about-me" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">About</a>
-            <a href="#services" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Services</a>
-            <a href="#work" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Work</a>
-            <a href="#experience" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Experience</a>
-            <a href="#testimonials" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Reviews</a>
-            <a href="#blog" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Blog</a>
-            <a href="#contact" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Contact</a>
-            
-            <div class="flex items-center space-x-4 border-l pl-5 border-gray-400/30 dark:border-gray-700">
-                <a href="resume.pdf" target="_blank" class="bg-black text-white dark:bg-white dark:text-black px-5 py-2 rounded-lg text-xs font-bold uppercase hover:bg-accent-yellow hover:text-black transition-all shadow-sm">Resume</a>
-            </div>
-        </nav>
-
-        <button id="menu-btn" class="lg:hidden text-xl p-1 dark:text-white">
-            <i class="fas fa-bars"></i>
-        </button>
-    </div>
-</header>
+    <header class="fixed top-4 left-0 right-0 w-[95%] max-w-7xl mx-auto z-50 border border-white/20 bg-white/80 backdrop-blur-xl dark:bg-dark-gray/70 dark:border-gray-800 rounded-xl shadow-md">
+        <div class="container mx-auto flex justify-between items-center py-2.5 px-6">
+            <a href="#" class="font-bold text-xl tracking-tighter hover:text-accent-yellow transition-colors dark:text-white">
+                LABIB<span class="text-accent-yellow">.</span>
+            </a>
+            <nav class="hidden lg:flex items-center space-x-6">
+                <a href="#about-me" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">About</a>
+                <a href="#services" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Services</a>
+                <a href="#work" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Work</a>
+                <a href="#experience" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Experience</a>
+                <a href="#testimonials" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Reviews</a>
+                <a href="#contact" class="text-xs font-bold uppercase tracking-wider hover:text-accent-yellow transition-colors dark:text-gray-300">Contact</a>
+                <div class="flex items-center space-x-4 border-l pl-5 border-gray-400/30 dark:border-gray-700">
+                    <a href="resume.pdf" target="_blank" class="bg-black text-white dark:bg-white dark:text-black px-5 py-2 rounded-lg text-xs font-bold uppercase hover:bg-accent-yellow transition-all">Resume</a>
+                </div>
+            </nav>
+            <button id="menu-btn" class="lg:hidden text-xl p-1 dark:text-white"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
 
     <main class="pt-20"> 
         <div id="hero-placeholder"></div>
@@ -96,250 +93,188 @@
         <div id="skills-placeholder"></div>
         <div id="services-placeholder"></div>
         <div id="work-placeholder"></div>
-        <div id="experience-placeholder" id="experience"></div>
+        <div id="experience-placeholder"></div>
         <div id="testimonials-placeholder"></div>
         <div id="blog-placeholder"></div>
         <div id="contact-placeholder"></div>
     </main>
 
-    <script src="main.js"></script>
-
     <script>
-        
-        // THE LOADER SCRIPT
-// --- UPDATED LOADER SCRIPT ---
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Load the HTML skeletons
-    const load = async (id, file) => {
-        const res = await fetch(`sections/${file}`);
-        if (res.ok) document.getElementById(id).innerHTML = await res.text();
-    };
+        // --- 1. CMS SETTINGS & CUSTOM CURSOR ---
+        async function applySiteSettings() {
+            try {
+                const res = await fetch('data/settings.json?v=' + Date.now());
+                const settings = await res.json();
+                
+                if (settings.customCursor) {
+                    initCustomCursor();
+                } else {
+                    const existing = document.getElementById('custom-pointer');
+                    if (existing) existing.remove(); // Completely remove if disabled
+                }
+            } catch (e) { console.warn("Settings fetch failed, using defaults."); }
+        }
 
-    const sectionColors = {
-    'hero-placeholder': { c1: '#6366f1', c2: '#a855f7' },      // Indigo/Purple
-    'about-placeholder': { c1: '#3b82f6', c2: '#2dd4bf' },     // Blue/Teal
-    'experience-placeholder': { c1: '#f59e0b', c2: '#ef4444' }, // Amber/Red
-    'testimonials-placeholder': { c1: '#10b981', c2: '#3b82f6' }, // Emerald/Blue
-    'contact-placeholder': { c1: '#4f46e5', c2: '#06b6d4' }    // Indigo/Cyan
-};
-
-const observerOptions = {
-    threshold: 0.5 // Trigger when 50% of the section is visible
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const colors = sectionColors[entry.target.id];
-            if (colors) {
-                document.documentElement.style.setProperty('--orb-color-1', colors.c1);
-                document.documentElement.style.setProperty('--orb-color-2', colors.c2);
+        function initCustomCursor() {
+            let pointer = document.getElementById('custom-pointer');
+            if (!pointer) {
+                pointer = document.createElement('div');
+                pointer.id = 'custom-pointer';
+                pointer.innerHTML = `
+                    <div class="cursor-glass"></div>
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 3L21 12L12 14L9 21L3 3Z" 
+                              fill="none" 
+                              stroke="#fde047" 
+                              stroke-width="2.5" 
+                              stroke-linejoin="round"/>
+                    </svg>
+                `;
+                document.body.appendChild(pointer);
             }
+
+            document.addEventListener('mousemove', (e) => {
+                // translate3d uses GPU for much smoother movement than top/left
+                pointer.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 4}px, 0)`;
+            });
         }
-    });
-}, observerOptions);
 
-// Tell the observer to watch your placeholders
-document.querySelectorAll('main > div[id$="-placeholder"]').forEach(section => {
-    observer.observe(section);
-});
+        // --- 2. SECTION LOADER ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            const load = async (id, file) => {
+                const res = await fetch(`sections/${file}`);
+                if (res.ok) document.getElementById(id).innerHTML = await res.text();
+            };
 
-    await Promise.all([
-        load('hero-placeholder', 'hero.html'),
-        load('about-placeholder', 'about.html'),
-        load('skills-placeholder', 'skills.html'),
-        load('services-placeholder', 'services.html'),
-        load('work-placeholder', 'work.html'),
-        load('experience-placeholder', 'experience.html'), // This must finish first
-        load('testimonials-placeholder', 'testimonials.html'),
-        load('blog-placeholder', 'blog.html'),
-        load('contact-placeholder', 'contact.html')
-    ]);
+            // Background Orb Color Logic
+            const sectionColors = {
+                'hero-placeholder': { c1: '#6366f1', c2: '#a855f7' },
+                'about-placeholder': { c1: '#3b82f6', c2: '#2dd4bf' },
+                'experience-placeholder': { c1: '#f59e0b', c2: '#ef4444' },
+                'testimonials-placeholder': { c1: '#10b981', c2: '#3b82f6' },
+                'contact-placeholder': { c1: '#4f46e5', c2: '#06b6d4' }
+            };
 
-    // 2. Run the logic to fill those skeletons with data
-    renderWorkSection();
-    renderAboutSection();
-    renderServicesSection();
-    renderExperience();
-    renderTestimonials();
-});
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && sectionColors[entry.target.id]) {
+                        const { c1, c2 } = sectionColors[entry.target.id];
+                        document.documentElement.style.setProperty('--orb-color-1', c1);
+                        document.documentElement.style.setProperty('--orb-color-2', c2);
+                    }
+                });
+            }, { threshold: 0.3 });
 
-// --- YOUR WORKING PROJECT LOGIC (DO NOT CHANGE) ---
-async function renderWorkSection() {
-    const container = document.getElementById('projects-container');
-    if (!container) return;
-    
-    // Add these classes to the container for perfect, even spacing
-    container.className = "flex flex-col gap-16 md:gap-24"; 
+            document.querySelectorAll('main > div[id$="-placeholder"]').forEach(div => observer.observe(div));
 
-    try {
-        const response = await fetch('data/projects.json');
-        const projects = await response.json();
-        container.innerHTML = projects.map((project, index) => {
-            const isRight = index % 2 !== 0;
-            return `
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col ${isRight ? 'md:flex-row-reverse' : 'md:flex-row'} items-center dark:bg-gray-800 w-full">
-                <div class="w-full md:w-1/2">
-                    <img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
-                </div>
-                <div class="p-8 w-full md:w-1/2">
-                    <h3 class="text-dark-text text-2xl font-bold mb-4 dark:text-off-white">${project.title}</h3>
-                    <p class="text-subtle-gray text-lg leading-relaxed dark:text-gray-300">${project.description}</p>
-                </div>
-            </div>`;
-        }).join('');
-    } catch (error) {
-        console.error("Error loading Work JSON:", error);
-    }
-}
+            // Load HTML Skeletons
+            await Promise.all([
+                load('hero-placeholder', 'hero.html'),
+                load('about-placeholder', 'about.html'),
+                load('skills-placeholder', 'skills.html'),
+                load('services-placeholder', 'services.html'),
+                load('work-placeholder', 'work.html'),
+                load('experience-placeholder', 'experience.html'),
+                load('testimonials-placeholder', 'testimonials.html'),
+                load('blog-placeholder', 'blog.html'),
+                load('contact-placeholder', 'contact.html')
+            ]);
 
-// --- NEW CUSTOMIZABLE ABOUT SECTION ---
-async function renderAboutSection() {
-    const container = document.getElementById('about-description'); 
-    if (!container) return;
-    
-    try {
-        const res = await fetch('data/about.json');
-        const data = await res.json();
-        // This replaces the text but keeps the Tailwind classes
-        container.innerText = data.description;
-    } catch (e) { 
-        console.error("About JSON missing or error:", e); 
-    }
-}
-
-// --- NEW CUSTOMIZABLE SERVICES SECTION ---
-async function renderServicesSection() {
-    const container = document.getElementById('services-grid');
-    if (!container) return;
-    try {
-        const res = await fetch('data/services.json');
-        const services = await res.json();
-        container.innerHTML = services.map(s => `
-            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow text-center">
-                <h3 class="font-bold text-xl mb-2 dark:text-white">${s.title}</h3>
-                <p class="text-gray-500">${s.description}</p>
-            </div>
-        `).join('');
-    } catch (e) { console.error("Services JSON missing"); }
-}
-
-async function renderExperience() {
-    const container = document.getElementById('experience-container');
-    if (!container) return;
-
-    try {
-        const response = await fetch('data/experience.json');
-        const data = await response.json();
-
-        // --- PASTE THE NEW CODE STARTING HERE ---
-        container.innerHTML = data.map((item, index) => {
-            const isEven = index % 2 === 0;
-            return `
-            <div class="relative flex items-center justify-between w-full mb-12 flex-row ${isEven ? 'md:flex-row-reverse' : ''}">
-                
-                <div class="absolute left-4 md:left-1/2 transform -translate-x-1/2 w-3 h-3 rounded-full bg-accent-yellow shadow-[0_0_15px_rgba(253,224,71,0.8)] z-20"></div>
-
-                <div class="ml-12 md:ml-0 md:w-[45%] group">
-                    <div class="p-8 rounded-2xl border border-white/20 bg-white/40 backdrop-blur-xl dark:bg-dark-gray/40 shadow-xl transition-all duration-500 group-hover:bg-white/60 dark:group-hover:bg-dark-gray/60 group-hover:-translate-y-2 border-b-4 border-b-transparent hover:border-b-accent-yellow">
-                        <span class="text-accent-yellow font-mono text-xs font-bold tracking-widest">${item.duration}</span>
-                        <h3 class="text-2xl font-bold mt-2 dark:text-white">${item.role}</h3>
-                        <h4 class="text-gray-500 dark:text-gray-400 font-medium text-sm mb-4">${item.company}</h4>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">${item.description}</p>
-                    </div>
-                </div>
-                
-                <div class="hidden md:block md:w-[45%]"></div>
-            </div>
-            `;
-        }).join('');
-        // --- PASTE ENDS HERE ---
-
-    } catch (error) {
-        console.error("Error loading Experience:", error);
-    }
-}
-
-async function renderTestimonials() {
-    const container = document.getElementById('testimonials-grid');
-    if (!container) return;
-
-    try {
-        const res = await fetch('data/testimonials.json?v=' + Date.now());
-        const testimonials = await res.json();
-
-        container.innerHTML = testimonials.map((t, index) => {
-            // FIX: This ensures displayName is never undefined
-            const displayName = t.title || t.name || "Anonymous";
-            const initial = displayName.charAt(0).toUpperCase();
+            // Fill Skeletons with JSON data
+            renderWorkSection();
+            renderAboutSection();
+            renderServicesSection();
+            renderExperience();
+            renderTestimonials();
             
-            const isLarge = index === 0 ? 'md:col-span-2' : 'col-span-1';
-            
-            return `
-                <div class="${isLarge} p-8 rounded-3xl border border-white/20 bg-white/40 backdrop-blur-xl dark:bg-dark-gray/40 shadow-xl">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-accent-yellow/20 flex items-center justify-center font-bold text-accent-yellow">
-                            ${initial}
-                        </div>
-                        <div>
-                            <h4 class="font-bold dark:text-white text-lg leading-none">${displayName}</h4>
-                            <p class="text-sm text-gray-500 mt-1">${t.position || 'Client'}</p>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 dark:text-gray-300 italic text-sm">
-                        "${t.comment || t.description || ''}"
-                    </p>
-                </div>
-            `;
-        }).join('');
-    } catch (e) { 
-        console.error("Reviews Load Error:", e); 
-    }
-}
+            // Finally apply CMS settings (Cursor toggle)
+            applySiteSettings();
+        });
 
-async function applySiteSettings() {
-    try {
-        // Fetch settings with a cache-buster
-        const res = await fetch('data/settings.json?v=' + Date.now());
-        const settings = await res.json();
-
-        if (settings.customCursor) {
-            enableCustomCursor();
-        } else {
-            disableCustomCursor();
+        // --- 3. DATA RENDERERS ---
+        async function renderWorkSection() {
+            const container = document.getElementById('projects-container');
+            if (!container) return;
+            try {
+                const res = await fetch('data/projects.json');
+                const projects = await res.json();
+                container.innerHTML = projects.map((p, i) => `
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col ${i % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'} items-center w-full mb-12">
+                        <div class="w-full md:w-1/2"><img src="${p.image}" class="w-full h-64 object-cover" onerror="this.src='https://placehold.co/600x400'"></div>
+                        <div class="p-8 w-full md:w-1/2">
+                            <h3 class="text-2xl font-bold mb-4 dark:text-white">${p.title}</h3>
+                            <p class="text-gray-500 dark:text-gray-300 text-sm leading-relaxed">${p.description}</p>
+                        </div>
+                    </div>`).join('');
+            } catch (e) { console.error("Work Error", e); }
         }
-    } catch (e) {
-        console.warn("Settings not found, using defaults.");
-    }
-}
 
-function enableCustomCursor() {
-    // 1. Create cursor element if it doesn't exist
-    let cursor = document.getElementById('custom-cursor');
-    if (!cursor) {
-        cursor = document.createElement('div');
-        cursor.id = 'custom-cursor';
-        cursor.className = 'fixed top-0 left-0 w-8 h-8 bg-accent-yellow/50 rounded-full pointer-events-none z-[9999] transition-transform duration-100 ease-out';
-        document.body.appendChild(cursor);
-    }
-    
-    // 2. Add movement logic
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.transform = `translate3d(${e.clientX - 16}px, ${e.clientY - 16}px, 0)`;
-    });
-    
-    // 3. Show it
-    cursor.style.display = 'block';
-}
+        async function renderAboutSection() {
+            const el = document.getElementById('about-description');
+            if (!el) return;
+            try {
+                const res = await fetch('data/about.json');
+                const data = await res.json();
+                el.innerText = data.description;
+            } catch (e) { console.error("About Error", e); }
+        }
 
-function disableCustomCursor() {
-    const cursor = document.getElementById('custom-cursor');
-    if (cursor) cursor.style.display = 'none';
-}
+        async function renderServicesSection() {
+            const container = document.getElementById('services-grid');
+            if (!container) return;
+            try {
+                const res = await fetch('data/services.json');
+                const services = await res.json();
+                container.innerHTML = services.map(s => `
+                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border dark:border-gray-700 text-center transition hover:shadow-md">
+                        <h3 class="font-bold text-xl mb-2 dark:text-white">${s.title}</h3>
+                        <p class="text-gray-500 text-sm">${s.description}</p>
+                    </div>`).join('');
+            } catch (e) { console.error("Services Error", e); }
+        }
 
-// Call this on page load
-document.addEventListener('DOMContentLoaded', applySiteSettings);
+        async function renderExperience() {
+            const container = document.getElementById('experience-container');
+            if (!container) return;
+            try {
+                const res = await fetch('data/experience.json');
+                const data = await res.json();
+                container.innerHTML = data.map((item, i) => `
+                    <div class="relative flex items-center justify-between w-full mb-12 flex-row ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}">
+                        <div class="absolute left-4 md:left-1/2 transform -translate-x-1/2 w-3 h-3 rounded-full bg-accent-yellow z-20 shadow-lg"></div>
+                        <div class="ml-12 md:ml-0 md:w-[45%] p-6 rounded-2xl bg-white/40 dark:bg-dark-gray/40 backdrop-blur-xl border border-white/20 shadow-xl transition hover:-translate-y-1">
+                            <span class="text-accent-yellow font-mono text-xs font-bold">${item.duration}</span>
+                            <h3 class="text-xl font-bold mt-1 dark:text-white">${item.role}</h3>
+                            <h4 class="text-gray-500 text-sm mb-2">${item.company}</h4>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">${item.description}</p>
+                        </div>
+                        <div class="hidden md:block md:w-[45%]"></div>
+                    </div>`).join('');
+            } catch (e) { console.error("Exp Error", e); }
+        }
 
+        async function renderTestimonials() {
+            const container = document.getElementById('testimonials-grid');
+            if (!container) return;
+            try {
+                const res = await fetch('data/testimonials.json?v=' + Date.now());
+                const data = await res.json();
+                container.innerHTML = data.map((t, i) => {
+                    const name = t.title || t.name || "Anonymous Client";
+                    return `
+                    <div class="${i === 0 ? 'md:col-span-2' : ''} p-8 rounded-3xl bg-white/40 dark:bg-dark-gray/40 backdrop-blur-xl border border-white/20 shadow-xl">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-accent-yellow/20 flex items-center justify-center font-bold text-accent-yellow">${name.charAt(0)}</div>
+                            <div>
+                                <h4 class="font-bold text-sm dark:text-white">${name}</h4>
+                                <p class="text-xs text-gray-500">${t.position || 'Client'}</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300 italic text-sm leading-relaxed">"${t.comment || t.description || ''}"</p>
+                    </div>`;
+                }).join('');
+            } catch (e) { console.error("Reviews Error", e); }
+        }
     </script>
 </body>     
 </html>
