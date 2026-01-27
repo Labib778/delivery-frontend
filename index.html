@@ -265,26 +265,41 @@ async function renderTestimonials() {
     if (!container) return;
 
     try {
-        const res = await fetch('data/testimonials.json');
+        // Adding a cache-buster (?v=...) ensures it loads fresh data from GitHub/Firebase
+        const res = await fetch('data/testimonials.json?v=' + Date.now());
         const testimonials = await res.json();
 
+        // 1. Check if testimonials is actually an array and not empty
+        if (!Array.isArray(testimonials) || testimonials.length === 0) {
+            container.innerHTML = `<p class="text-center text-gray-500 col-span-full">No reviews yet.</p>`;
+            return;
+        }
+
         container.innerHTML = testimonials.map((t, index) => {
-            // Make the first review wider for the 'Bento' effect
+            // 2. Field Name Correction: Your CMS uses 'title', so we check 'title' or 'name'
+            const displayName = t.title || t.name || "Anonymous";
+            const displayComment = t.comment || t.description || "No comment provided.";
+            const displayPosition = t.position || "Client";
+            
+            // 3. SAFE INITIALS: Prevent charAt crash
+            const initial = displayName.charAt(0).toUpperCase();
+
+            // Bento effect: first item is wider
             const isLarge = index === 0 ? 'md:col-span-2' : 'col-span-1';
             
             return `
                 <div class="${isLarge} p-8 rounded-3xl border border-white/20 bg-white/40 backdrop-blur-xl dark:bg-dark-gray/40 shadow-xl hover:shadow-2xl transition-all duration-300 group">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 rounded-full bg-accent-yellow/20 flex items-center justify-center font-bold text-accent-yellow">
-                            ${t.name.charAt(0)}
+                            ${initial}
                         </div>
                         <div>
-                            <h4 class="font-bold dark:text-white text-lg leading-none">${t.name}</h4>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">${t.position}</p>
+                            <h4 class="font-bold dark:text-white text-lg leading-none">${displayName}</h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">${displayPosition}</p>
                         </div>
                     </div>
                     <p class="text-gray-600 dark:text-gray-300 italic leading-relaxed text-sm">
-                        "${t.comment}"
+                        "${displayComment}"
                     </p>
                     <div class="mt-4 flex text-accent-yellow text-xs">
                         ${'★'.repeat(t.stars || 5)}
@@ -292,7 +307,10 @@ async function renderTestimonials() {
                 </div>
             `;
         }).join('');
-    } catch (e) { console.error("Reviews Load Error:", e); }
+    } catch (e) { 
+        console.error("Reviews Load Error:", e); 
+        container.innerHTML = `<p class="text-center text-red-400 col-span-full">Failed to load reviews.</p>`;
+    }
 }
 
     </script>
