@@ -1,8 +1,211 @@
-header {
-    height: 60px;
+/* This forces all main headings to follow one rule */
+#experience h2, 
+#testimonials h2,
+#services h2 {
+    font-family: 'Your-Main-Font-Name', sans-serif !important;
+    letter-spacing: -0.02em; /* Subtle professional tightening */
+    font-weight: 800; /* Extra Bold is often classier than Black */
 }
 
-#dex-nav {
-    height: 60px;
-    padding: 8px 8px 8px 8px;
+/* Base Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif; /* Or your preferred font */
+    background-color: #f8fafc; /* A slightly 'off-white' feels more premium */
+    
+    /* The Mesh Gradient */
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0, transparent 50%), 
+        radial-gradient(at 100% 100%, rgba(147, 51, 234, 0.08) 0, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* Dark Mode Styles */
+.dark body {
+    background-color: #0f172a; /* Deep navy/slate instead of pure black */
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0, transparent 40%), 
+        radial-gradient(at 100% 100%, rgba(147, 51, 234, 0.15) 0, transparent 40%);
+}
+
+/* Optional: Subtle Grain Texture */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0.2;
+    z-index: -1;
+    pointer-events: none;
+    /* This adds a tiny bit of texture */
+    background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* This adds space above sections so the fixed navbar doesn't cover them */
+section {
+    scroll-margin-top: 80px; 
+}
+
+/* Create the orbs */
+.orb {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.15;
+    animation: drift 20s infinite alternate;
+}
+
+.orb-1 {
+    background: #3b82f6;
+    top: -10%;
+    left: -10%;
+}
+
+.orb-2 {
+    background: #9333ea;
+    bottom: -10%;
+    right: -10%;
+    animation-delay: -5s;
+}
+
+@keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(100px, 50px) scale(1.1); }
+}
+
+/* This makes the main body background transparent so orbs show through */
+body {
+    background-color: transparent !important;
+}
+
+/* We use a semi-transparent background for sections to keep text readable 
+   while letting the colors bleed through */
+section {
+    background-color: rgba(255, 255, 255, 0.4) !important; /* Light Mode */
+    backdrop-filter: blur(5px); /* Optional: adds a nice frosty look */
+}
+
+/* Dark Mode version */
+.dark section {
+    background-color: rgba(15, 23, 42, 0.4) !important;
+}
+
+.shadow-glow {
+    box-shadow: 0 0 15px rgba(253, 224, 71, 0.6); /* Glow matches accent-yellow */
+}
+
+/* Optional: Make the cards look more like glass */
+#experience-container > div > div {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+:root {
+    --orb-color-1: #6366f1; /* Default Purple */
+    --orb-color-2: #a855f7; /* Default Pink */
+}
+
+/* Update your existing orb classes to use these variables */
+.orb {
+    transition: background-color 1.5s ease; /* Smooth color morphing */
+}
+
+.orb-1 { background-color: var(--orb-color-1); }
+.orb-2 { background-color: var(--orb-color-2); }
+
+/* 1. The Animation */
+@keyframes revealUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 2. The State (Only targets things we EXPLICITLY mark) */
+.reveal-item {
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+/* 3. The Trigger */
+.reveal-item.animate-in {
+    animation: revealUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+}
+
+/* Staggered Delays */
+.reveal-item.animate-in:nth-child(1) { animation-delay: 0.1s; }
+.reveal-item.animate-in:nth-child(2) { animation-delay: 0.2s; }
+.reveal-item.animate-in:nth-child(3) { animation-delay: 0.3s; }
+
+/* Only play animation when the parent section is in view */
+section[data-animated="true"] #experience-container > div,
+section[data-animated="true"] #testimonials-grid > div {
+    animation: revealUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+}
+
+body {
+    overflow-x: hidden; /* Prevents the cursor from creating horizontal scrollbars at the edge */
+}
+
+/* 1. Hide the system cursor */
+html, body {
+    cursor: none;
+}
+
+/* Hide the default system cursor everywhere */
+*, *::before, *::after {
+    cursor: none !important;
+}
+
+/* 2. Style the custom pointer */
+#custom-pointer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    z-index: 99999;
+    pointer-events: none;
+    opacity: 0;
+    will-change: transform;
+    pointer-events: none;
+}
+
+/* THE GLASS TINT (The blurry part) */
+.cursor-glass {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 28px;
+    height: 28px;
+    background-color: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* MASK: Only blurs the arrow shape */
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 3L21 12L12 14L9 21L3 3Z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 3L21 12L12 14L9 21L3 3Z' fill='black'/%3E%3C/svg%3E");
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+}
+
+/* THE SHARP YELLOW BORDER (Clean, no shadow) */
+#custom-pointer svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Removed all filters/shadows for a flat, clean look */
+    filter: none !important; 
 }

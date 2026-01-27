@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Brand Identity",
+    "description": "Crafting unique logos and visual systems.",
+    "icon": "fas fa-bezier-curve"
+  },
+  {
+    "title": "UI/UX Design",
+    "description": "Designing intuitive digital experiences.",
+    "icon": "fas fa-desktop"
+  },
+  {
+    "title": "Print Design",
+    "description": "High-quality layouts for print media.",
+    "icon": "fas fa-file-invoice"
+  }
+]
