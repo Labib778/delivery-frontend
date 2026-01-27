@@ -102,20 +102,27 @@
     <script>
         // --- 1. CMS SETTINGS & CUSTOM CURSOR ---
         async function applySiteSettings() {
-            try {
-                const res = await fetch('data/settings.json?v=' + Date.now());
-                const settings = await res.json();
-                
-                if (settings.customCursor) {
-                    initCustomCursor();
-                } else {
-                    const existing = document.getElementById('custom-pointer');
-                    if (existing) existing.remove(); // Completely remove if disabled
-                }
-            } catch (e) { console.warn("Settings fetch failed, using defaults."); }
+    try {
+        const res = await fetch('data/settings.json?v=' + Date.now());
+        const settings = await res.json();
+        
+        if (settings.customCursor) {
+            initCustomCursor();
+        } else {
+            // 1. Remove the custom element
+            const existing = document.getElementById('custom-pointer');
+            if (existing) existing.remove();
+            
+            // 2. IMPORTANT: Bring back the system cursor
+            document.documentElement.style.cursor = 'auto';
         }
+    } catch (e) { console.warn("Settings fetch failed."); }
+}
 
         function initCustomCursor() {
+            // 1. Hide the system cursor only when custom is active
+            document.documentElement.style.cursor = 'none';
+
             let pointer = document.getElementById('custom-pointer');
             if (!pointer) {
                 pointer = document.createElement('div');
@@ -124,21 +131,19 @@
                     <div class="cursor-glass"></div>
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3 3L21 12L12 14L9 21L3 3Z" 
-                              fill="none" 
-                              stroke="#fde047" 
-                              stroke-width="2.5" 
-                              stroke-linejoin="round"/>
+                            fill="none" 
+                            stroke="#fde047" 
+                            stroke-width="2.5" 
+                            stroke-linejoin="round"/>
                     </svg>
                 `;
                 document.body.appendChild(pointer);
             }
 
             document.addEventListener('mousemove', (e) => {
-                // translate3d uses GPU for much smoother movement than top/left
-                pointer.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 4}px, 0)`;
+                pointer.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
             });
         }
-
         // --- 2. SECTION LOADER ---
         document.addEventListener('DOMContentLoaded', async () => {
             const load = async (id, file) => {

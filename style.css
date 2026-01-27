@@ -159,16 +159,6 @@ body {
     overflow-x: hidden; /* Prevents the cursor from creating horizontal scrollbars at the edge */
 }
 
-/* 1. Hide the system cursor */
-html, body {
-    cursor: none;
-}
-
-/* Hide the default system cursor everywhere */
-*, *::before, *::after {
-    cursor: none !important;
-}
-
 /* 2. Style the custom pointer */
 #custom-pointer {
     position: fixed;
