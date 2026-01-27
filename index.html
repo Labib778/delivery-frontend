@@ -345,13 +345,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 2. PROJECT RENDERING LOGIC
 
     const renderProjects = async () => {
-        
-    // 1. Define your GitHub base (IMPORTANT: No trailing slash)
     const GITHUB_BASE = "https://raw.githubusercontent.com/labib778/delivery-frontend/main";
     const container = document.getElementById('projects-container');
 
     try {
-        // 2. Fetch the JSON from GitHub
         const response = await fetch(`${GITHUB_BASE}/data/projects.json?t=${Date.now()}`);
         const projects = await response.json();
         
@@ -361,26 +358,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         container.innerHTML = projects.map((p, i) => {
-            // 3. IMAGE PATH FIX:
-            // If p.image is "/uploads/image.jpg", this makes it 
-            // "https://raw.githubusercontent.com/.../main/uploads/image.jpg"
+            // Logic for alternating layout: first is Right, second is Left
+            const isRight = i % 2 !== 0;
+            const imageOrder = isRight ? 'md:order-2' : 'md:order-1';
+            const textOrder = isRight ? 'md:order-1' : 'md:order-2';
+            
             const fullImg = p.image.startsWith('http') 
                 ? p.image 
                 : `${GITHUB_BASE}${p.image}`;
 
             return `
-            <div class="project-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg mb-6">
-                <div class="flex flex-col md:flex-row">
-                    <div class="md:w-1/2">
+            <div class="project-item bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-1/2 ${imageOrder}">
+                    <div class="aspect-video w-full overflow-hidden">
                         <img src="${fullImg}" 
                              alt="${p.title}" 
-                             class="w-full h-64 object-cover"
+                             class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
                              onerror="this.src='https://placehold.co/600x400?text=Image+Missing'">
                     </div>
-                    <div class="p-8 md:w-1/2">
-                        <h3 class="text-2xl font-bold mb-4 dark:text-white">${p.title}</h3>
-                        <p class="text-gray-600 dark:text-gray-300">${p.description}</p>
-                    </div>
+                </div>
+                
+                <div class="p-8 w-full md:w-1/2 ${textOrder}">
+                    <h3 class="text-2xl font-bold mb-4 dark:text-off-white">${p.title}</h3>
+                    <p class="text-subtle-gray dark:text-gray-300 leading-relaxed">${p.description}</p>
                 </div>
             </div>`;
         }).join('');
