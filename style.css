@@ -89,19 +89,33 @@ body {
 
 /* We use a semi-transparent background for sections to keep text readable 
    while letting the colors bleed through */
+/* style.css */
+
+/* 1. Reset sections to be transparent so they don't 'stack' backgrounds */
 section {
-    background-color: rgba(255, 255, 255, 0.4) !important; /* Light Mode */
-    backdrop-filter: blur(5px); /* Optional: adds a nice frosty look */
+    width: 100%;
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    scroll-margin-top: 80px; 
 }
 
-/* Dark Mode version */
-.dark section {
+/* 2. Apply the Glass Effect to the MAIN container */
+/* This covers the pt-20 padding and spans the full viewport width */
+main {
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgba(255, 255, 255, 0.4) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Dark Mode support for the main container */
+.dark main {
     background-color: rgba(15, 23, 42, 0.4) !important;
 }
 
-.shadow-glow {
-    box-shadow: 0 0 15px rgba(253, 224, 71, 0.6); /* Glow matches accent-yellow */
-}
+/* 3. CLEANUP: Delete the duplicate #custom-pointer and .cursor-glass 
+   styles at the very bottom of this file to prevent cursor glitches. */
 
 /* Optional: Make the cards look more like glass */
 #experience-container > div > div {
@@ -198,4 +212,68 @@ body {
     left: 0;
     /* Removed all filters/shadows for a flat, clean look */
     filter: none !important; 
+}
+
+/* Email sent notification */
+.toast-notification {
+    position: fixed;
+    bottom: 30px; /* Moved to bottom */
+    right: 30px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column; /* Stack content and bar */
+    padding: 0; /* Padding moved to inner wrapper */
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transform: translateX(120%);
+    transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+    overflow: hidden; /* Clips the progress bar corners */
+}
+
+.dark .toast-notification {
+    background: rgba(30, 30, 35, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.toast-notification.show {
+    transform: translateX(0);
+}
+
+/* Inner content padding */
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+}
+
+/* Elegant Progress Bar */
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.toast-progress-fill {
+    height: 100%;
+    width: 100%;
+    background: #FDC435; /* Matches your custom-yellow */
+    transform-origin: left;
+}
+
+/* Animation for the bar */
+@keyframes progress-shrink {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+}
+
+.toast-notification.show .toast-progress-fill {
+    animation: progress-shrink 4s linear forwards;
 }
