@@ -2,7 +2,8 @@
   {
     "title": "1 shadow",
     "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
-    "image": "/uploads/1769430208217-NEBULA CORE Watch.png"
+    "image": "/uploads/1769430208217-NEBULA CORE Watch.png",
+    "transform": "{\"scale\":1,\"x\":0,\"y\":0,\"isDragging\":false,\"startX\":0,\"startY\":0}"
   },
   {
     "title": "l",
