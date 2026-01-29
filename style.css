@@ -277,3 +277,27 @@ body {
 .toast-notification.show .toast-progress-fill {
     animation: progress-shrink 4s linear forwards;
 }
+
+/* Only show complex gradients on larger screens */
+body {
+    background-color: #ffffff;
+}
+
+@media (min-width: 768px) {
+    body {
+        background-image: 
+            radial-gradient(at 0% 0%, hsla(210,100%,95%,1) 0, transparent 50%), 
+            radial-gradient(at 100% 100%, hsla(250,100%,95%,1) 0, transparent 50%);
+    }
+}
+
+/* Hide orbs on mobile to save GPU power */
+.orb {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .orb {
+        display: block;
+    }
+}

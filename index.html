@@ -106,18 +106,18 @@
     <script>
         // --- 1. CMS SETTINGS & CUSTOM CURSOR ---
         async function applySiteSettings() {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    
     try {
         const res = await fetch('data/settings.json?v=' + Date.now());
         const settings = await res.json();
         
-        if (settings.customCursor) {
+        // Disable cursor if it's mobile OR if settings say no
+        if (settings.customCursor && !isMobile) {
             initCustomCursor();
         } else {
-            // 1. Remove the custom element
             const existing = document.getElementById('custom-pointer');
             if (existing) existing.remove();
-            
-            // 2. IMPORTANT: Bring back the system cursor
             document.documentElement.style.cursor = 'auto';
         }
     } catch (e) { console.warn("Settings fetch failed."); }
