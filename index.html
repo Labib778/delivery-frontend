@@ -191,6 +191,7 @@
 
             // Fill Skeletons with JSON data
             renderWorkSection();
+            renderBlogSection();
             renderAboutSection();
             renderServicesSection();
             renderExperience();
@@ -230,6 +231,39 @@
                 </div>
             </div>`).join('');
     } catch (e) { console.error("Work Error", e); }
+}
+
+        async function renderBlogSection() {
+    const container = document.getElementById('blog-container');
+    if (!container) return;
+    try {
+        // Fetch the blog data
+        const res = await fetch('data/blog.json?v=' + Date.now());
+        const blogs = await res.json();
+        
+        container.innerHTML = blogs.map(b => `
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                <div class="h-56 overflow-hidden relative">
+                    <img src="${b.image}" 
+                         class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" 
+                         alt="${b.title}"
+                         onerror="this.src='https://placehold.co/600x400?text=Blog+Image'">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-3 py-1 bg-accent-yellow/10 text-accent-yellow text-[10px] font-bold uppercase rounded-full">Article</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 dark:text-white line-clamp-2">${b.title}</h3>
+                    <p class="text-gray-500 dark:text-gray-300 text-sm leading-relaxed line-clamp-3 mb-5">${b.description}</p>
+                    <a href="#" class="inline-flex items-center text-sm font-bold text-dark-text dark:text-white hover:text-accent-yellow transition-colors">
+                        Read Full Story <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        `).join('');
+    } catch (e) { 
+        console.error("Blog Rendering Error:", e); 
+    }
 }
 
         async function renderAboutSection() {
