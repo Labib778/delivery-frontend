@@ -1,12 +1,14 @@
 [
   {
-    "title": "1",
-    "description": "2",
-    "image": "/uploads/1769672150615-Gig 3 Primary.png"
+    "title": "Minimalism in High-End Product Photography",
+    "description": "\"Less is more\" is harder than it looks. We explore the setup behind the Endure Bags shoot, focusing on monochromatic styling, soft lighting, and how to use negative space to make a product feel expensive.",
+    "transform": "{\"scale\":1,\"x\":0,\"y\":0,\"isDragging\":false,\"startX\":0,\"startY\":0}",
+    "image": "/uploads/1769766320602-upload.jpg"
   },
   {
-    "title": "2",
-    "description": "2",
-    "image": "/uploads/1769672173172-Gig 4 Primary.png"
+    "title": "Balancing Typography with Complex Imagery",
+    "description": "Using the \"Parle\" and \"Cosmic Nova Speaker\" projects as examples, this article explains how to place bold text over busy backgrounds without losing readability or visual impact.",
+    "transform": "{\"scale\":1,\"x\":0,\"y\":0,\"isDragging\":false,\"startX\":0,\"startY\":0}",
+    "image": "/uploads/1769766365339-upload.jpg"
   }
 ]

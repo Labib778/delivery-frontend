@@ -1,13 +1,17 @@
 [
   {
-    "duration": "2023 - Present",
-    "role": "Senior Web Designer",
-    "company": "Creative Agency X",
-    "description": "Leading the UI/UX team to build high-converting landing pages and brand identities for tech startups."
+    "title": "Self-Taught Designer (2023 – Early 2024)",
+    "description": "Started my journey by mastering design software and studying visual principles. Focused on recreating high-end brand aesthetics to understand the balance between typography, color, and layout.",
+    "transform": "{\"scale\":1,\"x\":0,\"y\":0,\"isDragging\":false,\"startX\":0,\"startY\":0}"
   },
   {
-    "title": "aaaaa",
-    "description": " awd waaw w ",
-    "image": ""
+    "title": "Concept Specialist (Mid 2024 – 2025)",
+    "description": "Moved into creating full brand concepts, like \"Taqwa Delivery\" and \"Cosmic Nova.\" Developed a personal style centered on clean 3D elements and modern, high-contrast marketing materials.",
+    "transform": "{\"scale\":1,\"x\":0,\"y\":0,\"isDragging\":false,\"startX\":0,\"startY\":0}"
+  },
+  {
+    "title": "Visual & UI Explorer",
+    "description": "Currently specializing in high-impact product posters and social media ad campaigns. I bridge the gap between digital UI and physical media by designing everything from high-conversion ad posters to professional printing materials.",
+    "transform": "{\"scale\":1,\"x\":0,\"y\":0,\"isDragging\":false,\"startX\":0,\"startY\":0}"
   }
 ]

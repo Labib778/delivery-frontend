@@ -1,12 +1,7 @@
 [
   {
-    "title": "awd ",
-    "description": "dwa "
-  },
-  {
-    "name": "Sarah Chen",
-    "position": "Product Manager",
-    "comment": "Fast, professional, and has a great eye for modern design trends.",
-    "stars": 5
+    "title": "Labib.",
+    "description": "\"I am currently looking for my first few partners to create high-impact visuals for. Let’s build something as clean and functional as the Endure Bags campaign together.\"",
+    "transform": "{\"scale\":1,\"x\":0,\"y\":0,\"isDragging\":false,\"startX\":0,\"startY\":0}"
   }
 ]
